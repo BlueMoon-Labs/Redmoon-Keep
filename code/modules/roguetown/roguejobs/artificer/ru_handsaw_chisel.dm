@@ -4,8 +4,8 @@
 	force = 5
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/chop/cleaver)
 	gripped_intents = null
-	name = "handsaw"
-	desc = "Iron tool for woodworking."
+	name = "ручная пила"
+	desc = "Железный инструмент для работы по дереву."
 	icon_state = "handsaw"
 	item_state = "handsaw"
 	icon = 'icons/roguetown/items/crafting.dmi'
@@ -30,8 +30,8 @@
 
 //................	Chisel	............... //
 /obj/item/rogueweapon/chisel
-	name = "chisel"
-	desc = "Add something to strike it with before doing stonework. Like a mallet or a stone."
+	name = "долото"
+	desc = "Добавьте что-нибудь для удара, прежде чем приступать к обработке камня. Например, молоток или камень."
 	icon_state = "chisel"
 	icon = 'icons/roguetown/items/crafting.dmi'
 	lefthand_file = 'icons/roguetown/onmob/lefthand.dmi'
@@ -60,7 +60,7 @@
 	. = ..()
 	if(istype(W,/obj/item/natural/stoneblock))
 		playsound(get_turf(user.loc), 'sound/foley/brickdrop.ogg', 100)
-		user.visible_message("<span class='info'>[user] adds a striking tool to the chisel set.</span>")
+		user.visible_message("<span class='info'>[user] добавляет ударный инструмент в набор с долото.</span>")
 		var/obj/item/rogueweapon/chisel/assembly/stoneblock/F = new(src.loc)
 		qdel(W)
 		user.put_in_hands(F)
@@ -69,7 +69,7 @@
 
 	else if(istype(W,/obj/item/natural/stone))
 		playsound(get_turf(user.loc), 'sound/foley/brickdrop.ogg', 100)
-		user.visible_message("<span class='info'>[user] adds a striking tool to the chisel set.</span>")
+		user.visible_message("<span class='info'>[user] добавляет ударный инструмент в набор с долото.</span>")
 		var/obj/item/rogueweapon/chisel/assembly/stone/F = new(src.loc)
 		qdel(W)
 		user.put_in_hands(F)
@@ -78,7 +78,7 @@
 
 	else if(istype(W, /obj/item/rogueweapon/hammer/steel))
 		playsound(get_turf(user.loc), 'sound/foley/brickdrop.ogg', 100)
-		user.visible_message("<span class='info'>[user] adds a striking tool to the chisel set.</span>")
+		user.visible_message("<span class='info'>[user] добавляет ударный инструмент в набор с долото.</span>")
 		var/obj/item/rogueweapon/chisel/assembly/hammerclaw/F = new(src.loc)
 		qdel(W)
 		user.put_in_hands(F)
@@ -87,7 +87,7 @@
 
 	else if(istype(W, /obj/item/rogueweapon/hammer/iron))
 		playsound(get_turf(user.loc), 'sound/foley/brickdrop.ogg', 100)
-		user.visible_message("<span class='info'>[user] adds a striking tool to the chisel set.</span>")
+		user.visible_message("<span class='info'>[user] добавляет ударный инструмент в набор с долото.</span>")
 		var/obj/item/rogueweapon/chisel/assembly/hammer/F = new(src.loc)
 		qdel(W)
 		user.put_in_hands(F)
@@ -96,7 +96,7 @@
 
 	else if(istype(W, /obj/item/rogueweapon/hammer/wood))
 		playsound(get_turf(user.loc), 'sound/foley/brickdrop.ogg', 100)
-		user.visible_message("<span class='info'>[user] adds a striking tool to the chisel set.</span>")
+		user.visible_message("<span class='info'>[user] добавляет ударный инструмент в набор с долото.</span>")
 		var/obj/item/rogueweapon/chisel/assembly/mallet/F = new(src.loc)
 		qdel(W)
 		user.put_in_hands(F)
@@ -105,8 +105,8 @@
 
 //................	Chisel toolset	............... //
 /obj/item/rogueweapon/chisel/assembly	// template
-	name = "chisel set"
-	desc = "Ready to shape stones when held in a steady grip. Can be separated easily."
+	name = "набор долото"
+	desc = "Готовы придавать камням форму, если держать их в крепком захвате. Легко разделяются."
 	grid_width = 64
 	grid_height = 64
 	possible_item_intents = list(/datum/intent/hit)
@@ -169,7 +169,7 @@
 
 
 /datum/intent/chisel
-	name = "chisel"
+	name = "долото"
 	icon_state = "inchisel"
 	attack_verb = list("chisels")
 	hitsound = list('sound/combat/hits/pick/genpick (1).ogg', 'sound/combat/hits/pick/genpick (2).ogg')

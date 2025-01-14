@@ -1,6 +1,6 @@
 /obj/item/contraption
-	name = "random piece of machinery"
-	desc = "A cog with teeth meticulously crafted for tight interlocking."
+	name = "случайная деталь механизма"
+	desc = "Шестеренка с зубцами, тщательно обработанная для плотного сцепления."
 	icon_state = "gear"
 	var/on_icon
 	var/off_icon
@@ -56,19 +56,19 @@
 	var/mob/living/player = user
 	var/skill = player.mind.get_skill_level(/datum/skill/craft/engineering)
 	if(current_charge)
-		. += span_warning("The contraption has [current_charge] charges left.")
+		. += span_warning("Для механизма осталось [current_charge] зарядов.")
 	if(!current_charge)
-		. += span_warning("This contraption requires a new [initial(accepted_power_source.name)] to function.")
+		. += span_warning("Для механизма нужнно новый [initial(accepted_power_source.name)] для функциональности.")
 	if(misfire_chance && skill < 6)
 		if(skill > 2)
-			. += span_warning("You calculate this contraptions chance of failure to be anywhere between [max(0, (misfire_chance - skill) - rand(4))]% and [max(2, (misfire_chance - skill) + rand(3))]%.")
+			. += span_warning("По вашим расчетам, вероятность неудачи этого механизма находится в пределах [max(0, (misfire_chance - skill) - rand(4))]% и [max(2, (misfire_chance - skill) + rand(3))]%.")
 		else
-			. += span_warning("It seems slightly unstable...")
+			. += span_warning("Он кажется немного нестабильным...")
 	if(skill >= 6 && sneaky_misfire_chance)
-		. += span_warning("This contraption has a chance for catastrophic failure in the hands of the inexperient.")
+		. += span_warning("В руках неопытного человека эта машина может выйти из строя.")
 
 /obj/item/contraption/proc/battery_collapse(obj/O, mob/living/user)
-	to_chat(user, span_info("The [accepted_power_source.name] wastes away into nothing."))
+	to_chat(user, span_info("[accepted_power_source.name] исчезает в пыль."))
 	playsound(src, pick('sound/combat/hits/onmetal/grille (1).ogg', 'sound/combat/hits/onmetal/grille (2).ogg', 'sound/combat/hits/onmetal/grille (3).ogg'), 100, FALSE)
 	shake_camera(user, 1, 1)
 	var/datum/effect_system/spark_spread/S = new()
@@ -79,7 +79,7 @@
 
 /obj/item/contraption/proc/misfire(obj/O, mob/living/user)
 	user.mind.add_sleep_experience(/datum/skill/craft/engineering, (user.STAINT * 5))
-	to_chat(user, span_info("Oh fuck."))
+	to_chat(user, span_info("О черт !."))
 	playsound(src, 'sound/misc/bell.ogg', 100)
 	addtimer(CALLBACK(src, PROC_REF(misfire_result), O, user), rand(5, 30))
 
@@ -109,17 +109,17 @@
 		shake_camera(user, 1, 1)
 		S.set_up(1, 1, front)
 		S.start()
-		to_chat(user, "<span class='warning'>[cog.name] inserted!</span>")
+		to_chat(user, "<span class='warning'>[cog.name] вставляет!</span>")
 	if(istype(I, accepted_power_source))
 		user.changeNext_move(CLICK_CD_FAST)
 		S.set_up(1, 1, front)
 		S.start()
 		if(current_charge)
-			to_chat(user, span_info("I try to insert the [I.name] but theres already \a [initial(accepted_power_source.name)] inside!"))
+			to_chat(user, span_info("Я пытаюсь вставить[I.name] но внутри уже есть \a [initial(accepted_power_source.name)]!"))
 			playsound(src, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
 			shake_camera(user, 1, 1)
 		else
-			to_chat(user, span_info("I insert the [I.name] and the [name] starts ticking."))
+			to_chat(user, span_info("Я вставляю [I.name] и [name] начинает тикать."))
 			current_charge = charge_per_source
 			playsound(src, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
 			qdel(I)
@@ -157,13 +157,13 @@
 /obj/item/contraption/attack_obj(obj/O, mob/living/user)
 	if(!current_charge)
 		flick(off_icon, src)
-		to_chat(user, span_info("The contraption beeps! It requires \a [initial(accepted_power_source.name)]!"))
+		to_chat(user, span_info("Машина пищит ! Она запрашивает \a [initial(accepted_power_source.name)]!"))
 		playsound(src, 'sound/magic/magic_nulled.ogg', 100, TRUE)
 		return
 
 /obj/item/contraption/wood_metalizer
-	name = "wood metalizer"
-	desc = "A creation of genious or insanity. This cursed contraption is somehow able to turn wood into metal."
+	name = "Меттализатор дерева"
+	desc = "Творение гения или безумия. Эта проклятая штуковина каким-то образом способна превращать дерево в металл.."
 	icon_state = "metalizer"
 	on_icon = "metalizer_flick"
 	off_icon = "metalizer_off"
@@ -188,7 +188,7 @@
 	if(!current_charge)
 		return
 	if(!O.metalizer_result)
-		to_chat(user, span_info("The [name] refuses to function."))
+		to_chat(user, span_info("[name] отказывается работать."))
 		playsound(user, 'sound/items/flint.ogg', 100, FALSE)
 		flick(off_icon, src)
 		var/datum/effect_system/spark_spread/S = new()
@@ -228,8 +228,8 @@
 	qdel(src)
 
 /obj/item/contraption/smelter
-	name = "portable smelter"
-	desc = "Furnaces are a thing of the past. The future is here!"
+	name = "портативная плавильная печь"
+	desc = "Печи уходят в прошлое. Будущее уже здесь!"
 	icon_state = "smelter"
 	on_icon = "smelter_flick"
 	off_icon = "smelter_off"
@@ -272,7 +272,7 @@
 	if(!current_charge)
 		return
 	if(!O.smeltresult)
-		to_chat(user, span_info("The [name] refuses to function."))
+		to_chat(user, span_info("[name] отказывается работать."))
 		playsound(user, 'sound/items/flint.ogg', 100, FALSE)
 		flick(off_icon, src)
 		var/datum/effect_system/spark_spread/S = new()
@@ -299,8 +299,8 @@
 	return
 
 /obj/item/contraption/lock_imprinter
-	name = "lock imprinter"
-	desc = "A useful contraption that facilitates a locksmiths job on alreay instaled locks."
+	name = "установщик замков"
+	desc = "Полезное приспособление, облегчающее работу слесаря по уже установленным замкам."
 	icon_state = "imprinter"
 	on_icon = "imprinter_flick"
 	off_icon = "imprinter_off"
@@ -322,14 +322,14 @@
 	var/mob/living/player = user
 	var/skill = player.mind.get_skill_level(/datum/skill/craft/engineering)
 	if(skill >= 2)
-		. += span_warning("The [name] is currently in [mode] mode.")
+		. += span_warning("[name] находится в режиме [mode].")
 		if(skill >= 4)
 			if(stored_lock_id)
-				. += span_warning("The current stored Lock ID is [stored_lock_id].")
+				. += span_warning("Текущий сохраненный идентификатор блокировки [stored_lock_id].")
 			else
-				. += span_warning("There is no stored Lock ID.")
+				. += span_warning("Идентификатор блокировки не сохранён.")
 		else
-			. += span_warning("I cannot yet fully understand this contraption.")
+			. += span_warning("Я пока не могу до конца понять эту штуку...")
 
 /obj/item/contraption/lock_imprinter/attackby(obj/item/I, mob/user, params)
 	..()
@@ -344,7 +344,7 @@
 		S.start()
 		stored_lock_id = the_key.lockid
 		stored_lock_hash = the_key.lockhash
-		user.visible_message(span_notice("[user] inserts \a [the_key] into the [name] and it starts ticking..."))
+		user.visible_message(span_notice("[user] вставляет \a [the_key] в [name] и оно начинает тикать..."))
 		addtimer(CALLBACK(src, PROC_REF(play_clock_sound)), 5)
 
 /obj/item/contraption/lock_imprinter/attack_obj(obj/O, mob/living/user)
@@ -358,9 +358,9 @@
 			valid_lock = TRUE
 			if(mode == "Examiner")
 				if(O.lockid)
-					to_chat(user, span_warning("The [name] identifies this lock's ID as [O.lockid]."))
+					to_chat(user, span_warning("[name] индефикатор этого замка [O.lockid]."))
 				else
-					to_chat(user, span_warning("The [name] identifies an absense of a lock or lock ID."))
+					to_chat(user, span_warning("[name] указывает на отсутствие замка в двери."))
 				playsound(loc, 'sound/misc/beep.ogg', 50, TRUE)
 				flick(off_icon, src)
 				break
@@ -369,7 +369,7 @@
 				O.lockhash = stored_lock_hash
 				flick(on_icon, src)
 				shake_camera(user, 1, 1)
-				user.visible_message(span_notice("[user] holds the [name] up to the [O.name] causing sparks to fly!"))
+				user.visible_message(span_notice("[user] подности [name] к [O.name] от чего появляются искры!"))
 				playsound(src, pick('sound/combat/hits/onmetal/sheet (1).ogg', 'sound/combat/hits/onmetal/sheet (2).ogg', 'sound/combat/hits/onmetal/grille (1).ogg', 'sound/combat/hits/onmetal/grille (2).ogg', 'sound/combat/hits/onmetal/grille (3).ogg'), 100, TRUE)
 				charge_deduction(O, user, 1)
 				var/datum/effect_system/spark_spread/S = new()
@@ -377,8 +377,8 @@
 				S.set_up(1, 1, front)
 				S.start()
 				user.mind.add_sleep_experience(/datum/skill/craft/engineering, (user.STAINT)) // Only imprinting gives EXP
-				message_admins("[user] has used [name] to change the lock of [O] to [stored_lock_id] hash [stored_lock_hash] in [ADMIN_VERBOSEJMP(front)]")
-				log_game("[user] has used [name] to change the lock of [O] to [stored_lock_id] hash [stored_lock_hash] in [ADMIN_VERBOSEJMP(front)]")
+				message_admins("[user] использовал [name] для изменения [O] to [stored_lock_id] на [stored_lock_hash] в [ADMIN_VERBOSEJMP(front)]")
+				log_game("[user] использовал [name] для изменения [O] to [stored_lock_id] на [stored_lock_hash] в [ADMIN_VERBOSEJMP(front)]")
 				if(!skill && prob(sneaky_misfire_chance))
 					misfire(O, user)
 				break
@@ -388,14 +388,14 @@
 					O.locked = FALSE
 					playsound(user, 'sound/foley/doors/unlock.ogg', 150, TRUE)
 					playsound(user, 'sound/foley/doors/lockrattlemetal.ogg', 100, TRUE)
-					message_admins("[user] has used [name] to unlock [O] in [ADMIN_VERBOSEJMP(front)]")
-					log_game("[user] has used [name] to unlock [O] in [ADMIN_VERBOSEJMP(front)]")
+					message_admins("[user] использует [name] для открытия [O] в [ADMIN_VERBOSEJMP(front)]")
+					log_game("[user] использует [name] для открытия [O] в [ADMIN_VERBOSEJMP(front)]")
 				else
 					O.locked = TRUE
 					playsound(user, 'sound/foley/doors/lock.ogg', 150, TRUE)
-					message_admins("[user] has used [name] to lock [O] in [ADMIN_VERBOSEJMP(front)]")
-					log_game("[user] has used [name] to lock [O] in [ADMIN_VERBOSEJMP(front)]")
-				user.visible_message(span_notice("[user] holds the [name] up to the [O.name] causing sparks to fly!"))
+					message_admins("[user] использует [name] закрывая [O] в [ADMIN_VERBOSEJMP(front)]")
+					log_game("[user] использует [name] закрывая [O] в [ADMIN_VERBOSEJMP(front)]")
+				user.visible_message(span_notice("[user] подности [name] к [O.name] от чего летят искры!"))
 				var/datum/effect_system/spark_spread/S = new()
 				S.set_up(1, 1, front)
 				S.start()
@@ -409,7 +409,7 @@
 					misfire(O, user)
 				break
 		if(!valid_lock)
-			to_chat(user, span_info("The [name] refuses to function."))
+			to_chat(user, span_info("[name] отказывается работать."))
 			playsound(user, 'sound/items/flint.ogg', 100, FALSE)
 			flick(off_icon, src)
 			var/datum/effect_system/spark_spread/S = new()
