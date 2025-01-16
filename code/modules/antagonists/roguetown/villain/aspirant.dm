@@ -28,10 +28,10 @@
 	..()
 
 /datum/antagonist/aspirant/loyalist/greet()
-	to_chat(owner, span_danger("Long live the Duke! I love my ruler. But I have heard that some seek to overthrow them. I cannot let that happen."))
+	to_chat(owner, span_danger("Long live the Baron! I love my ruler. But I have heard that some seek to overthrow them. I cannot let that happen."))
 
 /datum/antagonist/aspirant/supporter/greet()
-	to_chat(owner, span_danger("Long live the Duke! But not this one. I have been approached by an Aspirant and swayed to their cause. I must ensure they take the throne."))
+	to_chat(owner, span_danger("Long live the Baron! But not this one. I have been approached by an Aspirant and swayed to their cause. I must ensure they take the throne."))
 
 /datum/antagonist/aspirant/ruler/greet() // No alert for the ruler to always keep them guessing.
 
@@ -84,7 +84,7 @@
 // OBJECTIVES
 /datum/objective/aspirant/coup/one
 	name = "Aspirant"
-	explanation_text = "I must ensure that I am crowned as the Duke."
+	explanation_text = "I must ensure that I am crowned as the Baron."
 	triumph_count = 5
 
 /datum/objective/aspirant/coup/one/check_completion()
@@ -95,7 +95,7 @@
 
 /datum/objective/aspirant/coup/two
 	name = "Moral"
-	explanation_text = "I am no kinslayer, I must make sure that the duke doesn't die."
+	explanation_text = "I am no kinslayer, I must make sure that the baron doesn't die."
 	triumph_count = 10
 	var/initialruler
 
@@ -125,7 +125,7 @@
 
 /datum/objective/aspirant/loyal/two
 	name = "Loyalist"
-	explanation_text = "I must ensure that the duke continues to reign."
+	explanation_text = "I must ensure that the Baron continues to reign."
 	triumph_count = 3
 	var/initialruler
 

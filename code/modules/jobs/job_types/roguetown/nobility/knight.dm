@@ -10,7 +10,7 @@
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED)
 	allowed_patrons = ALL_NON_INHUMEN_PATRONS
 	tutorial = "A Knight with expert training; \
-	Born into petty nobility and raised as a squire from a young age, now you Guard the Duke or Duchess, answer to their commands, and protect the court's honor. \
+	Born into petty nobility and raised as a squire from a young age, now you Guard the Baron or Baroness, answer to their commands, and protect the court's honor. \
 	You're wholly dedicated to the standing Regent and their safety. Do not fail."
 	display_order = JDO_KNIGHT
 	whitelist_req = TRUE

@@ -12,7 +12,7 @@
 	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD)
 	tutorial = "You served your time gracefully as a Knight of the crown, and now you've grown into a role which many men dream to become. \
 				You are the Marshal's chosen, a Banneret, elevated to command His Highness' personal retinue. \
-				Keep your men in line, as for this realm to prosper, the duke must be safe. \
+				Keep your men in line, as for this realm to prosper, the baron must be safe. \
 				The Men at Arms and the Gatemaster are under your direct supervision. \
 				The only men on par with you, as part of the armed retinue and not under your direct command, are your fellow Knights."
 	display_order = JDO_GUARD_CAPTAIN
@@ -175,7 +175,7 @@
 	overlay_state = "recruit_guard"
 	recruitment_faction = "Watchman"
 	recruitment_message = "Serve the town guard, %RECRUIT!"
-	accept_message = "FOR THE DUKE!"
+	accept_message = "FOR THE BARON!"
 	refuse_message = "I refuse."
 
 /obj/effect/proc_holder/spell/self/convertrole/guard/convert(mob/living/carbon/human/recruit, mob/living/carbon/human/recruiter)
