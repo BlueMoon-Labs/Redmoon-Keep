@@ -29,9 +29,9 @@
 		return
 	if(!player.ckey)
 		return
-	for(var/mob/dead/new_player/baron in GLOB.player_list)
-		if(baron.mind.assigned_role == "Baron")
-			if(baron.client.prefs.gender != player.client.prefs.gender)
+	for(var/mob/dead/new_player/duke in GLOB.player_list)
+		if(duke.mind.assigned_role == "Baron")
+			if(duke.client.prefs.gender != player.client.prefs.gender)
 				return TRUE
 
 /datum/job/roguetown/consort_dowager//just used to change the consort title

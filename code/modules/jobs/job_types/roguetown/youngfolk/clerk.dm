@@ -1,5 +1,5 @@
 /datum/job/roguetown/clerk
-	title = "Publican"
+	title = "Clerk"
 	flag = CLERK
 	department_flag = YOUNGFOLK
 	faction = "Station"
@@ -10,7 +10,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT)
 
-	tutorial = "You have been granted the privilege of serving as a publican(assistant) in the Steward's office. You help the Steward with anything they need, and learn how coin keeps the town moving and prosperous."
+	tutorial = "You have been granted the privilege of serving as a clerk in the Steward's office. You help the Steward with anything they need, and learn how coin keeps the town moving and prosperous."
 
 	outfit = /datum/outfit/job/roguetown/clerk
 	display_order = JDO_CLERK
