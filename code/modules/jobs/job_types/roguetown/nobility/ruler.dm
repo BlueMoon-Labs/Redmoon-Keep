@@ -2,8 +2,8 @@ GLOBAL_VAR(lordsurname)
 GLOBAL_LIST_EMPTY(lord_titles)
 
 /datum/job/roguetown/ruler
-	title = "Duke"
-	f_title = "Duchess"
+	title = "Baron"
+	f_title = "Baroness"
 	flag = RULER
 	department_flag = NOBLEMEN
 	faction = "Station"
@@ -35,8 +35,8 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	ruler_family = TRUE
 
 /datum/job/roguetown/exlord //just used to change the lords title
-	title = "Duke Emeritus"
-	f_title = "Duchess Emeritus"
+	title = "Baron Emeritus"
+	f_title = "Baroness Emeritus"
 	flag = RULER
 	department_flag = NOBLEMEN
 	faction = "Station"
@@ -57,10 +57,10 @@ GLOBAL_LIST_EMPTY(lord_titles)
 			GLOB.lordsurname = "of [L.real_name]"
 		SSticker.rulermob = L
 		if(L.gender != FEMALE)
-			to_chat(world, "<b><span class='notice'><span class='big'>[L.real_name] is Duke of Rockhill.</span></span></b>")
+			to_chat(world, "<b><span class='notice'><span class='big'>[L.real_name] is Baron of Rockhill.</span></span></b>")
 			addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, lord_color_choice)), 50)
 		else
-			to_chat(world, "<b><span class='notice'><span class='big'>[L.real_name] is Duchess of Rockhill.</span></span></b>")
+			to_chat(world, "<b><span class='notice'><span class='big'>[L.real_name] is Baroness of Rockhill.</span></span></b>")
 			addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, lord_color_choice)), 50)
 
 /datum/outfit/job/roguetown/lord/pre_equip(mob/living/carbon/human/H)

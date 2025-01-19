@@ -382,7 +382,7 @@
 
 /obj/item/key/hand
 	name = "hand's key"
-	desc = "This regal key belongs to the Duke's Right Hand."
+	desc = "This regal key belongs to the Baron's Right Hand."
 	icon_state = "cheesekey"
 	lockid = "hand"
 

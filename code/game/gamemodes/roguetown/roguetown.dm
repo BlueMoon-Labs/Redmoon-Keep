@@ -98,7 +98,7 @@ var/global/list/roguegamemodes = list("Rebellion", "Vampires and Werewolves", "N
 	var/lord_dead = FALSE
 	for(var/mob/living/carbon/human/H in GLOB.human_list)
 		if(H.mind)
-			if(H.job == "Duke")
+			if(H.job == "Baron")
 				lord_found = TRUE
 				if(H.stat == DEAD)
 					lord_dead = TRUE
@@ -213,8 +213,8 @@ var/global/list/roguegamemodes = list("Rebellion", "Vampires and Werewolves", "N
 /datum/game_mode/chaosmode/proc/pick_bandits()
 	//BANDITS
 	banditgoal = rand(200,400)
-	restricted_jobs = list("Duke",
-	"Duke Consort",
+	restricted_jobs = list("Baron",
+	"Baron Consort",
 	"Merchant",
 	"Priest",
 	"Knight",
@@ -366,7 +366,7 @@ var/global/list/roguegamemodes = list("Rebellion", "Vampires and Werewolves", "N
 	restricted_jobs = list()
 
 /datum/game_mode/chaosmode/proc/pick_maniac()
-	restricted_jobs = list("Duke", "Duke Consort")
+	restricted_jobs = list("Baron", "Baron Consort")
 	antag_candidates = get_players_for_role(ROLE_MANIAC)
 	var/datum/mind/villain = pick_n_take(antag_candidates)
 	if(villain)
@@ -387,8 +387,8 @@ var/global/list/roguegamemodes = list("Rebellion", "Vampires and Werewolves", "N
 
 /datum/game_mode/chaosmode/proc/pick_cultist()
 	var/remaining = 3 // 1 heresiarch, 2 cultists
-	restricted_jobs = list("Duke",
-	"Duke Consort",
+	restricted_jobs = list("Baron",
+	"Baron Consort",
 	"Priest",
 	"Bandit",
 	"Knight",
@@ -432,8 +432,8 @@ var/global/list/roguegamemodes = list("Rebellion", "Vampires and Werewolves", "N
 /datum/game_mode/chaosmode/proc/pick_lich()
 
 	restricted_jobs = list(
-	"Duke",
-	"Duke Consort",
+	"Baron",
+	"Baron Consort",
 	"Dungeoneer",
 	"Inquisitor",
 	"Confessor",
@@ -478,8 +478,8 @@ var/global/list/roguegamemodes = list("Rebellion", "Vampires and Werewolves", "N
 /datum/game_mode/chaosmode/proc/pick_vampires()
 	var/vampsremaining = 3
 	restricted_jobs = list(
-	"Duke",
-	"Duke Consort",
+	"Baron",
+	"Baron Consort",
 	"Dungeoneer",
 	"Inquisitor",
 	"Confessor",
@@ -533,8 +533,8 @@ var/global/list/roguegamemodes = list("Rebellion", "Vampires and Werewolves", "N
 /datum/game_mode/chaosmode/proc/pick_werewolves()
 	// Ideally we want Refugees/Towners to roll it
 	restricted_jobs = list(
-	"Duke",
-	"Duke Consort",
+	"Baron",
+	"Baron Consort",
 	"Dungeoneer",
 	"Inquisitor",
 	"Confessor",
@@ -669,10 +669,10 @@ var/global/list/roguegamemodes = list("Rebellion", "Vampires and Werewolves", "N
 				rogue.add_antag_datum(new_asp)
 				aspirants += rogue
 				pre_aspirants -= rogue
-	var/mob/living/duke = SSticker.rulermob
-	if(duke)
+	var/mob/living/baron = SSticker.rulermob
+	if(baron)
 		var/datum/antagonist/ruler = new /datum/antagonist/aspirant/ruler() // Do the duke last.
-		duke.mind.add_antag_datum(ruler)
+		baron.mind.add_antag_datum(ruler)
 
 ///////////////// REBELS
 	for(var/datum/mind/rebelguy in pre_rebels)
