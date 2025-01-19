@@ -3,7 +3,7 @@
 	stable_price = TRUE
 // Worked Iron standard rates should be 20, worked steel should be 25. Both will be added 5 for transport costs. Everything else should default to stockpile prices and +5 if worked other things can be added to the total costs
 /datum/roguestock/import/crackers
-	name = "Bin of Rations"
+	name = "*"
 	desc = "Low moisture bread that keeps well."
 	item_type = /obj/item/roguebin/crackers
 	export_price = 100 //10 mammons per cracker
