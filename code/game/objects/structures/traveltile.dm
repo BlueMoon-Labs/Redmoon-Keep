@@ -96,13 +96,13 @@
 	if(AM.recent_travel)
 		if(world.time < AM.recent_travel + 15 SECONDS)
 			. = FALSE
-	if(. && required_trait && isliving(AM))
-		var/mob/living/L = AM
-		if(HAS_TRAIT(L, required_trait))
-			return TRUE
-		else
-			//to_chat(L, "<b>It is a dead end.</b>")
-			return FALSE
+	// if(. && required_trait && isliving(AM))
+	// 	var/mob/living/L = AM
+	// 	if(HAS_TRAIT(L, required_trait))
+	// 		return TRUE
+	// 	else
+	// 		//to_chat(L, "<b>It is a dead end.</b>")
+	// 		return FALSE
 
 /atom/movable
 	var/recent_travel = 0
