@@ -701,7 +701,6 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/maiddress/onmob/maid.dmi'
 	icon_state = "maidapron"
 	item_state = "maidapron"
-	allowed_sex = list(FEMALE)
 
 /obj/item/clothing/cloak/apron/cook
 	name = "cook apron"

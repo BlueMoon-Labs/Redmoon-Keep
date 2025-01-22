@@ -254,7 +254,6 @@
 	sleeved = 'icons/roguetown/clothing/maiddress/onmob/sleeves_shirts.dmi'
 	icon_state = "maiddress"
 	item_state = "maiddress"
-	allowed_sex = list(FEMALE)
 
 // 
 //   Velvet Dress
