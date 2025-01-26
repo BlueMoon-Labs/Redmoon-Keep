@@ -838,6 +838,10 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 	dat += 	"</td>"
 	dat += "<td width='33%' align='center'>"
 	if(usr?.client?.prefs?.be_russian)
+		dat += "<br><b>Доп. Предмет:</b> <a href='?_src_=prefs;preference=loadout_item;task=input'>[loadout ? loadout.name : "None"]</a><BR>"
+	else
+		dat += "<br><b>Loadout Item:</b> <a href='?_src_=prefs;preference=loadout_item;task=input'>[loadout ? loadout.name : "None"]</a><BR>"
+	if(usr?.client?.prefs?.be_russian)
 		dat += "<a href='?_src_=prefs;preference=bespecial'><b>[next_special_trait ? "<font color='red'>ОСОБЕННЫЙ</font>" : "Быть Особенным"]</b></a><BR>"
 	else
 		dat += "<a href='?_src_=prefs;preference=bespecial'><b>[next_special_trait ? "<font color='red'>SPECIAL</font>" : "Be Special"]</b></a><BR>"
@@ -1760,6 +1764,24 @@ Slots: [job.spawn_positions]</span>
 					nudeshot_link = new_nudeshot_link
 					to_chat(user, "<span class='notice'>Successfully updated nudeshot picture</span>")
 					log_game("[user] has set their Nudeshot image to '[nudeshot_link]'.")
+
+				if("loadout_item")
+					var/list/loadouts_available = list("None")
+					for (var/path as anything in GLOB.loadout_items)
+						var/datum/loadout_item/loadout = GLOB.loadout_items[path]
+						if (!loadout.name)
+							continue
+						loadouts_available[loadout.name] = loadout
+					var/loadout_input = input(user, "Choose your character's loadout item.", "Loadout") as null|anything in loadouts_available
+					if(loadout_input)
+						if(loadout_input == "None")
+							loadout = null
+							to_chat(user, "Who needs stuff anyway?")
+						else
+							loadout = loadouts_available[loadout_input]
+							to_chat(user, "<font color='yellow'><b>[loadout.name]</b></font>")
+							if(loadout.desc)
+								to_chat(user, "[loadout.desc]")
 
 				if("species")
 

@@ -2003,6 +2003,7 @@
 #include "modular_redmoon\code\controllers\subsystem\rogue\triumphs\triumph_buy_datums\pick_any_class.dm"
 #include "modular_redmoon\code\controllers\subsystem\rogue\triumphs\triumph_buy_datums\tiny.dm"
 #include "modular_redmoon\code\controllers\subsystem\rogue\triumphs\triumph_buy_datums\wipe_triumphs.dm"
+#include "modular_redmoon\code\datums\loadout.dm"
 #include "modular_redmoon\code\datums\barks\atoms_movable.dm"
 #include "modular_redmoon\code\datums\barks\bark.dm"
 #include "modular_redmoon\code\datums\barks\general.dm"
