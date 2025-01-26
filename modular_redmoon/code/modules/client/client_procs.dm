@@ -1,5 +1,7 @@
 /client/New()
 	. = ..()
+	spawn() // Goonchat does some non-instant checks in start()
+		chatOutput.start()
 	spawn(20)
 		process_donator_bonus()
 

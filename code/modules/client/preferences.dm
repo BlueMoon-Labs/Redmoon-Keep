@@ -841,10 +841,6 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 		dat += "<a href='?_src_=prefs;preference=bespecial'><b>[next_special_trait ? "<font color='red'>ОСОБЕННЫЙ</font>" : "Быть Особенным"]</b></a><BR>"
 	else
 		dat += "<a href='?_src_=prefs;preference=bespecial'><b>[next_special_trait ? "<font color='red'>SPECIAL</font>" : "Be Special"]</b></a><BR>"
-	if(usr?.client?.prefs?.be_russian)
-		dat += "<b>Предыстория:</b> <a href='?_src_=prefs;preference=background;task=input'>[background.ru_name]</a><BR>"
-	else
-		dat += "<b>Background:</b> <a href='?_src_=prefs;preference=background;task=input'>[background.name]</a><BR>"
 	if(istype(N))
 		if(SSticker.current_state <= GAME_STATE_PREGAME)
 			switch(N.ready)
@@ -1658,29 +1654,6 @@ Slots: [job.spawn_positions]</span>
 							return
 						voice_color = sanitize_hexcolor(new_voice)
 
-				if ("background")
-					var/list/backgrounds_available = list()
-					for (var/path as anything in GLOB.backgrounds)
-						var/datum/background/background = GLOB.backgrounds[path]
-						if(usr?.client?.prefs?.be_russian)
-							if (!background.ru_name)
-								continue
-							backgrounds_available[background.ru_name] = background
-						else
-							if (!background.name)
-								continue
-							backgrounds_available[background.name] = background
-					var/background_input = input(user, "Choose your character's background", "Background") as null|anything in backgrounds_available
-					if (background_input)
-						var/datum/background/background_chosen = backgrounds_available[background_input]
-						background = background_chosen
-						if(usr?.client?.prefs?.be_russian)
-							to_chat(user, "<font color='purple'>[background.ru_name]</font>")
-							to_chat(user, "<font color='purple'>[background.ru_description_string()]</font>")
-						else
-							to_chat(user, "<font color='purple'>[background.name]</font>")
-							to_chat(user, "<font color='purple'>[background.description_string()]</font>")
-
 				if("barksound")
 					var/list/woof_woof = list()
 					for(var/path in GLOB.bark_list)
@@ -2431,7 +2404,6 @@ Slots: [job.spawn_positions]</span>
 	character.headshot_link = headshot_link
 	character.nudeshot_link = nudeshot_link
 
-	character.background = background
 	character.set_bark(bark_id)
 	character.vocal_speed = bark_speed
 	character.vocal_pitch = bark_pitch

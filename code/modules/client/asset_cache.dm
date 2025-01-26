@@ -22,9 +22,7 @@ You can set verify to TRUE if you want send() to sleep until the client has the 
 
 /client
 	var/list/cache = list() // List of all assets sent to this client by the asset cache.
-	var/list/completed_asset_jobs = list() // List of all completed jobs, awaiting acknowledgement.
 	var/list/sending = list()
-	var/last_asset_job = 0 // Last job done.
 
 //This proc sends the asset to the client, but only if it needs it.
 //This proc blocks(sleeps) unless verify is set to false
@@ -525,17 +523,69 @@ GLOBAL_LIST_EMPTY(asset_datums)
 /datum/asset/group/goonchat
 	children = list(
 		/datum/asset/simple/jquery,
-		/datum/asset/simple/goonchat,
+		/datum/asset/simple/purify,
+		/datum/asset/simple/namespaced/goonchat,
 		/datum/asset/spritesheet/goonchat,
-		/datum/asset/simple/fontawesome
+		/datum/asset/simple/namespaced/fontawesome,
+		/datum/asset/simple/namespaced/roguefonts
 	)
 
 
 /datum/asset/simple/jquery
-	verify = FALSE
-/*	assets = list(
+	verify = TRUE
+	assets = list(
 		"jquery.min.js"            = 'code/modules/goonchat/browserassets/js/jquery.min.js',
-	)*/
+	)
+
+/datum/asset/simple/purify
+	verify = TRUE
+	assets = list(
+		"purify.min.js"            = 'code/modules/goonchat/browserassets/js/purify.min.js',
+	)
+
+/datum/asset/simple/namespaced/goonchat
+	verify = TRUE
+	assets = list(
+		"json2.min.js"             = 'code/modules/goonchat/browserassets/js/json2.min.js',
+		"errorHandler.js"             = 'code/modules/goonchat/browserassets/js/errorHandler.js',
+		"browserOutput.js"         = 'code/modules/goonchat/browserassets/js/browserOutput.js',
+		"browserOutput.css"	       = 'code/modules/goonchat/browserassets/css/browserOutput.css',
+		"browserOutput_white.css"  = 'code/modules/goonchat/browserassets/css/browserOutput.css',
+	)
+	parents = list()
+
+/datum/asset/simple/namespaced/fontawesome
+	verify = TRUE
+	assets = list(
+		"fa-regular-400.eot"  = 'html/font-awesome/webfonts/fa-regular-400.eot',
+		"fa-regular-400.woff" = 'html/font-awesome/webfonts/fa-regular-400.woff',
+		"fa-solid-900.eot"    = 'html/font-awesome/webfonts/fa-solid-900.eot',
+		"fa-solid-900.woff"   = 'html/font-awesome/webfonts/fa-solid-900.woff',
+		"font-awesome.css"    = 'html/font-awesome/css/all.min.css',
+		//"v4shim.css"          = 'html/font-awesome/css/v4-shims.min.css'
+	)
+	parents = list("font-awesome.css" = 'html/font-awesome/css/all.min.css')
+
+/datum/asset/simple/namespaced/roguefonts
+	verify = TRUE
+	assets = list(
+		"pterra.ttf" = 'interface/fonts/pterra.ttf',
+		"chiseld.ttf" = 'interface/fonts/chiseld.ttf',
+		"blackmoor.ttf" = 'interface/fonts/blackmoor.ttf',
+		"handwrite.ttf" = 'interface/fonts/handwrite.ttf',
+		"book1.ttf" = 'interface/fonts/book1.ttf',
+		"book2.ttf" = 'interface/fonts/book1.ttf',
+		"book3.ttf" = 'interface/fonts/book1.ttf',
+		"book4.ttf" = 'interface/fonts/book1.ttf',
+		"dwarf.ttf" = 'interface/fonts/languages/dwarf.ttf',
+		"elf.ttf" = 'interface/fonts/languages/elf.ttf',
+		"oldpsydonic.ttf" = 'interface/fonts/languages/oldpsydonic.ttf',
+		"zybantine.ttf" = 'interface/fonts/languages/zybantine.ttf',
+		"hell.ttf" = 'interface/fonts/languages/hell.ttf',
+		"orc.ttf" = 'interface/fonts/languages/orc.ttf',
+		"sand.ttf" = 'interface/fonts/languages/sand.ttf',
+		"undead.ttf" = 'interface/fonts/languages/undead.ttf'
+	)
 
 /datum/asset/simple/goonchat
 	verify = FALSE
