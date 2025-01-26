@@ -7,7 +7,7 @@
 	assets = list("padlock.png"	= 'html/padlock.png')
 	parents = list("common.css" = 'html/browser/common.css')
 
-/datum/asset/simple/stonekeep_class_menu_slop_layout
+/datum/asset/simple/blackedstone_class_menu_slop_layout
 	assets = list(
 		"try4.png" = 'icons/roguetown/misc/try4.png',
 		"try4_border.png" = 'icons/roguetown/misc/try4_border.png',
@@ -15,7 +15,7 @@
 		"gragstar.gif" = 'icons/roguetown/misc/gragstar.gif'
 	)
 
-/datum/asset/simple/stonekeep_triumph_buy_menu_slop_layout
+/datum/asset/simple/blackedstone_triumph_buy_menu_slop_layout
 	assets = list(
 		"try5.png" = 'icons/roguetown/misc/try5.png',
 		"try5_border.png" = 'icons/roguetown/misc/try5_border.png',
