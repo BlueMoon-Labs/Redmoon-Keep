@@ -51,8 +51,13 @@ SUBSYSTEM_DEF(family)
 			name += " the [pick("ill","unfortunate")] lucked" //fallback on the impossible chance it CANNOT make a unique name.
 
 	var/datum/family/F = new()
-	F.name = name
-	used_names += name
+	// REDMOON ADD START - memory_for_family_members - имя семьи
+	if(head.family_surname)
+		F.name = head.family_surname
+	else
+	// REDMOON ADD END
+		F.name = name
+		used_names += name
 	F.addMember(head)
 
 	return F
@@ -68,6 +73,10 @@ SUBSYSTEM_DEF(family)
 	for(var/c in family_candidates)
 		var/mob/living/carbon/human/H = c
 		if(H.gender == MALE)
+			// REDMOON ADD START - memory_for_family_members присвоение главе семьи фамилии семьи
+			if(H.family_surname)
+				H.real_name = "[H.real_name] [H.family_surname]"
+			// REDMOON ADD END
 			head_candidates += H
 
 	family_candidates = shuffle(family_candidates)
@@ -93,6 +102,10 @@ SUBSYSTEM_DEF(family)
 					connecting_member = F.members[name]:resolve()
 					var/rel_type = F.tryConnect(H,connecting_member)
 					if(F.checkFamilyCompat(H,connecting_member,rel_type) && F.checkFamilyCompat(connecting_member,H,rel_type)) //suitable. Add them to the family and connect them. (Note using checkFamilyCompat for both falls apart for anything other than spouses. The checks should be moved to a different proc at some point.)
+						// BLUEMOON ADD START - memory_for_family_members - присвоение фамилий
+						if(connecting_member.family_surname)
+							H.real_name = "[H.real_name] [connecting_member.family_surname]"
+						// REDMOON ADD END
 						F.addMember(H)
 						F.addRel(H,connecting_member,getMatchingRel(rel_type),TRUE)
 						F.addRel(connecting_member,H,rel_type,TRUE)
@@ -283,11 +296,13 @@ SUBSYSTEM_DEF(family)
 			if(member.gender == target.gender) //Ensure that member & target don't share the same sex.
 				return FALSE
 
+			/* REDMOON REMOVAL START - memory_for_family_members - перенесено ниже, чтобы обходить проверку, если выставлен Ckey
 			var/list/age_values = AGE_VALUES
 			var/target_value = age_values[target.age]
 			var/member_value = age_values[member.age]
 			if(max(member_value,target_value) - min(member_value,target_value) > 1) //Too high an age difference.
 				return FALSE
+			REDMOON REMOVAL END */
 
 			if(HAS_TRAIT(target, TRAIT_NOBLE) && !HAS_TRAIT(member, TRAIT_NOBLE))
 				return
@@ -295,15 +310,35 @@ SUBSYSTEM_DEF(family)
 			if(HAS_TRAIT(member, TRAIT_NOBLE) && !HAS_TRAIT(target, TRAIT_NOBLE))
 				return
 
-			// REDMOON ADD START
-			// memory_for_family_members - только персонажами с нужным CKEY могут быть партнёрами, если он выставлен
-			if(member.client.prefs.spouse_ckey)
-				if(target.client.ckey != lowertext(member.client.prefs.spouse_ckey))
+			// REDMOON ADD START - memory_for_family_members
+			// только персонажами с нужным CKEY могут быть партнёрами, если он выставлен
+			var/check_for_spouse_ckey = member.client.prefs.spouse_ckey
+			var/check_for_spouse_name = member.client.prefs.spouse_name
+
+			if(check_for_spouse_name)
+				if(target.real_name == check_for_spouse_name)
+					if(check_for_spouse_ckey) // Могут быть одинаковые обычные имена
+						if(target.client.ckey == lowertext(check_for_spouse_ckey))
+							return TRUE // Обходится проверка на возраст и альтернативные гениталии
+						else
+							return FALSE
+					else
+						return TRUE // Обходится проверка на возраст и альтернативные гениталии
+				else
 					return FALSE
-			
-				if(member.client.ckey != lowertext(target.client.prefs.spouse_ckey))
+
+			if(check_for_spouse_ckey)
+				if(target.client.ckey == lowertext(check_for_spouse_ckey))
+					return TRUE // Обходится проверка на возраст и альтернативные гениталии
+				else
 					return FALSE
-			// memory_for_family_members - согласие на альтернативные гениталии у партнёра
+
+			var/list/age_values = AGE_VALUES
+			var/target_value = age_values[target.age]
+			var/member_value = age_values[member.age]
+			if(max(member_value,target_value) - min(member_value,target_value) > 1) //Too high an age difference.
+				return FALSE
+			// согласие на альтернативные гениталии у партнёра
 			switch(target.gender)
 				if(MALE)
 					if(target.getorganslot(ORGAN_SLOT_VAGINA))

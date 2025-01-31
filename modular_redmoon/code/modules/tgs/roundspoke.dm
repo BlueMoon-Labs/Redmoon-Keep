@@ -149,12 +149,13 @@
 	var/datum/tgs_chat_embed/field/triumphslost = new (":woman_detective:Триумфов украдено: ","[SSticker.tri_lost*-1]")
 	var/datum/tgs_chat_embed/field/pleasures = new ("💦Наслаждений: ", "[SSticker.cums]")
 	var/datum/tgs_chat_embed/field/confessors = new (":orthodox_cross:Исповедники: ", "[GLOB.confessors.len]")
+	var/datum/tgs_chat_embed/field/families = new (":ring:Семьи: ", "[SSfamily.families.len]")
 	var/datum/tgs_chat_embed/field/boys = new (":man_beard:Мужчины: ", "[SSticker.males] ([percent_of_males]%)")
 	var/datum/tgs_chat_embed/field/womens = new (":woman:Женщины: ", "[SSticker.females] ([percent_of_females]%)")
 	var/datum/tgs_chat_embed/field/femboys = new (":man:Кантбои: ", "[SSticker.males_with_vagina] ([percent_of_males_with_vagina]%)")
 	var/datum/tgs_chat_embed/field/futacocks = new (":woman_beard:Фута: ", "[SSticker.females_with_penis] ([percent_of_females_with_penis]%)")
 
-	embed.fields = list(deaths, bloodspilled, triumphgained, triumphslost, pleasures, confessors, players, boys, womens, femboys, futacocks)
+	embed.fields = list(deaths, bloodspilled, triumphgained, triumphslost, pleasures, confessors, families, players, boys, womens, femboys, futacocks)
 
 	send2chat(message, "status")
 

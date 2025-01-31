@@ -434,16 +434,23 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 				dat += "<BR>"
 				// REDMOON ADD START - memory_for_family_members - возможность выставить CKEY игрока, с которым хочется создать семью
 				if(usr?.client?.prefs?.be_russian)
-					dat += " <small><a href='?_src_=prefs;preference=familypref;res=name'><b>Душа второй половинки: [spouse_ckey ? spouse_ckey : "(Случайная)"]</b></a></small>"
-				else
-					dat += " <small><a href='?_src_=prefs;preference=familypref;res=name'><b>Spouse soul: [spouse_ckey ? spouse_ckey : "(Random)"]</b></a></small>"
-				dat += "<BR>"
-				if(usr?.client?.prefs?.be_russian)
+					dat += " <small><a href='?_src_=prefs;preference=familypref;res=ckey'><b>Душа второй половинки: [spouse_ckey ? spouse_ckey : "(Случайная)"]</b></a></small>"
+					dat += "<BR>"
+					dat += " <small><a href='?_src_=prefs;preference=familypref;res=name'><b>Имя второй половинки: [spouse_name ? spouse_name : "(Случайнон)"]</b></a></small>"
+					dat += "<BR>"
+					dat += " <small><a href='?_src_=prefs;preference=familypref;res=surname'><b>Фамилия семьи (выбирает муж): [family_surname ? family_surname : "(Нет)"]</b></a></small>"
+					dat += "<BR>"
 					dat += " <small><a href='?_src_=prefs;preference=familypref;res=genitals'><b>У мужа/жены допустимо иное начало: [allow_alt_genitals_for_spouse ? "Да" : "Нет"]</b></a></small>"
 				else
+					dat += " <small><a href='?_src_=prefs;preference=familypref;res=ckey'><b>Spouse soul: [spouse_ckey ? spouse_ckey : "(Random)"]</b></a></small>"
+					dat += "<BR>"
+					dat += " <small><a href='?_src_=prefs;preference=familypref;res=name'><b>Name of soulmate: [spouse_name ? spouse_name : "(Random)"]</b></a></small>"
+					dat += "<BR>"
+					dat += " <small><a href='?_src_=prefs;preference=familypref;res=surname'><b>Family surname (husband chooses): [family_surname ? family_surname : "(None)"]</b></a></small>"
+					dat += "<BR>"
 					dat += " <small><a href='?_src_=prefs;preference=familypref;res=genitals'><b>Spouse can have beginning of other gender: [allow_alt_genitals_for_spouse ? "Yes" : "No"]</b></a></small>"
 				dat += "<BR>"
-				// REDMOON ADD EDN
+				// REDMOON ADD END
 			if(usr?.client?.prefs?.be_russian)
 				dat += "<b>Основная Рука:</b> <a href='?_src_=prefs;preference=domhand'>[domhand == 1 ? "Left-handed" : "Right-handed"]</a>"
 			else
@@ -1407,11 +1414,32 @@ Slots: [job.spawn_positions]</span>
 							family_species += choices[choice]
 			// REDMOON ADD START
 			// memory_for_family_members - возможность выставить CKEY игрока, с которым хочется создать семью
-			if("name")
-				var/potential_spouse_ckey = input(usr, "Add CKEY of your spouse! Check it twice! Leave the field clear to have random spouse with other parameters.", "Bloodbinding", null) as text
+			if("ckey")
+				var/msg = "Add PLAYER CKEY of your spouse! Check it twice! Leave the field clear to have random spouse with other parameters."
+				if(usr?.client?.prefs?.be_russian)
+					msg = "Введите CKEY ИГРОКА вашей второй половинки! Вы и второй игрок должны правильно записать CKEY друг друга, чтобы это работало! Оставьте поле пустым, чтобы была случайная пара (в соответствии с остальными требованиями)."
+				var/potential_spouse_ckey = input(usr, msg, "Bloodbinding", null) as text
 				if(!potential_spouse_ckey)
 					spouse_ckey = null
 				spouse_ckey = potential_spouse_ckey
+			// memory_for_family_members - возможность выставить имя персонажа, с которым хочется создать семью
+			if("name")
+				var/msg = "Add NAME of your spouse (also, add \"Ser\" before name, if they will be knight)! Check it twice! This option is needed in case of your Ckey's spouse to join as other character than you meant them to have. Leave the field clear to have random spouse with other parameters."
+				if(usr?.client?.prefs?.be_russian)
+					msg = "Введите ИМЯ ПЕРСОНАЖА вашей второй половинки (добавьте Ser перед именем, если это рыцарь)! Вы и второй игрок должны правильно записать имена своих персонажей, чтобы это работало! Эта опция нужна на случай, чтобы вторая половинка с введёным CKEY не зашла за не того персонажа и вы не стали парой. Оставьте поле пустым, чтобы была случайная пара (в соответствии с остальными требованиями)."
+				var/potential_spouse_name = input(usr, msg, "Bloodbinding", null) as text
+				if(!potential_spouse_name)
+					spouse_name = null
+				spouse_name = potential_spouse_name
+			// memory_for_family_members - возможность выставить название семьи
+			if("surname")
+				var/msg = "Add surname your family will be known as."
+				if(usr?.client?.prefs?.be_russian)
+					msg = "Введите фамилию, под которой будет известна ваша семья."
+				var/potential_family_surname = input(usr, msg, "Family History", null) as text
+				if(!potential_family_surname)
+					family_surname = null
+				family_surname = potential_family_surname
 			// memory_for_family_members - возможность согласиться на альтернативные гениталии у партнёра (или отказаться)
 			if("genitals")
 				allow_alt_genitals_for_spouse = !allow_alt_genitals_for_spouse
@@ -1998,21 +2026,21 @@ Slots: [job.spawn_positions]</span>
 						to_chat(usr, span_warning("<hr>\
 						<b>Обязательные условия для семей:</b>\
 						<br>Вы должны зайти с начала раунда. \
-						<br>Барон и Консорт - одна семья. \
+						<br>Барон, консорт и наследники - одна семья. \
 						<br>У аколитов и жрецов не может быть семьи. \
-						<br>У бандитов, лагеря гоблинов, мигрантов и беженцев нет семей. \
+						<br>У бандитов, лагеря гоблинов (кроме рабов), мигрантов и беженцев нет семей. \
 						<br>Семья не может официально быть однополой. \
-						<br>Молодой и старый не могут быть парой. \
+						<br>Молодой и старый не могут быть парой (если не выставлена душа или имя партнёра).\
 						<br>Дворяне не могут иметь супругу из нижнего сословья и наоборот."))
 					else
 						to_chat(usr, span_warning("<hr>\
 						<b>Mandatory rules for families:</b>\
 						<br>You MUST not be late-joiner (roundstart only). \
-						<br>Your only family as Baron and Consort - are you two. \
+						<br>Baron, Consort and heirs are in one family. \
 						<br>You cannot have family as an acolyte or the priest. \
-						<br>You cannot be outsider role (bandits, goblins, refuges and migrants). \
+						<br>You cannot be outsider role (bandits, goblins (except slaves), refuges and migrants). \
 						<br>You cannot be official same-sex family. It is dark ages. \
-						<br>You cannot have too much of age difference (adult with old). \
+						<br>You cannot have too much of age difference (adult with old) (to overcome, add soulmate's ckey or name). \
 						<br>You cannot be noble and have your spouse in lower class."))
 					// REDMOON ADD END
 					if(family == FAMILY_NONE)
@@ -2450,6 +2478,8 @@ Slots: [job.spawn_positions]</span>
 		character.update_body_parts(redraw = TRUE)
 	
 	character.char_accent = char_accent
+
+	redmoon_copy_character(character, icon_updates, roundstart_checks, character_setup, antagonist)
 
 /datum/preferences/proc/get_default_name(name_id)
 	switch(name_id)
