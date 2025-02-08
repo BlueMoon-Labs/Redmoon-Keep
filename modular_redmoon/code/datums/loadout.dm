@@ -64,9 +64,9 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	path = /obj/item/clothing/cloak/half
 
 /datum/loadout_item/raincloak
-name = "Tabard"
-desc = "Ебать. Плащ."
-path = /obj/item/clothing/cloak/raincloak
+	name = "Rain Cloak"
+	desc = "Ебать. Плащ."
+	path = /obj/item/clothing/cloak/raincloak
 
 
 //SHOES
