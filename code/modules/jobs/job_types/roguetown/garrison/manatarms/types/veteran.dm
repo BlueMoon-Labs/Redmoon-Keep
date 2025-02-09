@@ -2,6 +2,7 @@
 	name = "Retinue Veteran"
 	tutorial = "You are a veteran of the Retinue, and have shed many years and much blood for the Kingdom of Enigma. The engraved sword on your belt is a testament to your service and a gift from the Guard Captain himself. Protect the Duchy, protect your comrades, and maybe one day you’ll be able to retire.."
 	outfit = /datum/outfit/job/roguetown/manorguard/veteran
+	min_pq = 10
 	category_tags = list(CTAG_MAA)
 	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD)
 	maximum_possible_slots = 2

@@ -2,7 +2,6 @@
 	name = "Retinue Halberdier"
 	tutorial = "You are a member of the Ducal Retinue. Ensure the safety of the Duchy and their people, defend the powers that be from the horrors of the outside world, and keep the Duchy of Rockhill alive."
 	outfit = /datum/outfit/job/roguetown/manorguard/halberdier
-	min_pq = 10
 	category_tags = list(CTAG_MAA)
 
 /datum/outfit/job/roguetown/manorguard/halberdier/pre_equip(mob/living/carbon/human/H)
