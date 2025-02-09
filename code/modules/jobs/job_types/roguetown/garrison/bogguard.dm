@@ -73,7 +73,7 @@
 	head = /obj/item/clothing/head/roguetown/helmet/skullcap
 	armor = /obj/item/clothing/suit/roguetown/shirt/shadow
 	cloak = /obj/item/clothing/cloak/shadow
-	neck = /obj/item/clothing/neck/roguetown/bervor
+	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
@@ -105,8 +105,8 @@
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
 /datum/outfit/job/roguetown/bogguardsman/proc/assign_skills(mob/living/carbon/human/bogger)
-	bogger.mind.adjust_skillrank(/datum/skill/combat/wrestling, 6, TRUE)
-	bogger.mind.adjust_skillrank(/datum/skill/combat/unarmed, 6, TRUE)
+	bogger.mind.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
+	bogger.mind.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
 	bogger.mind.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
 	bogger.mind.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
 	bogger.mind.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
