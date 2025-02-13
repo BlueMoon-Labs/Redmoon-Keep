@@ -67,6 +67,7 @@
 		for(l=1,l<=shoplength,l++)
 			var/pathi = pick(PA.contains)
 			var/obj/item/I = new pathi(get_turf(M))
+			I.item_flags |= MATTIAS_PROPERTY
 			if(shoplength == 1)
 				M.put_in_hands(I)
 			else
@@ -90,7 +91,7 @@
 	contents += "<a href='?src=[REF(src)];change=1'>Your favor:</a> [B.favor]<BR>"
 
 
-	var/list/unlocked_cats = list("Things", "Stuff")
+	var/list/unlocked_cats = list("Gear", "Consumables", "Apparel")
 	switch(usr.advjob)
 		if("Brigand")
 			unlocked_cats+="Brigand"

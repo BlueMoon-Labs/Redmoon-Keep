@@ -115,14 +115,10 @@
 	to_chat(W, span_userdanger("I transform into a horrible beast!"))
 	W.emote("rage")
 
-	W.change_stat("strength", 7)
-	W.change_stat("endurance", 7)
-	W.change_stat("constitution", 7)
-	W.dodgetime = 36
-
 	W.mind.adjust_skillrank(/datum/skill/combat/wrestling, 5, TRUE)
 	W.mind.adjust_skillrank(/datum/skill/combat/unarmed, 5, TRUE)
 	W.mind.adjust_skillrank(/datum/skill/misc/climbing, 6, TRUE)
+	W.mind.adjust_skillrank(/datum/skill/misc/sneaking, 4, TRUE)
 	W.mind.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
 
 	if(isseelie(W.stored_mob))
@@ -131,11 +127,11 @@
 	W.AddSpell(new /obj/effect/proc_holder/spell/self/howl)
 	W.AddSpell(new /obj/effect/proc_holder/spell/self/claws)
 	W.AddSpell(new /obj/effect/proc_holder/spell/targeted/woundlick)
+	W.AddSpell(new /obj/effect/proc_holder/spell/targeted/werewolf_rejuv)
 
 	ADD_TRAIT(src, TRAIT_NOSLEEP, TRAIT_GENERIC)
 
 	ADD_TRAIT(W, TRAIT_NOSTAMINA, TRAIT_GENERIC)
-	ADD_TRAIT(W, TRAIT_SHOCKIMMUNE, TRAIT_GENERIC)
 	ADD_TRAIT(W, TRAIT_STRONGBITE, TRAIT_GENERIC)
 	ADD_TRAIT(W, TRAIT_ZJUMP, TRAIT_GENERIC)
 	ADD_TRAIT(W, TRAIT_NOFALLDAMAGE1, TRAIT_GENERIC)
@@ -190,6 +186,7 @@
 	W.RemoveSpell(new /obj/effect/proc_holder/spell/self/howl)
 	W.RemoveSpell(new /obj/effect/proc_holder/spell/self/claws)
 	W.RemoveSpell(new /obj/effect/proc_holder/spell/targeted/woundlick)
+	W.RemoveSpell(new /obj/effect/proc_holder/spell/targeted/werewolf_rejuv)
 	W.regenerate_icons()
 
 	to_chat(W, span_userdanger("I return to my facade."))

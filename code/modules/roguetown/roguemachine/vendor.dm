@@ -284,8 +284,8 @@
 
 /obj/structure/roguemachine/vendor/portshop
 	lockid = "steward"
-	name = "Portshop key seller."
-	desc = "Get key from shop here!"
+	name = "Portshop Key Seller."
+	desc = "Get the key for the shop here!"
 
 /obj/structure/roguemachine/vendor/portshop/Initialize()
 	. = ..()
@@ -293,12 +293,12 @@
 		var/obj/P = new X(src)
 		held_items[P] = list()
 		held_items[P]["NAME"] = P.name
-		held_items[P]["PRICE"] = 7
+		held_items[P]["PRICE"] = 10
 
 /obj/structure/roguemachine/vendor/street_smithshop01
 	lockid = "steward"
-	name = "Smith shop key seller."
-	desc = "Get key from shop here!"
+	name = "Shop Key Seller"
+	desc = "Get the key for the shop here!"
 
 /obj/structure/roguemachine/vendor/street_smithshop01/Initialize()
 	. = ..()
@@ -306,12 +306,12 @@
 		var/obj/P = new X(src)
 		held_items[P] = list()
 		held_items[P]["NAME"] = P.name
-		held_items[P]["PRICE"] = 7
+		held_items[P]["PRICE"] = 10
 
 /obj/structure/roguemachine/vendor/street_shop01
 	lockid = "steward"
-	name = "Street shop key seller."
-	desc = "Get key from shop here!"
+	name = "Shop Key Seller"
+	desc = "Get the key for the shop here!"
 
 /obj/structure/roguemachine/vendor/street_shop01/Initialize()
 	. = ..()
@@ -319,12 +319,12 @@
 		var/obj/P = new X(src)
 		held_items[P] = list()
 		held_items[P]["NAME"] = P.name
-		held_items[P]["PRICE"] = 7
+		held_items[P]["PRICE"] = 10
 
 /obj/structure/roguemachine/vendor/street_shop02
 	lockid = "steward"
-	name = "Street shop key seller."
-	desc = "Get key from shop here!"
+	name = "Shop Key Seller"
+	desc = "Get the key for the shop here!"
 
 /obj/structure/roguemachine/vendor/street_shop02/Initialize()
 	. = ..()
@@ -332,4 +332,23 @@
 		var/obj/P = new X(src)
 		held_items[P] = list()
 		held_items[P]["NAME"] = P.name
-		held_items[P]["PRICE"] = 7
+		held_items[P]["PRICE"] = 10
+
+/obj/structure/roguemachine/vendor/smallstreet_master01
+	lockid = "steward"
+	name = "Stall Shop Key Seller"
+	desc = "Get the key for a stall here!"
+
+/obj/structure/roguemachine/vendor/smallstreet_master01/Initialize()
+	. = ..()
+	for(var/X in list(
+		/obj/item/key/smallstreet_shop01,
+		/obj/item/key/smallstreet_shop02,
+		/obj/item/key/smallstreet_shop03,
+		/obj/item/key/smallstreet_shop04,
+		/obj/item/key/smallstreet_shop05,
+		/obj/item/key/smallstreet_shop06))
+		var/obj/P = new X(src)
+		held_items[P] = list()
+		held_items[P]["NAME"] = P.name
+		held_items[P]["PRICE"] = 10
