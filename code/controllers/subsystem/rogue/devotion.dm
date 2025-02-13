@@ -33,7 +33,7 @@
 	/// How much progression is gained per process call
 	var/passive_progression_gain = 0
 	/// How much devotion is gained per prayer cycle
-	var/prayer_effectiveness = 3
+	var/prayer_effectiveness = 2
 	/// Spells we have granted thus far
 	var/list/granted_spells
 
@@ -65,6 +65,7 @@
 	return TRUE
 
 /datum/devotion/proc/update_devotion(dev_amt, prog_amt, silent = FALSE)
+	max_devotion = holder.mind.get_skill_level(/datum/skill/magic/holy) * 200
 	devotion = clamp(devotion + dev_amt, 0, max_devotion)
 	//Max devotion limit
 	if((devotion >= max_devotion) && !silent)
@@ -157,7 +158,7 @@
 		return
 
 	granted_spells = list()
-	var/list/spelllist = list(/obj/effect/proc_holder/spell/invoked/lesser_heal, /obj/effect/proc_holder/spell/targeted/touch/orison, patron.t1, patron.t2, patron.t3, patron.t4, /obj/effect/proc_holder/spell/invoked/solar_smite)
+	var/list/spelllist = list(patron.t0, patron.t1, patron.t2, patron.t3, patron.t4, /obj/effect/proc_holder/spell/invoked/solar_smite)
 	for(var/spell_type in spelllist)
 		if(!spell_type || H.mind.has_spell(spell_type))
 			continue
@@ -221,12 +222,13 @@
 			break
 		if(!do_after(src, 30))
 			break
-		var/devotion_multiplier = 1
+		var/devotion_multiplier = mind.get_skill_level(/datum/skill/magic/holy)
 		if(mind)
 			devotion_multiplier += (mind.get_skill_level(/datum/skill/magic/holy) / SKILL_LEVEL_LEGENDARY)
 		var/prayer_effectiveness = round(devotion.prayer_effectiveness * devotion_multiplier)
 		devotion.update_devotion(prayer_effectiveness, prayer_effectiveness)
 		prayersesh += prayer_effectiveness
+		add_sleep_experience(usr, /datum/skill/magic/holy, prayer_effectiveness)
 	visible_message("[src] concludes their prayer.", "I conclude my prayer.")
 	to_chat(src, "<font color='purple'>I gained [prayersesh] devotion!</font>")
 	return TRUE
