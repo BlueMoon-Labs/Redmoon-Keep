@@ -218,8 +218,13 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 					playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 				if(SSroguemachine.key)
 					var/obj/item/key/lord/I = SSroguemachine.key
+					var/mob/living/carbon/human/HC = I.loc
 					if(!I)
 						I = new /obj/item/key/lord(src.loc)
+					if(I.item_flags & IN_STORAGE)
+						say("[HC.real_name] holds the key!")
+						playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
+						return
 					if(I && !ismob(I.loc))
 						I.anti_stall()
 						I = new /obj/item/key/lord(src.loc)
@@ -229,11 +234,11 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 						playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 						return
 					if(ishuman(I.loc))
-						var/mob/living/carbon/human/HC = I.loc
 						if(HC.stat != DEAD)
-							say("[HC.real_name] holds the key!")
-							playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
-							return
+							if(I in HC.held_items)
+								say("[HC.real_name] holds the key!")
+								playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
+								return
 						else
 							HC.dropItemToGround(I, TRUE) //If you're dead, forcedrop it, then move it.
 					I.forceMove(src.loc)
@@ -288,10 +293,18 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 
 	playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
 	victim.job = new_pos
+	victim.migrant_type = null
+	if(ishuman(victim))
+		var/mob/living/carbon/human/human = victim
+		human.advjob = new_pos
 	if(!SScommunications.can_announce(user))
 		return
 
-	priority_announce("Henceforth, the vassal known as [victim.real_name] shall have the title of [new_pos].", "The [user.get_role_title()] Decrees", 'sound/misc/alert.ogg', "Captain")
+	if(alert("Do you want to announce this action to all of Rockhill?",,"Yes","No") != "Yes")
+		say("Henceforth, the vassal known as [victim.real_name] shall have the title of [new_pos]!")
+		return
+	else
+		priority_announce("Henceforth, the vassal known as [victim.real_name] shall have the title of [new_pos].", "The [user.get_role_title()] Decrees", 'sound/misc/alert.ogg', "Captain")
 
 /obj/structure/roguemachine/titan/proc/make_announcement(mob/living/user, raw_message)
 	if(!SScommunications.can_announce(user))
