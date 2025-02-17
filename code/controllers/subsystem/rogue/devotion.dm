@@ -222,7 +222,7 @@
 			break
 		if(!do_after(src, 30))
 			break
-		var/devotion_multiplier = mind.get_skill_level(/datum/skill/magic/holy) *10
+		var/devotion_multiplier = mind.get_skill_level(/datum/skill/magic/holy)
 		if(mind)
 			devotion_multiplier += (mind.get_skill_level(/datum/skill/magic/holy) / SKILL_LEVEL_LEGENDARY)
 		var/prayer_effectiveness = round(devotion.prayer_effectiveness * devotion_multiplier)
