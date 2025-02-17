@@ -61,7 +61,7 @@
 /datum/crafting_recipe/roguetown/halfplateconvone
 	name = "halfplate armor to bikini"
 	result = list(/obj/item/clothing/suit/roguetown/armor/plate/bikini)
-	reqs = list(/obj/item/clothing/obj/suit/roguetown/armor/plate = 1)
+	reqs = list(/obj/item/clothing/suit/roguetown/armor/plate = 1)
 
 /datum/crafting_recipe/roguetown/halfplateconvtwo
 	name = "halfplate bikini to bra"
