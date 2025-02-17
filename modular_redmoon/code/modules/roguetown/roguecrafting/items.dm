@@ -48,12 +48,12 @@
 	result = /obj/item/clothing/suit/roguetown/armor/leather/masterwork/bikini/bra
 	reqs = list(/obj/item/clothing/suit/roguetown/armor/leather/masterwork/bikini = 1)
 
-/datum/crafting_recipe/roguetown/ichainkiniconv
-	name = "chainmail bikini to bra"
-	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/iron/bikini/bra)
-	reqs = list(/obj/item/clothing/suit/roguetown/armor/chainmail/iron/bikini = 1)
+/datum/crafting_recipe/roguetown/ichainkiniconvone
+	name = "chainmail to bikini"
+	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/iron/bikini)
+	reqs = list(/obj/item/clothing/suit/roguetown/armor/chainmail/iron = 1)
 
-/datum/crafting_recipe/roguetown/chainkiniconv
+/datum/crafting_recipe/roguetown/chainkiniconvtwo
 	name = "chainmail bikini to bra"
 	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/bikini/bra)
 	reqs = list(/obj/item/clothing/suit/roguetown/armor/chainmail/bikini = 1)
@@ -61,7 +61,7 @@
 /datum/crafting_recipe/roguetown/halfplateconvone
 	name = "halfplate armor to bikini"
 	result = list(/obj/item/clothing/suit/roguetown/armor/plate/bikini)
-	reqs = list(/obj/item/clothing/suit/roguetown/armor/plate = 1)
+	reqs = list(obj/item/clothing/ob/suit/roguetown/armor/plate = 1)
 
 /datum/crafting_recipe/roguetown/halfplateconvtwo
 	name = "halfplate bikini to bra"
