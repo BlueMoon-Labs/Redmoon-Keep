@@ -67,6 +67,8 @@
 
 	stored_skills = owner.known_skills.Copy()
 	stored_experience = owner.skill_experience.Copy()
+	owner.backup_known_skills = owner.known_skills // REDMOON ADD - after_death_stats_fix - сохранение скиллов погибшего для загробного мира
+	owner.backup_skill_experience = owner.skill_experience // REDMOON ADD - after_death_stats_fix - сохранение скиллов погибшего для загробного мира
 	owner.known_skills = list()
 	owner.skill_experience = list()
 
