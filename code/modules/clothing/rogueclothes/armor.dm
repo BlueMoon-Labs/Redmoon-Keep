@@ -136,8 +136,8 @@
 	icon_state = "plate"
 	max_integrity = 520
 	body_parts_covered = CHEST|GROIN|VITALS|LEGS|ARMS
-	equip_delay_self = 120
-	unequip_delay_self = 120
+	equip_delay_self = 1200
+	unequip_delay_self = 1200
 	equip_delay_other = 60
 	strip_delay = 60
 
