@@ -8,7 +8,7 @@ var/sound_cooldown = 10 * 60 * 10 // cooldown in deciseconds (15 minutes)
 	antimagic_allowed = TRUE
 	charge_max = 600 // 1 minute
 
-/obj/effect/proc_holder/spell/self/howl/cast(mob/user = usr)
+/obj/effect/proc_holder/spell/self/howl/cast(mob/living/user = usr)
 	..()
 	var/message = input("Howl at the hidden moon", "WEREWOLF") as text|null
 	if (!message) return
@@ -26,6 +26,10 @@ var/sound_cooldown = 10 * 60 * 10 // cooldown in deciseconds (15 minutes)
 		// Announcement to other werewolves
 		if (player.mind.has_antag_datum(/datum/antagonist/werewolf))
 			to_chat(player, span_boldannounce("[werewolf_player.wolfname] howls: [message]"))
+		//and Dendorers	
+		else
+			if(user.job == "Druid")
+				to_chat(player, span_boldannounce("[player.real_name] howls: [message]"))
 
 		// sound played for other players
 		var/current_time = world.time // Define current_time
@@ -39,7 +43,7 @@ var/sound_cooldown = 10 * 60 * 10 // cooldown in deciseconds (15 minutes)
 		last_howl_sound_time = current_time
 		player.playsound_local(get_turf(player), pick('sound/vo/mobs/wwolf/howldist (1).ogg','sound/vo/mobs/wwolf/howldist (2).ogg'), 100, FALSE, pressure_affected = FALSE)
 
-	user.log_message("howls: [message] (WEREWOLF)")
+	user.log_message("howls: [message] (WEREWOLF/DRUID)", LOG_GAME, color="black")
 
 /obj/effect/proc_holder/spell/self/claws
 	name = "Lupine Claws"
