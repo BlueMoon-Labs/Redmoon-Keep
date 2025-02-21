@@ -32,6 +32,7 @@
 		"ТРЕФАТЕР ПРИВОДИТ БОГАТСТВО!",
 		"Я ОТВЕЧАЮ ВЫЗОВУ ВЕЛИКОГО!",
 	)
+	t4 = /obj/effect/proc_holder/spell/self/howl
 
 /datum/patron/divine/abyssor
 	ru_name = "Абиссор"
