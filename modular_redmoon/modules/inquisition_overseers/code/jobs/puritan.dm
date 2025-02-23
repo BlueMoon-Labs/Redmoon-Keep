@@ -13,6 +13,7 @@
 		H.invisibility = INVISIBILITY_MAXIMUM
 		H.become_blind("advsetup")
 
+// Basic inquisitor class, no changes.
 /datum/subclass/puritan/inquisitor
     name = "Inquisitor"
     tutorial = "After all this time, Inquisition is still waging its endless war against Archnemesis, and you are ready to help it. \
@@ -22,6 +23,8 @@
     allowed_races = RACES_TOLERATED_UP
     maximum_possible_slots = 1
 
+// Trades armored gloves and boots for a helmet. 
+// Has a cutlass instead of a rapier.
 /datum/subclass/puritan/viceseer
     name = "Vice Overseer"
     tutorial = "Militant arm of the Psydonian Church you found yourself part of was established quite recently, but has already become infamous. \

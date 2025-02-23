@@ -72,6 +72,19 @@
 	screen_max_columns = 3
 	max_w_class = WEIGHT_CLASS_NORMAL
 
+/obj/item/clothing/mask/rogue/overseer
+    name = "cloth hood"
+    desc = "You wouldn't hide your face if there were no reasons for."
+    icon_state = "overseerhood"
+    item_state = "overseerhood"
+    icon = 'modular_redmoon/modules/inquisition_overseers/icons/overseer.dmi'
+    mob_overlay_icon = 'modular_redmoon/modules/inquisition_overseers/icons/onmob/overseer_onmob.dmi'
+    flags_inv = HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDEEARS
+    body_parts_covered = FACE|EARS|MOUTH|NECK
+    slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
+    experimental_onhip = TRUE
+    sewrepair = TRUE
+
 /obj/item/clothing/head/roguetown/helmet/overseer
     name = "overseer mask"
     desc = "An iconic brass-colored metallic mask depicting visage of the Crying God. Too bulky to be worn with helmets."
@@ -89,20 +102,56 @@
 
 /obj/item/clothing/head/roguetown/helmet/overseer/vice
     name = "vice overseer mask"
-    desc = "Silver-colored metallic mask covered in protective runes, depicting visage of the Crying God. Too bulky to be worn with helmets."
+    desc = "Silver mask covered in protective runes, depicting visage of the Crying God. Too bulky to be worn with helmets."
     icon_state = "viceseermask"
     item_state = "viceseermask"
     sellprice = 40
+    smeltresult = /obj/item/ingot/silver
 
-/obj/item/clothing/mask/rogue/overseer
-    name = "cloth hood"
-    desc = "You wouldn't hide your face if there was no reason for."
-    icon_state = "overseerhood"
-    item_state = "overseerhood"
-    icon = 'modular_redmoon/modules/inquisition_overseers/icons/overseer.dmi'
-    mob_overlay_icon = 'modular_redmoon/modules/inquisition_overseers/icons/onmob/overseer_onmob.dmi'
-    flags_inv = HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDEEARS
-    body_parts_covered = FACE|EARS|MOUTH|NECK
-    slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
-    experimental_onhip = TRUE
-    sewrepair = TRUE
+/obj/item/clothing/head/roguetown/helmet/overseer/vice/pickup(mob/user)
+	. = ..()
+	var/mob/living/carbon/human/H = user
+	var/datum/antagonist/vampirelord/V_lord = H.mind.has_antag_datum(/datum/antagonist/vampirelord/)
+	var/datum/antagonist/werewolf/W = H.mind.has_antag_datum(/datum/antagonist/werewolf/)
+	if(ishuman(H))
+		if(H.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser))
+			to_chat(H, span_userdanger("I can't pick up the silver, it is my BANE!"))
+			H.Knockdown(10)
+			H.Paralyze(10)
+			H.adjustFireLoss(25)
+			H.fire_act(1,10)
+		if(V_lord)
+			if(V_lord.vamplevel < 4 && !H.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser))
+				to_chat(H, span_userdanger("I can't pick up the silver, it is my BANE!"))
+				H.Knockdown(10)
+				H.Paralyze(10)
+		if(W && W.transformed == TRUE)
+			to_chat(H, span_userdanger("I can't pick up the silver, it is my BANE!"))
+			H.Knockdown(10)
+			H.Paralyze(10)
+			H.adjustFireLoss(25)
+			H.fire_act(1,10)
+
+/obj/item/clothing/head/roguetown/helmet/overseer/vice/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning = FALSE, bypass_equip_delay_self = FALSE)
+	. = ..()
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		var/datum/antagonist/vampirelord/V_lord = H.mind.has_antag_datum(/datum/antagonist/vampirelord/)
+		var/datum/antagonist/werewolf/W = H.mind.has_antag_datum(/datum/antagonist/werewolf/)
+		if(H.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser))
+			to_chat(H, span_userdanger("I can't equip the silver, it is my BANE!"))
+			H.Knockdown(10)
+			H.Paralyze(10)
+			H.adjustFireLoss(25)
+			H.fire_act(1,10)
+		if(V_lord)
+			if(V_lord.vamplevel < 4 && !H.mind.has_antag_datum(/datum/antagonist/vampirelord/lesser))
+				to_chat(H, span_userdanger("I can't equip the silver, it is my BANE!"))
+				H.Knockdown(10)
+				H.Paralyze(10)
+		if(W && W.transformed == TRUE)
+			to_chat(H, span_userdanger("I can't equip the silver, it is my BANE!"))
+			H.Knockdown(10)
+			H.Paralyze(10)
+			H.adjustFireLoss(25)
+			H.fire_act(1,10)
