@@ -872,7 +872,7 @@
 	skill_level = 3
 
 /datum/crafting_recipe/roguetown/sewing/abyssorhood
-	name = "hood (solar/abyssor) - (2 cloths, silk; LOOM, JOURNEYMAN)"
+	name = "hood (abyssor) - (2 cloths, silk; LOOM, JOURNEYMAN)"
 	result = list(/obj/item/clothing/head/roguetown/roguehood/abyssor)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/silk = 1)
