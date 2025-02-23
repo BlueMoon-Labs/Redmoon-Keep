@@ -871,6 +871,13 @@
 				/obj/item/natural/silk = 1)
 	skill_level = 3
 
+/datum/crafting_recipe/roguetown/sewing/abyssorhood
+	name = "hood (solar/abyssor) - (2 cloths, silk; LOOM, JOURNEYMAN)"
+	result = list(/obj/item/clothing/head/roguetown/roguehood/abyssor)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/silk = 1)
+	skill_level = 3
+
 /datum/crafting_recipe/roguetown/sewing/shirt
 	name = "shirt (formal silks) - (5 silks; LOOM, JOURNEYMAN)"
 	result = list(/obj/item/clothing/suit/roguetown/shirt/grenzelhoft)
@@ -889,6 +896,13 @@
 /datum/crafting_recipe/roguetown/sewing/astratarobe
 	name = "robes (Astrata) - (3 cloths, silk; LOOM, EXPERT)"
 	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/astrata)
+	reqs = list(/obj/item/natural/cloth = 3,
+				/obj/item/natural/silk = 1)
+	skill_level = 4
+
+/datum/crafting_recipe/roguetown/sewing/abyssorrobe
+	name = "robes (Abyssor) - (3 cloths, silk; LOOM, EXPERT)"
+	result = list(/obj/item/clothing/suit/roguetown/shirt/robe/abyssor)
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/silk = 1)
 	skill_level = 4
