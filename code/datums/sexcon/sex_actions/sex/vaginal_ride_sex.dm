@@ -51,6 +51,10 @@
 				user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] tries to ride [target], unsuccessfully."))
 			do_thrust_animate(user, target)
 			return	//Return because male seelie cannot succesfully penetrate a large humen target
+
+		if(HAS_TRAIT(user, TRAIT_DEATHBYSNUSNU))
+			user.sexcon.try_pelvis_crush(target)
+
 		if(usr?.client?.prefs?.be_russian)
 			user.visible_message(user.sexcon.spanify_force("[user] [user.sexcon.get_generic_force_adjective()] скачет на члене [target]."))
 		else
@@ -70,7 +74,7 @@
 			target.visible_message(span_lovebold("[target] кончает в вагину [user]!"))
 		else
 			target.visible_message(span_lovebold("[target] cums into [user]'s cunt!"))
-		target.sexcon.cum_into()
+		target.sexcon.cum_into(target_mob = user) // REDMOON EDIT - baotha_steals_triumphs - добавлены параметры, для правильного просчёта кого корраптят 
 		target.try_impregnate(user)
 		target.virginity = FALSE
 		user.virginity = FALSE

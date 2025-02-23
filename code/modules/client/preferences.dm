@@ -2035,7 +2035,7 @@ Slots: [job.spawn_positions]</span>
 					if(usr?.client?.prefs?.be_russian)
 						to_chat(usr, span_warning("<hr>\
 						<b>Обязательные условия для семей:</b>\
-						<br>● Барон, консорт и наследники - одна семья. \
+						<br>● Герцог, консорт и наследники - одна семья. \
 						<br>● Дворяне не могут иметь пару из нижнего сословья и наоборот. \
 						<br><b>Если не выставлена душа второй половинки, то:</b> \
 						<br>● Бандиты, проститутки, заключенные, рабы, гоблины, бездомные и лунатики не могут сформировать семью. \
@@ -2452,8 +2452,7 @@ Slots: [job.spawn_positions]</span>
 	character.jumpsuit_style = jumpsuit_style
 
 	if(charflaw)
-		if(istype(charflaw, /datum/charflaw/badsight))
-			charflaw = new /datum/charflaw/randflaw()
+
 		character.charflaw = new charflaw.type()
 		character.charflaw.on_mob_creation(character)
 
