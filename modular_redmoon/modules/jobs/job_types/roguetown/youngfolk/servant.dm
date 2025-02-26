@@ -6,6 +6,7 @@
 
 /datum/outfit/job/roguetown/servant/pre_equip(mob/living/carbon/human/H)
 	..()
+	ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
 	if(H.gender == MALE)
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/black
 		pants = /obj/item/clothing/under/roguetown/tights
