@@ -29,8 +29,7 @@
 /datum/triumph_buy/grenzelhoft_maximum/on_activate(mob/living/carbon/human/H)
 //	if(is_species(A, /datum/species/goblin)) idk this is funny lets have it happen one more time...
 //		return
-	H.set_species(/datum/species/human/northern)
-	H.skin_tone = "fff0e9"
-	H.update_body()
+	H.set_species(/datum/species/human/northern, FALSE)
+	H.client?.prefs.random_character()
 	 // Yeah, you gotta do this after setting species haha! theres an after_creation() proc that goes with set_species and this handles the stats in it.
 	H.roll_stats()
