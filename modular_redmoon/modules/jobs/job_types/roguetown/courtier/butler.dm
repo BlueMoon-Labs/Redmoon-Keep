@@ -7,6 +7,7 @@
 
 /datum/outfit/job/roguetown/butler/pre_equip(mob/living/carbon/human/H)
 	..()
+	ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
 	backpack_contents = list(/obj/item/rogueweapon/whip = 1)
 	if(H.mind)
 		H.mind.adjust_skillrank(/datum/skill/combat/whipsflails, 1, TRUE)
