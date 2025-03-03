@@ -181,7 +181,7 @@
 
 //Only override this proc
 //H is usually a human unless an /equip override transformed it
-/datum/job/proc/after_spawn(mob/living/H, mob/M, latejoin = FALSE)
+/datum/job/proc/after_spawn(mob/living/carbon/H, mob/M, latejoin = FALSE)
 	//do actions on H but send messages to M as the key may not have been transferred_yet
 	if(mind_traits)
 		for(var/t in mind_traits)
@@ -218,7 +218,16 @@
 
 	if(give_bank_account)
 		if(give_bank_account > 1)
-			SStreasury.create_bank_account(H, give_bank_account)
+			SStreasury.create_bank_account(H)
+			if(!SStreasury.ignores_taxes(H))
+				var/obj/item/roguecoin/mammons = new /obj/item/roguecoin/copper(H.loc)
+				mammons.set_quantity(give_bank_account)
+				var/obj/item/has_neck = H.get_item_by_slot(SLOT_NECK)
+				if(has_neck)
+					SEND_SIGNAL(H.wear_neck, COMSIG_TRY_STORAGE_INSERT, mammons, H, TRUE)
+				else
+					if(!H.equip_to_slot_if_possible(mammons, SLOT_IN_BACKPACK))
+						H.equip_to_slot_if_possible(mammons, SLOT_HANDS)
 		else
 			SStreasury.create_bank_account(H)
 
