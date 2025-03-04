@@ -192,6 +192,11 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	desc = "Чулочки."
 	path = /obj/item/clothing/under/roguetown/tights/stockings/fishnet/purple
 
+/datum/loadout_item/spectacles
+	name = "Spectacles"
+	desc = "Очки."
+	path = /obj/item/clothing/mask/rogue/spectacles
+
 //below are not clothes and may be valuable and well, clearly superior to having clothes but you only get one choice, and it's a 'loadout' so maybe its fine.
 // Above clothing are usually hard to get on their own, some.
 
