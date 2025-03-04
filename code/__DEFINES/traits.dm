@@ -172,7 +172,11 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SHARPER_BLADES = span_info("My weapons lose their sharpness slower."),					// REDMOON ADD
 	TRAIT_BLACKLEG = span_info("I can cheat by rigging coin and dice, and peek at cards."),		// REDMOON ADD
 	TRAIT_INQUISITION = span_info("I am a member of the Inquisition. I can easily identify others of my cadre at a glance."), // REDMOON ADD
-	TRAIT_BARDIC_TRAINING = "Xylixian inspiration grants my songs boons and ailments.",
+	TRAIT_TAX_FREE = span_info("Am free of taxes, because so is the will of my Lord."), // REDMOON ADD
+	TRAIT_TAX_FREE_SERVICE = span_info("Am free of taxes, because I pay with my blood to the crown."), // REDMOON ADD
+	TRAIT_TAX_FREE_CHURCH = span_info("Am free of taxes, because the church granted me such privilege."), // REDMOON ADD
+	TRAIT_TAX_FREE_TEACHER = span_info("Am free of taxes, because I teach others."), // REDMOON ADD
+	TRAIT_BARDIC_TRAINING = "Xylixian inspiration grants my songs boons and ailments.", // REDMOON ADD
 	TRAIT_STUDENT = span_info("The scholar has taught me new skills!"),
 	TRAIT_DARKLING = span_info("I am a creature of the dark and am sensitive to the light. The hateful sun is especially harsh on my eyes, and I prefer to sleep during the dae."),
 	TRAIT_BOG_TREKKING = "Expert in navigating these lands.",

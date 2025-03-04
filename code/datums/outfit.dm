@@ -261,7 +261,10 @@
 								message_admins("[type] had backpack_contents set but no room to store:[new_item]")
 
 	post_equip(H, visualsOnly)
-	H.save_stats_as_roundstarted() // REDMOON ADD - after_death_stats_fix
+	if(H.mind)
+		H.save_stats_as_roundstarted() // REDMOON ADD - after_death_stats_fix
+		var/datum/job/job = SSjob.GetJob(H.job)
+		SStreasury.try_to_give_starting_money(H, job.give_bank_account)
 
 	if(!visualsOnly)
 		apply_fingerprints(H)
