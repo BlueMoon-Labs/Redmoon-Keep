@@ -211,6 +211,11 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	desc = "Ксайликса. Или нет?"
 	path = /obj/item/clothing/neck/roguetown/psicross
 
+/datum/loadout_item/spectacles
+	name = "Spectacles"
+	desc = "Очки."
+	path = /obj/item/clothing/mask/rogue/spectacles
+
 //ARMOR
 /datum/loadout_item/ironmask
 	name = "Iron Mask"
