@@ -192,8 +192,6 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 		var/datum/species/S = GLOB.species_list[species_name]
 		family_species += S.id
 
-	setup_family_genitals() // REDMOON ADD - family_changes - выставление допустимых партнёров
-
 	family_gender = list(MALE,FEMALE)
 
 	if(!charflaw)
@@ -447,7 +445,21 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 					dat += "<BR>"
 					dat += " <small><a href='?_src_=prefs;preference=familypref;res=genitals'><b>Partner's beginning</b></a></small>"
 				dat += "<BR>"
-				// REDMOON ADD END
+			// rumors_addition
+			if(usr?.client?.prefs?.be_russian)
+				dat += "<b>Слухи:</b> <a href='?_src_=prefs;preference=rumors'>[use_rumors ? "Yes!" : "No"]</a><BR>"
+			else
+				dat += "<b>Rumors:</b> <a href='?_src_=prefs;preference=rumors'>[use_rumors ? "Yes!" : "No"]</a><BR>"
+			if(use_rumors)
+				dat += " <small><a href='?_src_=prefs;preference=rumors_prefs;res=species'><b>Какие расы нравятся</b></a></small><BR>"
+				dat += " <small><a href='?_src_=prefs;preference=rumors_prefs;res=gender'><b>С кем любят фехтоват</b></a></small><BR>"
+				dat += " <small><a href='?_src_=prefs;preference=rumors_prefs;res=bed'><b>Как ведут себя в постели</b></a></small><BR>"
+				dat += " <small><a href='?_src_=prefs;preference=rumors_prefs;res=problems'><b>Решение проблем</b></a></small><BR>"
+				dat += " <small><a href='?_src_=prefs;preference=rumors_prefs;res=combat'><b>Поведение в бою</b></a></small><BR>"
+				dat += " <small><a href='?_src_=prefs;preference=rumors_prefs;res=relax'><b>Как любят отдыхать</b></a></small><BR>"
+				dat += " <small><a href='?_src_=prefs;preference=rumors_prefs;res=work'><b>Отношение к работе</b></a></small><BR>"
+				dat += " <small><a href='?_src_=prefs;preference=rumors_prefs;res=secret'><b>Какие слухи НЕ распространены</b></a></small><BR>"
+			// REDMOON ADD END
 			if(usr?.client?.prefs?.be_russian)
 				dat += "<b>Основная Рука:</b> <a href='?_src_=prefs;preference=domhand'>[domhand == 1 ? "Left-handed" : "Right-handed"]</a>"
 			else
@@ -1456,7 +1468,107 @@ Slots: [job.spawn_positions]</span>
 							family_genitals -= choices[choice]
 						else
 							family_genitals += choices[choice]
-			// REDMOON ADD END
+	// rumors_addition - выставление слухов
+	else if(href_list["preference"] == "rumors_prefs")
+		switch(href_list["res"])
+
+			if("species")
+				var/choice
+				while(choice != "(DONE)")
+					var/list/choices = list()
+					for(var/A in GLOB.roundstart_races)
+						var/datum/species/S = GLOB.species_list[A]
+						var/index = "[(S.id in rumors_prefered_races) ? "(+)" : ""][S.name]"
+						choices[index] = S.id
+					choices += "(DONE)"
+					choice = input(usr, "Ходит слух, что я предпочитаю такие расы, как...") as anything in choices
+					if(choice != "(DONE)")
+						if(choices[choice] in rumors_prefered_races)
+							rumors_prefered_races -= choices[choice]
+						else
+							rumors_prefered_races += choices[choice]
+
+			if("gender")
+				var/choice
+				var/beginnings = list("мужчинами", "женщинами", "женщинами с мужским началом", "мужчинами с женским началом")
+				while(choice != "(DONE)")
+					var/list/choices = list()
+					for(var/A in beginnings)
+						var/index = "[(A in rumors_prefered_beginnings) ? "(+)" : ""][A]"
+						choices[index] = A
+					choices += "(DONE)"
+					choice = input(usr, "Ходит слух, что я люблю фехтовать с...") as anything in choices
+					if(choice != "(DONE)")
+						if(choices[choice] in rumors_prefered_beginnings)
+							rumors_prefered_beginnings -= choices[choice]
+						else
+							rumors_prefered_beginnings += choices[choice]
+				for(var/A in rumors_prefered_beginnings)
+					if(!(A in beginnings))
+						rumors_prefered_beginnings -= A
+
+			if("bed")
+				var/choice
+				while(choice != "(DONE)")
+					var/list/choices = list()
+					for(var/A in GLOB.rumors_prefered_behavior_in_bed_choices)
+						var/index = "[(A in rumors_prefered_behavior_in_bed) ? "(+)" : ""][A]"
+						choices[index] = A
+					choices += "(DONE)"
+					choice = input(usr, "Ходит слух, что в постели я предпочитаю...") as anything in choices
+					if(choice != "(DONE)")
+						if(choices[choice] in rumors_prefered_behavior_in_bed)
+							rumors_prefered_behavior_in_bed -= choices[choice]
+						else
+							rumors_prefered_behavior_in_bed += choices[choice]
+				for(var/A in rumors_prefered_behavior_in_bed)
+					if(!(A in GLOB.rumors_prefered_behavior_in_bed_choices))
+						rumors_prefered_behavior_in_bed -= A
+
+			if("problems")
+				rumors_prefered_behavior_with_problems = input(usr, "Ходит слух, что проблемы я предпочитаю...") as anything in GLOB.rumors_prefered_behavior_with_problems_choices
+
+			if("combat")
+				rumors_prefered_behavior_in_combat = input(usr, "Ходит слух, что в бою я... ") as anything in GLOB.rumors_prefered_behavior_in_combat_choices
+
+			if("work")
+				rumors_prefered_behavior_in_work = input(usr, "В труде я...") as anything in GLOB.rumors_prefered_behavior_in_work_choices
+
+			if("secret")
+				var/choice
+				while(choice != "(DONE)")
+					var/list/choices = list()
+					for(var/A in GLOB.rumors_secret_choices)
+						var/index = "[(A in rumors_secret) ? "(+)" : ""][A]"
+						choices[index] = A
+					choices += "(DONE)"
+					choice = input(usr, "Слухи о которых никто не знает. Это ООС информация для других игроков.") as anything in choices
+					if(choice != "(DONE)")
+						if(choices[choice] in rumors_secret)
+							rumors_secret -= choices[choice]
+						else
+							rumors_secret += choices[choice]
+				for(var/A in rumors_secret)
+					if(!(A in GLOB.rumors_secret_choices))
+						rumors_secret -= A
+
+			if("relax")
+				var/choice
+				while(choice != "(DONE)")
+					var/list/choices = list()
+					for(var/A in GLOB.rumors_prefered_ways_to_relax_choices)
+						var/index = "[(A in rumors_prefered_ways_to_relax) ? "(+)" : ""][A]"
+						choices[index] = A
+					choices += "(DONE)"
+					choice = input(usr, "Ходит слух, что я люблю...") as anything in choices
+					if(choice != "(DONE)")
+						if(choices[choice] in rumors_prefered_ways_to_relax)
+							rumors_prefered_ways_to_relax -= choices[choice]
+						else
+							rumors_prefered_ways_to_relax += choices[choice]
+				for(var/A in rumors_prefered_ways_to_relax)
+					if(!(A in GLOB.rumors_prefered_ways_to_relax_choices))
+						rumors_prefered_ways_to_relax -= A
 
 			// REDMOON ADD END
 
@@ -2367,6 +2479,10 @@ Slots: [job.spawn_positions]</span>
 					if (href_list["tab"])
 						current_tab = text2num(href_list["tab"])
 
+				// REDMOON ADD START - family_changes - оповещение о правилах семей
+				if("rumors")
+					use_rumors = !use_rumors
+				// REDMOON ADD END
 	ShowChoices(user)
 	return 1
 

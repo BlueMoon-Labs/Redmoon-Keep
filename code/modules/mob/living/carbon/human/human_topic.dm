@@ -143,4 +143,91 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		else
 			// Display a warning if the user mocks up
 			to_chat(src, "<span class='warning'>I feel your [pocket_side] pocket being fumbled with!</span>")
+	// REDMOON ADD START - rumors_addition
+	if(href_list["task"] == "view_rumors")
+		var/mob/user = usr
+		var/list/dat = list("<center>")
+
+		var/list/rumors_in_secret = list()
+
+		for(var/X in rumors_secret)
+			rumors_in_secret += X
+
+		dat += "Говорят, что [src]..."
+		dat += "</center>"
+
+		// Top-level menu table
+		dat += "<span style='width: 100%; line-height: 18px; font-size: 22pt'>"
+		// NEXT ROW
+		dat += "<tr>"
+
+		if(LAZYLEN(rumors_prefered_beginnings))
+			var/rumored_beginnings = "[rumors_prefered_beginnings[1]]"
+			var/count = 0
+			for(count = 2, count <= rumors_prefered_beginnings.len, count++)
+				rumored_beginnings += ", [rumors_prefered_beginnings[count]]"
+
+			dat += "<br><b>...Любит фехтовать с</b> [rumored_beginnings]."
+			if("fencing" in rumors_secret)
+				dat += " <b>(OOC)</b>"
+			dat += "<br>"
+
+		if(LAZYLEN(rumors_prefered_races))
+			var/rumored_species = "[rumors_prefered_races[1]]"
+			var/count = 0
+			for(count = 2, count <= rumors_prefered_races.len, count++)
+				rumored_species += ", [rumors_prefered_races[count]]"
+			
+			dat += "<br><b>...Предпочитает такие расы, как</b> [rumored_species]."
+			if("species" in rumors_secret)
+				dat += " <b>(OOC)</b>"
+			dat += "<br>"
+
+		if(LAZYLEN(rumors_prefered_behavior_in_bed))
+			var/rumored_bed = "[rumors_prefered_behavior_in_bed[1]]"
+			var/count = 0
+			for(count = 2, count <= rumors_prefered_behavior_in_bed.len, count++)
+				rumored_bed += ", [rumors_prefered_behavior_in_bed[count]]"
+			
+			dat += "<br><b>...В постели, предпочитает</b> [rumored_bed]."
+			if("bed" in rumors_secret)
+				dat += " <b>(OOC)</b>"
+			dat += "<br>"
+
+		if(LAZYLEN(rumors_prefered_behavior_in_combat))
+			dat += "<br><b>...В бою</b> [rumors_prefered_behavior_in_combat]."
+			if("combat" in rumors_secret)
+				dat += " <b>(OOC)</b>"
+			dat += "<br>"
+
+		if(LAZYLEN(rumors_prefered_behavior_with_problems))			
+			dat += "<br><b>...Проблемы решает</b> [rumors_prefered_behavior_with_problems]."
+			if("problems" in rumors_secret)
+				dat += " <b>(OOC)</b>"
+			dat += "<br>"
+
+		if(LAZYLEN(rumors_prefered_behavior_in_work))
+			dat += "<br><b>...В труде</b> [rumors_prefered_behavior_in_work]."
+			if("work" in rumors_secret)
+				dat += " <b>(OOC)</b>"
+			dat += "<br>"
+
+		if(LAZYLEN(rumors_prefered_ways_to_relax))
+			var/rumored = "[rumors_prefered_ways_to_relax[1]]"
+			var/count = 0
+			for(count = 2, count <= rumors_prefered_ways_to_relax.len, count++)
+				rumored += ", [rumors_prefered_ways_to_relax[count]]"
+			
+			dat += "<br><b>...Для отдыха, предпочитает</b> [rumored]."
+			if("relax" in rumors_secret)
+				dat += " <b>(OOC)</b>"
+			dat += "<br>"
+
+		dat += "</span>"
+
+		var/datum/browser/popup = new(user, "rumors", "<div align='center'>На подкорке ума...</div>", 600, 400)
+		popup.set_content(dat.Join())
+		popup.open(FALSE)
+		return
+	// REDMOON ADD END
 	return ..() //end of this massive fucking chain. TODO: make the hud chain not spooky. - Yeah, great job doing that.
