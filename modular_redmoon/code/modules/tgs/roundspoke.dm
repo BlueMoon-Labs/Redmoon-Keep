@@ -156,6 +156,8 @@
 	var/datum/tgs_chat_embed/field/confessors = new (":orthodox_cross: Исповедники: ", "[GLOB.confessors.len]")
 	var/datum/tgs_chat_embed/field/families = new (":ring:Семьи: ", "[SSfamily.families.len]") // family_changes
 	var/datum/tgs_chat_embed/field/families_failed = new (":heart: Пытались сформировать семью: ", "[length(SSfamily.family_candidates)]") // family_changes
+	var/datum/tgs_chat_embed/field/taxes = new (":coin: Собрано налогов: ", "[SStreasury.statistic_taxes_collected]") // налоги
+	var/datum/tgs_chat_embed/field/taxes_evasion = new (":moneybag: Скрыто от уплаты налогов: ", "[SStreasury.statistic_taxes_evaded]") // налоги
 	var/datum/tgs_chat_embed/field/men = new (":man_beard: Мужчины: ", "[SSround_end_statistics.males] ([percent_of_males]%)")
 	var/datum/tgs_chat_embed/field/women = new (":woman: Женщины: ", "[SSround_end_statistics.females] ([percent_of_females]%)")
 	var/datum/tgs_chat_embed/field/cuntboys = new (":man: Кантбои: ", "[SSround_end_statistics.males_with_vagina] ([percent_of_males_with_vagina]%)")
@@ -184,7 +186,7 @@
 	Эльфы: [SSround_end_statistics.species_elf] | \
 	")
 
-	embed.fields = list(deaths, bloodspilled, triumphgained, triumphslost, pleasures, violated_by_baotha, confessors, families, families_failed, players, men, women, cuntboys, futas, species)
+	embed.fields = list(deaths, bloodspilled, triumphgained, triumphslost, pleasures, violated_by_baotha, confessors, families, families_failed, taxes, taxes_evasion, players, men, women, cuntboys, futas, species)
 
 	send2chat(message, "status")
 
