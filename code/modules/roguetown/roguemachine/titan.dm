@@ -273,7 +273,7 @@ GLOBAL_LIST_INIT(laws_of_the_land, initialize_laws_of_the_land())
 			return
 		newtax = CLAMP(newtax, 1, 99)
 		SStreasury.tax_value = newtax / 100
-		priority_announce("The new tax in Rockhill shall be [newtax] percent.", "The Generous [TITLE_LORD] Decrees", pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain")
+		priority_announce("Налог установлен в размере [newtax] маммонов, с таким же процентом для покупок.", "The Generous [TITLE_LORD] Decrees", pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain")
 
 /obj/structure/roguemachine/titan/proc/give_job_popup(mob/living/carbon/human/user)
 	if(!Adjacent(user))

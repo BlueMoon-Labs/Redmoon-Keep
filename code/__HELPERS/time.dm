@@ -86,6 +86,8 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 
 	if(GLOB.tod != oldtod)
 		if(GLOB.tod == "dawn")
+			if(GLOB.dayspassed != 0) // начало раунда
+				SStreasury.tax_assessment()
 			GLOB.dayspassed++
 			if(GLOB.dayspassed == 8)
 				GLOB.dayspassed = 1
