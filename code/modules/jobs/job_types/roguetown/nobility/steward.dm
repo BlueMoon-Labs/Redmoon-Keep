@@ -42,7 +42,7 @@
 	beltr = /obj/item/storage/keyring/steward
 	backr = /obj/item/storage/backpack/rogue/satchel
 	mask = /obj/item/clothing/mask/rogue/spectacles
-	backpack_contents = list(/obj/item/clothing/mask/rogue/spectacles = 1)
+	backpack_contents = list(/obj/item/clothing/mask/rogue/spectacles = 1, /obj/item/book/rogue/taxation = 1)
 
 	ADD_TRAIT(H, TRAIT_SEEPRICES, type)
 

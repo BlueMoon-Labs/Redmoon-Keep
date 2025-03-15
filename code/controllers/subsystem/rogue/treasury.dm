@@ -36,7 +36,7 @@ SUBSYSTEM_DEF(treasury)
 
 /datum/controller/subsystem/treasury/Initialize()
 	treasury_value = rand(800,1500)
-	queens_tax = pick(0.09, 0.15, 0.21, 0.30)
+	queens_tax = rand(0.05, 0.11)
 
 	for(var/path in subtypesof(/datum/roguestock/bounty))
 		var/datum/D = new path
@@ -177,20 +177,23 @@ SUBSYSTEM_DEF(treasury)
 		return FALSE
 	if(!character)
 		return FALSE
-	var/taxed_amount = 0
-	var/original_amt = amt
+//	var/taxed_amount = 0
+//	var/original_amt = amt
 	if(character in bank_accounts)
-		if((character.job in GLOB.noble_positions) || HAS_TRAIT(character, TRAIT_NOBLE))
-			bank_accounts[character] += amt
-		else
-			taxed_amount = round(amt * tax_value)
-			amt -= taxed_amount
-			bank_accounts[character] += amt
-			treasury_value += taxed_amount
+//		if((character.job in GLOB.noble_positions) || HAS_TRAIT(character, TRAIT_NOBLE))
+//			bank_accounts[character] += amt
+//		else
+//			taxed_amount = round(amt * tax_value)
+//			amt -= taxed_amount
+//			bank_accounts[character] += amt
+//			treasury_value += taxed_amount
+		bank_accounts[character] += amt
+
+		treasury_value += amt
 	else
 		return FALSE
 
-	log_to_steward("+[taxed_amount] taxation of [character], who deposited [original_amt]")
+	log_to_steward("+[amt] taxation of [character]")
 
 	return TRUE
 

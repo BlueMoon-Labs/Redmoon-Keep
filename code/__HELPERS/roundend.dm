@@ -112,6 +112,8 @@
 
 	players_report()
 
+	SStreasury.calculate_tax_fraud()
+
 	stats_report()
 
 //	for(var/client/C in GLOB.clients)
@@ -276,7 +278,9 @@
 		for(var/x in GLOB.confessors)
 			shit += "[x]"
 	// REDMOON ADD START
-	// вывод статистики в конце раунда о количестве семей и осквернённых Баотой
+	// вывод статистики в конце раунда о собранных налогах, количестве семей и осквернённых Баотой
+	shit += "<br><font color='#c5910d'><span class='bold'>Собрано налогов: </span></font> [SStreasury.statistic_taxes_collected]"
+	shit += "<br><font color='#554242'><span class='bold'>Скрыто от уплаты налогов: </span></font> [SStreasury.statistic_taxes_evaded]"
 	shit += "<br><font color='#115726'><span class='bold'>Пытались создать семью: </span></font> [length(SSfamily.family_candidates)]"
 	shit += "<br><font color='#22833f'><span class='bold'>Семей проживало в Рокхилле:</span></font> [SSfamily.families.len]" // family_changes
 	shit += "<br><font color='#a1489d'><span class='bold'>Осквернено Баотой:</span></font> [SSround_end_statistics.violated_by_baotha.len]" // baotha_steals_triumphs

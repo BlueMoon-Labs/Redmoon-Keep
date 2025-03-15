@@ -48,7 +48,7 @@
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
 	beltl = /obj/item/storage/keyring/steward
 	backr = /obj/item/storage/backpack/rogue/satchel
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel = 1)
+	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel = 1, /obj/item/book/rogue/taxation = 1)
 	if(H.mind)
 		H.mind.adjust_skillrank(/datum/skill/misc/reading, 5, TRUE)
 		H.mind.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
@@ -84,7 +84,7 @@
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	beltl = /obj/item/storage/keyring/steward
 	backr = /obj/item/storage/backpack/rogue/satchel
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger = 1)
+	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger = 1, /obj/item/book/rogue/taxation = 1)
 	if(H.mind)
 		H.mind.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
 		H.mind.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
@@ -118,7 +118,7 @@
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
 	beltl = /obj/item/storage/keyring/steward
 	backr = /obj/item/storage/backpack/rogue/satchel
-	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger = 1)
+	backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger = 1, /obj/item/book/rogue/taxation = 1)
 	if(H.mind)
 		H.mind.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
 		H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)
