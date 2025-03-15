@@ -31,7 +31,7 @@
 /datum/patron/inhumen/baotha
     name = "Baotha"
     domain = "Goddess of Degeneracy, Debauchery and Addiction"
-    desc = "Woman turned God, Baotha taught man that life is too short to care for the consequences of their pleasures and leads them to peculiar vices and perversions. "
+    desc = "Woman turned God, Baotha taught man that life is too short to care for the consequences of their pleasures and leads them to peculiar vices and perversions. It is rumored followers of Her are able to steal others lifeforce and corrupt their souls in disgusting acts of pleasuring." // REDMOON EDIT - baotha_steals_triumphs - добавлено последнее предложение про разварещение
     worshippers = "Perverts, Gamblers, Drunkards, and Bards"
     mob_traits = list(TRAIT_CRACKHEAD) // prevents overdoses
     confess_lines = list(
