@@ -65,7 +65,6 @@
 	return TRUE
 
 /datum/devotion/proc/update_devotion(dev_amt, prog_amt, silent = FALSE)
-	//max_devotion = holder.mind.get_skill_level(/datum/skill/magic/holy) * 200
 	devotion = clamp(devotion + dev_amt, 0, max_devotion)
 	//Max devotion limit
 	if((devotion >= max_devotion) && !silent)
@@ -222,7 +221,7 @@
 			break
 		if(!do_after(src, 30))
 			break
-		var/devotion_multiplier = 100+ mind.get_skill_level(/datum/skill/magic/holy)
+		var/devotion_multiplier = mind.get_skill_level(/datum/skill/magic/holy)
 		if(mind)
 			devotion_multiplier += (mind.get_skill_level(/datum/skill/magic/holy) / SKILL_LEVEL_LEGENDARY)
 		var/prayer_effectiveness = round(devotion.prayer_effectiveness * devotion_multiplier)
