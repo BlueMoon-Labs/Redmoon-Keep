@@ -80,9 +80,9 @@ GLOBAL_LIST_EMPTY(loadout_items)
 
 //SHOES
 /datum/loadout_item/darkboots
-	name = "Dark Boots"
+	name = "Funny Boots"
 	desc = "Сапоги."
-	path = /obj/item/clothing/shoes/roguetown/boots
+	path = /obj/item/clothing/shoes/roguetown/jester
 
 /datum/loadout_item/nobleboots
 	name = "Noble Boots"
@@ -210,6 +210,11 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Divine symbol"
 	desc = "Ксайликса. Или нет?"
 	path = /obj/item/clothing/neck/roguetown/psicross
+
+/datum/loadout_item/woodspectacles
+	name = "Wood Spectacles"
+	desc = "Очки в деревянной оправе"
+	path = /obj/item/clothing/mask/rogue/woodspectacles
 
 //ARMOR
 /datum/loadout_item/ironmask

@@ -2,7 +2,7 @@
 /obj/effect/proc_holder/spell/invoked/lesser_heal
 	name = "Miracle"
 	overlay_state = "lesserheal"
-	releasedrain = 25
+	releasedrain = 30
 	chargedrain = 0
 	chargetime = 0
 	range = 4
@@ -14,7 +14,7 @@
 	antimagic_allowed = TRUE
 	charge_max = 10 SECONDS
 	miracle = TRUE
-	devotion_cost = 10
+	devotion_cost = 25
 
 /obj/effect/proc_holder/spell/invoked/lesser_heal/cast(list/targets, mob/living/user)
 	. = ..()
@@ -25,6 +25,18 @@
 			target.adjustFireLoss(10)
 			target.fire_act(1,10)
 			return TRUE
+		if(HAS_TRAIT(target, TRAIT_ASTRATA_CURSE))
+			target.visible_message(span_danger("[target] recoils in pain!"), span_userdanger("Divine healing shuns me!"))
+			target.cursed_freak_out()
+			return FALSE
+		if(HAS_TRAIT(target, TRAIT_ATHEISM_CURSE))
+			target.visible_message(span_danger("[target] recoils in disgust!"), span_userdanger("These fools are trying to cure me with religion!!"))
+			target.cursed_freak_out()
+			return 
+		if(HAS_TRAIT(target, TRAIT_EXCOMMUNICATED))
+			to_chat(user, span_warning("The one that walks under such mark, cannot be healed..."))
+			revert_cast()
+			return FALSE
 		var/conditional_buff = FALSE
 		var/situational_bonus = 1
 		//this if chain is stupid, replace with variables on /datum/patron when possible?
@@ -45,11 +57,10 @@
 					conditional_buff = TRUE
 			if(/datum/patron/divine/dendor)
 				target.visible_message(span_info("A rush of primal energy spirals about [target]!"), span_notice("I'm infused with primal energies!"))
-				var/list/natural_stuff = list(/obj/structure/soil, /obj/structure/flora, /obj/structure/glowshroom)
 				situational_bonus = 0
 				// the more natural stuff around US, the more we heal
 				for (var/obj/O in oview(5, user))
-					if (istype(O, /obj/structure/flora) || istype(O, /obj/structure/soil) || istype(O, /obj/structure/glowshroom))
+					if (istype(O, /obj/structure/flora) || istype(O, /obj/structure/soil) || istype(O, /obj/structure/glowshroom) || istype(O, /obj/structure/spacevine))
 						situational_bonus = min(situational_bonus + 0.1, 2)
 				// Healing before the oaken avatar of Dendor in the Druid Grove (exceptionally rare otherwise) supercharges their healing
 				if (situational_bonus > 0)
@@ -144,7 +155,7 @@
 			else
 				target.visible_message(span_info("A choral sound comes from above and [target] is healed!"), span_notice("I am bathed in healing choral hymns!"))
 
-		var/healing = 1
+		var/healing = user.mind.get_skill_level(/datum/skill/magic/holy) / 2
 		if (conditional_buff)
 			to_chat(user, "Channeling my patron's power is easier in these conditions!")
 			healing += situational_bonus
@@ -184,6 +195,17 @@
 			target.adjustFireLoss(25)
 			target.fire_act(1,10)
 			return TRUE
+		if(HAS_TRAIT(target, TRAIT_ASTRATA_CURSE))
+			target.visible_message(span_danger("[target] recoils in pain!"), span_userdanger("Divine healing shuns me!"))
+			target.cursed_freak_out()
+			return FALSE
+		if(HAS_TRAIT(target, TRAIT_ATHEISM_CURSE))
+			target.visible_message(span_danger("[target] recoils in disgust!"), span_userdanger("These fools are trying to cure me with religion!!"))
+			target.cursed_freak_out()
+			return FALSE
+		if(HAS_TRAIT(target, TRAIT_EXCOMMUNICATED))
+			to_chat(user, span_warning("The one that walks under such mark, cannot be healed..."))
+			return FALSE	
 		target.visible_message(span_info("A wreath of gentle light passes over [target]!"), span_notice("I'm bathed in holy light!"))
 		if(iscarbon(target))
 			var/mob/living/carbon/C = target

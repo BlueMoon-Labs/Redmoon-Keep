@@ -673,10 +673,13 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 	var/can_sleep = TRUE
 	var/bleedrate
 	var/cause = "I can't sleep because..."
-	for(var/obj/item/clothing/thing in get_equipped_items(FALSE))
-		if(thing.clothing_flags & CANT_SLEEP_IN)
-			can_sleep = FALSE
-			cause += " \n\The [thing] bothers me..."
+	if(ishuman(src)) // REDMOON ADD - allow_sleeping_with_helmets_on_hip
+		var/mob/living/carbon/human/user = src // REDMOON ADD - allow_sleeping_with_helmets_on_hip
+		for(var/obj/item/clothing/thing in list(user.wear_shirt, user.wear_armor, user.head)) // REDMOON EDIT - allow_sleeping_with_helmets_on_hip - WAS: for(var/obj/item/clothing/thing in get_equipped_items(FALSE))
+			if(thing.clothing_flags & CANT_SLEEP_IN)
+				can_sleep = FALSE
+				cause += " \n\The [thing] bothers me..."
+				break // REDMOON ADD - дальнейшие проверки не имеют смысла
 
 	if(HAS_TRAIT(src, TRAIT_NUDE_SLEEPER))
 		if(length(get_equipped_items()))
@@ -754,9 +757,14 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 		var/obj/structure/bed/rogue/bed = locate() in loc
 		if(bed)
 			bed_recovery_modifier = bed.sleepy
-		if(IsSleeping())
-			recovery_amt = (max_energy * 0.10) * bed_recovery_modifier // Example: max energy 1000 -> 100 energy on ground, 300 on bed
-		else
-			recovery_amt = (max_energy * 0.02) * bed_recovery_modifier // Example: max energy 1000 -> 20 energy on ground, 60 on bed
-		
+			if(IsSleeping()) // REDMOON EDIT - добавлена 1 таблуяция
+				recovery_amt = (max_energy * 0.015) * bed_recovery_modifier // REDMOON EDIT - 45 секунд в хорошей кровати, около 1.5 минут в плохой с 0 до 100% - WAS: recovery_amt = (max_energy * 0.10) * bed_recovery_modifier // Example: max energy 1000 -> 100 energy on ground, 300 on bed
+			else // REDMOON EDIT - добавлена 1 таблуяция
+				recovery_amt = (max_energy * 0.007) * bed_recovery_modifier // REDMOON EDIT - 1.5 минуты за лежание на хорошей кровати, 3 минуты за лежание на убогой кровати - WAS: recovery_amt = (max_energy * 0.02) * bed_recovery_modifier // Example: max energy 1000 -> 20 energy on ground, 60 on bed
+		else // REDMOON ADD START - сон на полу ЗНАЧИТЕЛЬНО хуже сна в кровати
+			if(IsSleeping())
+				recovery_amt = max_energy * 0.005 // 7.5 минут на полный отдых за сон на земле
+			else
+				recovery_amt = max_energy * 0.0035 // REDMOON ADD END - 10 минут на полный отдых за лежание на земле без сна, чтобы был смысл искать кровати
+
 		energy_add(recovery_amt)

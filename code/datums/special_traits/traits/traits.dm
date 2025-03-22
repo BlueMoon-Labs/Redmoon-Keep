@@ -16,7 +16,7 @@
 
 /datum/special_trait/alert
 	name = "Alert"
-	greet_text = span_notice("Those cheap tricks? I've seen it all and then some more. Nobody- No... <b>Nothing</b> can surprise me.")
+	greet_text = span_notice("My eyes are sharper than most, being on edge does not tire me.")
 	weight = 100
 
 /datum/special_trait/alert/on_apply(mob/living/carbon/human/character, silent)
@@ -24,9 +24,9 @@
 	ADD_TRAIT(character, TRAIT_BREADY, "[type]")
 
 
-/datum/special_trait/aboriginal
-	name = "Aboriginal Roots"
-	greet_text = span_notice("My distant ancestors had to cope with Enigma's hardships long before colonization, the lack of need to eat or breathe is my family's most guarded secret. Some dare call it inhumen magic, I'd prefer \"Taming the land\".")
+/datum/special_trait/curseofcain
+	name = "Flawed Immortality"
+	greet_text = span_notice("I've never needed to eat, drink or even breathe... In fact the stench of death does not bother me.")
 	restricted_jobs = list(INQUISITION_ROLES)
 	weight = 80
 
@@ -60,8 +60,8 @@
 
 
 /datum/special_trait/assassin
-	name = "Apprentice Assassin"
-	greet_text = span_notice("I've always been an outlier. Even from a young age, socialite activities weren't for me. Be it fate or luck - I ended up in the ranks of one of the many assassin guilds that poliferate this rotten world.")
+	name = "Stealthy"
+	greet_text = span_notice("I've always been quieter than most.")
 	weight = 40
 
 /datum/special_trait/assassin/on_apply(mob/living/carbon/human/character, silent)
@@ -186,7 +186,6 @@
 	character.change_stat("constitution", 2)
 	character.change_stat("intelligence", -2)
 
-
 /datum/special_trait/bookworm
 	name = "Bookworm"
 	greet_text = span_notice("I'm a fan of books and I enjoy reading them regularly.")
@@ -195,7 +194,6 @@
 /datum/special_trait/bookworm/on_apply(mob/living/carbon/human/character, silent)
 	character.change_stat("intelligence", 2)
 	character.mind.adjust_skillrank_up_to(/datum/skill/misc/reading, 4, TRUE)
-
 
 /datum/special_trait/arsonist
 	name = "Arsonist"
@@ -257,7 +255,6 @@
 	ADD_TRAIT(character, TRAIT_LEAPER, "[type]")
 	ADD_TRAIT(character, TRAIT_NOFALLDAMAGE1, "[type]")
 	make_outlaw(character.real_name, TRUE)
-
 
 /datum/special_trait/thief
 	name = "Thief"
@@ -494,7 +491,7 @@
 	else
 		employer = pick(list("Duchess", "Lady", "Noblelady", "Heiress"))
 	employer = "[employer] [random_human_name(employer_gender, FALSE, FALSE)]"
-	var/amount = rand(40,100)
+	var/amount = rand(250,500)
 	switch(rand(1,7))
 		if(1)
 			reason = "Murder"
@@ -511,9 +508,9 @@
 		if(7)
 			reason = "Robbing a Noble"
 	add_bounty(character.real_name, amount, FALSE, reason, employer)
+	ADD_TRAIT(character, TRAIT_WANTED, TRAIT_GENERIC)
 	if(!silent)
 		to_chat(character, span_notice("Whether I've done it or not, I have been accused of [reason] and the [employer] put a bounty on my head!"))
-
 
 /datum/special_trait/outlaw
 	name = "Known Outlaw"
@@ -603,7 +600,6 @@
 /datum/special_trait/annoying/on_apply(mob/living/carbon/human/character, silent)
 	ADD_TRAIT(character, TRAIT_COMICSANS, "[type]")
 	ADD_TRAIT(character, TRAIT_BAD_MOOD, "[type]")
-
 
 /datum/special_trait/missing_nose
 	name = "Missing Nose"

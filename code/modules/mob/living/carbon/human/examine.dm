@@ -6,11 +6,16 @@
 	var/datum/species/self_species = dna.species
 	var/datum/species/examiner_species = user.dna.species
 	if(self_species.stress_examine && self_species.type != examiner_species.type)
-		var/event_type = /datum/stressevent/shunned_race
+	// REDMOON EDIT - фикс для рантайма "new() called with an object of type /datum/stressevent/shunned_race instead of the type path itself"
 		if(HAS_TRAIT(user, TRAIT_XENOPHOBIC))
-			event_type = /datum/stressevent/shunned_race_xenophobic
-		var/datum/stressevent/event = user.add_stress(event_type)
-		event.desc = self_species.stress_desc
+			var/datum/stressevent/shunned_race_xenophobic/event = new ()
+			event.desc = self_species.stress_desc
+			user.add_stress(event)
+		else
+			var/datum/stressevent/shunned_race/event = new ()
+			event.desc = self_species.stress_desc
+			user.add_stress(event)
+	// REDMOON EDIT END
 	if(user.has_flaw(/datum/charflaw/paranoid) && (STASTR - user.STASTR) > 1)
 		user.add_stress(/datum/stressevent/parastr)
 	if(HAS_TRAIT(user, TRAIT_JESTERPHOBIA) && job == "Jester")
@@ -141,7 +146,7 @@
 			else if(family)
 				var/datum/family/F = getFamily()
 				if(F)
-					. += "Ah, they belong to the [F.name] family!"
+					. += "Ah, they belong to the [F.name] family!" // TODO  Cannot read null.name
 
 		if(display_as_foreign && user != src)
 			if(are_mercenary && am_mercenary)
@@ -151,6 +156,9 @@
 
 		if(name in GLOB.excommunicated_players)
 			. += span_userdanger("EXCOMMUNICATED!")
+
+		if(name in GLOB.apostasy_players)
+			. += span_userdanger("APOSTATE!")	
 
 		if(name in GLOB.heretical_players)
 			. += span_userdanger("HERETIC'S BRAND! SHAME!")
@@ -175,7 +183,7 @@
 					commie_text = span_userdanger("BANDIT!")
 
 			if(HAS_TRAIT(src, TRAIT_WANTED))
-				. += span_userdanger("BANDIT!")
+				. += span_userdanger("THERE IS A BOUNTY ON HIS HEAD!")
 
 			if(mind.special_role == "Vampire Lord")
 				. += span_userdanger("A MONSTER!")
@@ -612,6 +620,8 @@
 		. += "<a href='?src=[REF(src)];task=view_headshot;'>View face closely</a>"
 	if(nudeshot_link && get_location_accessible(src, BODY_ZONE_CHEST) && get_location_accessible(src, BODY_ZONE_PRECISE_GROIN))
 		. += "<a href='?src=[REF(src)];task=view_nudeshot;'>View body closely</a>"
+	if(!obscure_name && use_rumors) // REDMOON ADD - rumors_addition
+		. += "<a href='?src=[REF(src)];task=view_rumors;'>Rumors I remember</a>" // REDMOON ADD - rumors_addition
 
 	var/list/lines = build_cool_description(get_mob_descriptors(obscure_name, user), src)
 	for(var/line in lines)

@@ -7,8 +7,9 @@
 	i_type = "Armor"
 
 /datum/anvil_recipe/armor/footmanhelmet
-	name = "Footman Helmet"
-	req_bar = /obj/item/ingot/iron
+	name = "Footman Helmet (+1 Steel)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel)
 	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/footmanhelmet
 	i_type = "Armor"
 
@@ -64,3 +65,8 @@
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/ingot/steel,/obj/item/ingot/steel, /obj/item/natural/hide/cured)
 	created_item = /obj/item/clothing/suit/roguetown/armor/plate/skirt
+
+/datum/anvil_recipe/armor/blacksteel_bevor
+	name = "Blacksteel Bevor"
+	req_bar = /obj/item/ingot/blacksteel
+	created_item = /obj/item/clothing/neck/roguetown/bervor/blacksteel

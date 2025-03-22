@@ -15,6 +15,7 @@ GLOBAL_LIST_INIT(character_flaws, list(
 	"Hunted"=/datum/charflaw/dead_or_alive,
 	"Fire Servant"=/datum/charflaw/addiction/pyromaniac,
 	"Ache For Love" = /datum/charflaw/addiction/lovefiend, // REDMOON ADD - love_fiend_back,
+	"No tongue" = /datum/charflaw/notongue, // REDMOON ADD - Добавляем возможность быть с отрезанным языком.
 	"Random or No Flaw"=/datum/charflaw/randflaw,
 	"No Flaw (3 TRIUMPHS)"=/datum/charflaw/noflaw
 	))
@@ -126,6 +127,10 @@ GLOBAL_LIST_INIT(character_flaws, list(
 /datum/charflaw/badsight/flaw_on_life(mob/user)
 	if(!ishuman(user))
 		return
+	// REDMOON ADD START - персонажи-мигранты. выбирающие класс, по окончанию выбора записывают свои статы в стартовые. Это приводит к тому, что дебаф от этого перка становится стартовым. Фиксим этот баг
+	if(HAS_TRAIT_FROM(user, TRAIT_PACIFISM, HUGBOX_TRAIT))
+		return
+	// REDMOON ADD END
 	var/mob/living/carbon/human/H = user
 	if(H.wear_mask)
 		if(isclothing(H.wear_mask))

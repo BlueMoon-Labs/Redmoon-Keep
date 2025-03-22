@@ -119,6 +119,9 @@
 		to_chat(user, span_warning("They need to be mended more."))
 		revert_cast()
 		return FALSE
+	if(target.has_status_effect(/datum/status_effect/debuff/death_claimed))
+		to_chat(user, span_warning("They are too far gone."))
+		revert_cast()
 
 	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit()
 	//GET OVER HERE!
@@ -187,7 +190,7 @@
 		target.emote("breathgasp")
 		target.Jitter(100)
 		if(unzombification_pq && !HAS_TRAIT(target, TRAIT_IWASUNZOMBIFIED) && user?.ckey)
-			adjust_playerquality(unzombification_pq, user.ckey)
+			user.adjust_triumphs(1) // adjust_playerquality(unzombification_pq, user.ckey)
 			ADD_TRAIT(target, TRAIT_IWASUNZOMBIFIED, TRAIT_GENERIC)
 
 	var/datum/component/rot/rot = target.GetComponent(/datum/component/rot)

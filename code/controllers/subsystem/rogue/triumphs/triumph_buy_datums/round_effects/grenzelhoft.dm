@@ -1,7 +1,7 @@
 /datum/triumph_buy/grenzelhoft_maximum
 	triumph_buy_id = "Grenzelhoftmaxx"
-	desc = "Everyone is a humans!"
-	triumph_cost = 750
+	desc = "Everyone is a human!"
+	triumph_cost = 500
 	category = TRIUMPH_CAT_ROUND_EFX
 	pre_round_only = TRUE
 	visible_on_active_menu = TRUE
@@ -28,7 +28,9 @@
 		SStriumphs.post_equip_calls.Remove(triumph_buy_id)
 
 /datum/triumph_buy/grenzelhoft_maximum/on_activate(mob/living/carbon/human/H)
-	if(is_species(H, /datum/species/goblin)) // idk this is funny lets have it happen one more time...
+	if(is_species(H, /datum/species/goblin))
+		return
+	if(is_species(H, /datum/species/halforc))
 		return
 	if(is_species(H, /datum/species/human/northern))
 		return

@@ -63,6 +63,11 @@
 		return ..()
 
 	var/mob/living/current_fisherman = user
+	
+	if(!is_valid_fishing_spot(target))
+		to_chat(current_fisherman, span_warning("This body of water seems devoid of aquatic life..."))
+		return
+	
 	current_fisherman.visible_message(span_warning("[current_fisherman] casts a line!"), \
 						span_notice("I cast a line."))
 	playsound(loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
@@ -97,6 +102,9 @@
 		update_icon()
 		return
 
+	if(baited.check_for_bait_location()) // REDMOON ADD START - economy_fix - рыбачить не в болоте можно разве что за еду
+		if(prob(5))
+			to_chat(current_fisherman, user.client.prefs.be_russian ? "Здесь я драгоценности не выловлю... В реке у болот шансы выше." : "I will not catch any treasure here, but fish... Bog river would be more fitting.") // REDMOON ADD END
 	var/caught_thing = pickweight(baited.fishloot)
 	new caught_thing(current_fisherman.loc)
 	amt2raise = current_fisherman.STAINT * 2

@@ -94,7 +94,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		equip_spawn()
 		greet()
 		if(!sired)
-			addtimer(CALLBACK(owner.current, TYPE_PROC_REF(/mob/living/carbon/human, spawn_pick_class), "VAMPIRE SPAWN"), 5 SECONDS)
+			spawn(0)
+				addtimer(CALLBACK(owner.current, TYPE_PROC_REF(/mob/living/carbon/human, spawn_pick_class), "VAMPIRE SPAWN"), 5 SECONDS)
 	else
 		forge_vampirelord_objectives()
 		finalize_vampire()
@@ -146,14 +147,30 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	owner.current.ambushable = FALSE
 
 /mob/living/carbon/human/proc/spawn_pick_class()
-	var/list/classoptions = list("Hunter", "Miner", "Healer", "Woodcutter", "Blacksmith", "Rogue", "Magos", "Vagabond", "Scavenger", "Thief", "Footman", "Battle Magos", "Stalker", "Crossbowman", "Cutthroat")
+	var/list/classoptions = list(
+		/datum/subclass/hunter,
+		/datum/subclass/miner,
+		/datum/subclass/healer,
+		/datum/subclass/woodcutter,
+		/datum/subclass/blacksmith,
+		/datum/subclass/rogue,
+		/datum/subclass/magos,
+		/datum/subclass/vagabond,
+		/datum/subclass/scavenger,
+		/datum/subclass/deserter)
 	var/list/visoptions = list()
+
+	for(var/datum/subclass/A in SSrole_class_handler.sorted_class_categories[CTAG_ALLCLASS])
+		if(A.type in classoptions)
+			classoptions += A.name
+			classoptions -= A.type
 
 	for(var/T in 1 to 5) // leave as length(classoptions) for testing if you want all classes to show up.
 		if(length(classoptions))
 			visoptions += pick_n_take(classoptions)
 
 	var/selected = input(src, "Which class was I?", "VAMPIRE SPAWN") as anything in visoptions
+	to_chat(src, span_big("Если вы заспавнились голым, сообщите в канал разработки."))
 
 	for(var/datum/subclass/A in SSrole_class_handler.sorted_class_categories[CTAG_ALLCLASS])
 		if(A.name == selected)
@@ -165,6 +182,9 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	
 			if(equipOutfit(A.outfit))
 				return
+		to_chat(src, span_big("Что-то пошло не так, рерол."))
+		spawn_pick_class()
+		return
 
 /datum/outfit/job/roguetown/vamplord/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -357,8 +377,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	V.mob_biotypes |= MOB_UNDEAD
 	V.faction = list("undead")
 	// Cycles through disguises to properly get eye color and other factions set.
-	V.vampire_disguise()
-	V.vampire_undisguise()
+	V.vampire_disguise(src)
+	V.vampire_undisguise(src)
 
 /datum/antagonist/vampirelord/on_life(mob/user)
 	if(!user)
@@ -836,13 +856,14 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 
 /mob/proc/death_knight_spawn()
 	SEND_SOUND(src, sound('sound/misc/notice (2).ogg'))
-	var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as a Death Knight?", ROLE_VAMPIRE, null, null, 10 SECONDS, src, POLL_IGNORE_NECROMANCER_SKELETON)
+	var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you want to play as a Death Knight?", ROLE_VAMPIRE, null, null, 10 SECONDS, src, POLL_IGNORE_NECROMANCER_SKELETON)
 	if(LAZYLEN(candidates))
+		if(QDELETED(src))
+			return
 		var/mob/dead/observer/C = pick(candidates)
 		log_game("VAMPIRE LOG: [C.ckey] chosen as new death knight.")
-		var/mob/living/carbon/human/new_knight = new /mob/living/carbon/human/species/human/northern()
-		new_knight.forceMove(usr.loc)
-		new_knight.ckey = C.key
+		var/mob/living/carbon/human/new_knight = new /mob/living/carbon/human/species/human/northern(get_turf(usr))
+		new_knight.key = C.key
 		new_knight.equipOutfit(/datum/job/roguetown/deathknight)
 		new_knight.regenerate_icons()
 	else
