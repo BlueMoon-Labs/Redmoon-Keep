@@ -136,4 +136,8 @@
 #define MIN_BREASTS_SIZE 0
 #define MAX_BREASTS_SIZE 5
 #define DEFAULT_BREASTS_SIZE 3
+#define BODYTYPE_FEMALE_PLUMP "female_plump"
+/datum/preferences
+    var/bodytype = BODYTYPE_FEMALE_PLUMP // Значение по умолчанию или опция в меню
+
 
