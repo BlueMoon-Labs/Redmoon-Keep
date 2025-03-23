@@ -248,7 +248,7 @@
 	bogger.mind.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
 	bogger.mind.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
 	bogger.mind.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)
-	bogger.mind.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
+	bogger.mind.adjust_skillrank(/datum/skill/combat/axes, 3, TRUE)
 	bogger.mind.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 	bogger.mind.adjust_skillrank(/datum/skill/combat/whipsflails, 3, TRUE)
 	bogger.mind.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
