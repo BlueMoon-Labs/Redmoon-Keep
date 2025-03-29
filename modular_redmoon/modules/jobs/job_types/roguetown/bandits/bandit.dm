@@ -13,6 +13,8 @@
 	total_positions = 2
 	spawn_positions = 2
 
+	allowed_races = list(/datum/species/goblinp, /datum/species/halforc)
+
 /datum/outfit/job/roguetown/bandit/proc/hunted(mob/living/carbon/human/character, silent)
 	var/reason = ""
 	var/employer = "unknown employer"
