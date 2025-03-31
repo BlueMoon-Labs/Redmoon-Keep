@@ -91,7 +91,7 @@
 
 /datum/anvil_recipe/armor/light_zybantian_helmet
 	name = "Turban helmet (+1 Cloth)"
-	req_bar = /obj/item/ingot/steel
+	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/natural/cloth)
 	created_item = /obj/item/clothing/head/roguetown/helmet/zybantian
 	i_type = "Armor"
