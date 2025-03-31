@@ -10,7 +10,7 @@
 				spread = 0
 			else if(user.badluck(4))
 				to_chat(user, "DAMN! UNLUCK, HAND SLIPPED!")
-				spread = 4 // сильно в бок
+				spread = 4 // слегка в бок
 			else
 			// REDMOON ADD END
 				if(randomspread)
