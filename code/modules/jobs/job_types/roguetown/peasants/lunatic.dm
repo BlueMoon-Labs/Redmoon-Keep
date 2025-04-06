@@ -17,7 +17,7 @@
 	max_pq = -15
 	tutorial = "The Lunatic, shunned by society and a magnet for misfortune. Your task is simple yet perilous: survive by any means, though your very existence invites danger from every corner. Seek redemption through kindness and camaraderie; it's your quickest escape from this cursed plight. Tread carefully, for trust is hard-won and easily lost."
 	display_order = JDO_LUNATIC
-
+	same_job_respawn_delay = 60 MINUTES
 	cmode_music = 'sound/music/combat_bum.ogg'
 
 /datum/outfit/job/roguetown/lunatic/pre_equip(mob/living/carbon/human/H)
@@ -30,6 +30,8 @@
 		H.change_stat("constitution", -4)
 		H.change_stat("endurance", -4)
 		H.change_stat("speed", -4)
+	ADD_TRAIT(H, TRAIT_SOFTHEARTED, TRAIT_GENERIC)
+	head  = /obj/item/clothing/head/peaceflower
 	armor = /obj/item/clothing/suit/roguetown/shirt/rags
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
 	pants = /obj/item/clothing/under/roguetown/tights/vagrant
