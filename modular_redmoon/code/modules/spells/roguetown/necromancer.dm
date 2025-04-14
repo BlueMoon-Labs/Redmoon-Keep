@@ -35,3 +35,21 @@
 	else
 		to_chat(user, span_warning("The targeted location is blocked. My summon fails to come forth."))
 		return FALSE
+/obj/effect/proc_holder/spell/invoked/raise_undead_lesser
+	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
+	overlay_state = "necroraise"
+/obj/effect/proc_holder/spell/invoked/eyebite
+	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
+	overlay_state = "blindness"
+/obj/effect/proc_holder/spell/invoked/strengthen_undead
+	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
+	overlay_state = "necroheal"
+/obj/effect/proc_holder/spell/invoked/projectile/sickness
+	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
+	overlay_state = "sickness"
+/obj/effect/proc_holder/spell/invoked/revoke_unlife
+	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
+	overlay_state = "necrokill"
+/obj/effect/proc_holder/spell/invoked/raise_undead
+	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
+	overlay_state = "necroraise"

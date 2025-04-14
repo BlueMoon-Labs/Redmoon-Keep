@@ -24,3 +24,42 @@
 		priority_announce("[inputty]", title = "The Magician Speaks", sound = 'sound/misc/surrender.ogg')
 	else
 		revert_cast()
+/obj/effect/proc_holder/spell/targeted/lightninglure
+	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
+	overlay_state = "lure"
+/obj/effect/proc_holder/spell/invoked/projectile/frostbolt
+	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
+	overlay_state = "frostbolt"
+/obj/effect/proc_holder/spell/invoked/findfamiliar
+	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
+	overlay_state = "familiar"
+/obj/effect/proc_holder/spell/invoked/mending
+	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
+	overlay_state = "mend"
+/obj/effect/proc_holder/spell/invoked/sundering_lightning
+	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
+	overlay_state = "lightning"
+/obj/effect/proc_holder/spell/invoked/projectile/lightningbolt
+	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
+	overlay_state = "lightningbolt"
+/obj/effect/proc_holder/spell/invoked/haste
+	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
+	overlay_state = "haste"
+/obj/effect/proc_holder/spell/invoked/meteor_storm
+	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
+	overlay_state = "meteorstorm"
+/obj/effect/proc_holder/spell/targeted/touch/darkvision
+	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
+	overlay_state = "darkvision"
+/obj/effect/proc_holder/spell/targeted/summonweapon
+	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
+	overlay_state = "summonweapon"
+/obj/effect/proc_holder/spell/invoked/projectile/repel
+	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
+	overlay_state = "repel"
+/obj/effect/proc_holder/spell/targeted/touch/nondetection
+	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
+	overlay_state = "nondetection"
+/obj/effect/proc_holder/spell/invoked/push_spell
+	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
+	overlay_state = "repulsewiz"
