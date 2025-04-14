@@ -53,3 +53,15 @@
 /obj/effect/proc_holder/spell/invoked/raise_undead
 	action_icon = 'modular_redmoon/icons/redmoon_spells/redmoonspells.dmi'
 	overlay_state = "necroraise"
+/obj/effect/proc_holder/spell/invoked/eyebite
+	charge_max = 25 SECONDS
+/obj/effect/proc_holder/spell/invoked/eyebite/cast(list/targets, mob/living/user)
+	. = ..()
+	if(isliving(targets[1]))
+		var/mob/living/carbon/target = targets[1]
+		target.visible_message(span_info("A loud crunching sound has come from [target]!"), span_userdanger("I feel arcane teeth biting into my eyes!"))
+		target.adjustBruteLoss(30)
+		target.blind_eyes(1)
+		target.blur_eyes(10)
+		return TRUE
+	return FALSE
