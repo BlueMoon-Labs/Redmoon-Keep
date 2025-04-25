@@ -14,6 +14,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/icon_override
 	var/icon_override_m
 	var/icon_override_f
+	var/icon_override_f
 	var/list/possible_ages = ALL_AGES_LIST
 	var/sexes = 1		// whether or not the race has sexual characteristics. at the moment this is only 0 for skeletons and shadows
 	var/patreon_req = 0
@@ -31,7 +32,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 	var/dam_icon
 	var/dam_icon_f
-
 	var/hairyness = null
 
 	var/custom_clothes = FALSE //append species id to clothing sprite name
