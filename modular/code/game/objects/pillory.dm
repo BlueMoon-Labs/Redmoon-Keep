@@ -270,6 +270,8 @@
 	var/bounty_redemption_time = 5 MINUTES
 	var/bounty_step_reward = 50
 	var/bounty_timer
+	var/violation_bonus = 25
+	var/max_violation_bonus = 100
 
 /obj/structure/pillory/bounty/Destroy()
 	. = ..()
@@ -291,7 +293,14 @@
 	if(bounty_timer)
 		deltimer(bounty_timer)
 		bounty_timer = null
+	UnregisterSignal(M, COMSIG_HUMAN_LEWD_FINISHED_ON)
 	..()
+
+/obj/structure/pillory/bounty/proc/add_violation_bonus(mob/living/carbon/human/victim)
+	max_violation_bonus -= max(violation_bonus, 0)
+	if(max_violation_bonus <= 0)
+		return
+	pay_bounty(violation_bonus, victim, TRUE)
 
 /obj/structure/pillory/bounty/proc/check_bounty(mob/living/carbon/human/victim)
 	var/datum/bounty/found_bounty
@@ -312,33 +321,37 @@
 		return
 	say("Detected a bounty of [found_bounty.amount] mammons on [victim.real_name]!")
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom/movable, say), "Bounty redemption to [hunter] starts now, reward in [DisplayTimeText(bounty_redemption_time)]."), 2 SECONDS)
+	RegisterSignal(victim, COMSIG_HUMAN_LEWD_FINISHED_ON, PROC_REF(add_violation_bonus))
 	bounty_hunter = hunter
 	active_bounty = found_bounty
-	bounty_timer(victim, found_bounty)
+	bounty_timer(victim)
 
-/obj/structure/pillory/bounty/proc/bounty_timer(mob/living/carbon/human/victim, datum/bounty/redeem_bounty)
+/obj/structure/pillory/bounty/proc/bounty_timer(mob/living/carbon/human/victim)
 	bounty_timer = addtimer(CALLBACK(src, PROC_REF(bounty_redeem), victim), bounty_redemption_time, TIMER_STOPPABLE)
 
 /obj/structure/pillory/bounty/proc/bounty_redeem(mob/living/carbon/human/victim)
-	pay_bounty(bounty_step_reward, victim, active_bounty)
+	pay_bounty(bounty_step_reward, victim)
 
-/obj/structure/pillory/bounty/proc/pay_bounty(amount = 0, mob/living/carbon/human/victim, datum/bounty/redeem_bounty)
-	if(amount <= 0 || !redeem_bounty) return 0
-	var/reward_amount = min(redeem_bounty.amount, amount)
+/obj/structure/pillory/bounty/proc/pay_bounty(amount = 0, mob/living/carbon/human/victim, violation = FALSE)
+	if(amount <= 0 || !active_bounty) return 0
+	var/reward_amount = min(active_bounty.amount, amount)
 
 	if(reward_amount <= 0 && !(victim in buckled_mobs)) return 0
 
-	if(!SStreasury.give_money_account(reward_amount, bounty_hunter, "+[reward_amount] from [redeem_bounty.target] bounty"))
+	if(!SStreasury.give_money_account(reward_amount, bounty_hunter, "+[reward_amount] from [active_bounty.target] bounty"))
 		say("Treasury empty, unable to redeem bounty!")
 		return 0
-	redeem_bounty.amount -= reward_amount
-	if(redeem_bounty.amount <= 0)
-		GLOB.head_bounties -= redeem_bounty
-		qdel(redeem_bounty)
+	active_bounty.amount -= reward_amount
+	if(active_bounty.amount <= 0)
+		GLOB.head_bounties -= active_bounty
+		qdel(active_bounty)
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/atom/movable, say), "Bounty has been exhausted!"), 1 SECONDS)
 		if(reward_amount < 0)
 			return 0
-	say("Rewarded [bounty_hunter] with [reward_amount] mammon!")
-	bounty_timer(bounty_hunter, victim, redeem_bounty)
+	if(violation)
+		say("Paid [reward_amount] mammon to [bounty_hunter] as a additional violation bonus!")
+	else
+		say("Rewarded [bounty_hunter] with [reward_amount] mammon!")
+		bounty_timer(bounty_hunter, victim)
 
 	return reward_amount
