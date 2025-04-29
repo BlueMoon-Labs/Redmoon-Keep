@@ -188,14 +188,14 @@
 		locked = TRUE
 
 /obj/structure/pillory/buckle_mob(mob/living/M, force = FALSE, check_loc = TRUE)
-	if(!anchored)
+	if (!anchored)
 		return FALSE
 
 	if(locked)
 		to_chat(usr, span_warning("Unlock it first!"))
 		return FALSE
 
-	if((!istype(M, /mob/living/carbon/human)) || HAS_TRAIT(M, TRAIT_TINY))
+	if ((!istype(M, /mob/living/carbon/human)) || HAS_TRAIT(M, TRAIT_TINY))
 		to_chat(usr, span_warning("It doesn't look like [M.p_they()] can fit into this properly!"))
 		return FALSE // Can't hold non-humanoids
 
@@ -206,20 +206,20 @@
 	return FALSE
 
 /obj/structure/pillory/post_buckle_mob(mob/living/M)
-	if(!istype(M, /mob/living/carbon/human))
+	if (!istype(M, /mob/living/carbon/human))
 		return
 
 	var/mob/living/carbon/human/H = M
 
-	if(H.dna)
-		if(H.dna.species)
+	if (H.dna)
+		if (H.dna.species)
 			var/datum/species/S = H.dna.species
 
-			if(istype(S))
+			if( istype(S))
 				//H.cut_overlays()
 				H.update_body_parts_head_only()
 				switch(H.dna.species.name)
-					if("Dwarf", "Dwarf", "Kobold", "Goblin", "Verminvolk")
+					if ("Dwarf", "Dwarf", "Kobold", "Goblin", "Verminvolk")
 						H.set_mob_offsets("bed_buckle", _x = 0, _y = PILLORY_HEAD_OFFSET)
 				icon_state = "[base_icon]-over"
 				update_icon()
@@ -239,6 +239,7 @@
 	//M.regenerate_icons()
 	M.reset_offsets("bed_buckle")
 	update_icon()
+	icon_state = "[base_icon]"
 	..()
 
 /obj/structure/pillory/unbuckle_mob(mob/living/user)
