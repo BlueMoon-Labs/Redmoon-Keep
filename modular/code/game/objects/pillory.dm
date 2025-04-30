@@ -307,9 +307,9 @@
 	var/datum/bounty/found_bounty
 	var/mob/living/carbon/human/hunter = usr
 	if(!istype(hunter) || hunter == victim) return
-	if(victim.has_flaw(/datum/charflaw/dead_or_alive))
-		say("Unable to redeem bounty, only their head shall be satisfactory.")
-		return
+	// if(victim.has_flaw(/datum/charflaw/dead_or_alive))
+	// 	say("Unable to redeem bounty, only their head shall be satisfactory.")
+	// 	return
 
 	for(var/datum/bounty/bounty as anything in GLOB.head_bounties)
 		if(bounty?.target == victim.real_name)
