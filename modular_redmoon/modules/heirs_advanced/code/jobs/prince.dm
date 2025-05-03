@@ -24,7 +24,7 @@
 	maximum_possible_slots = 2
 
 /datum/outfit/job/roguetown/prince/sheltered/pre_equip(mob/living/carbon/human/H)
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich_mayor
+	r_hand = /obj/item/storage/belt/rogue/pouch/coins/rich_mayor
 	l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
 	..()
 	if(H.mind)
@@ -62,7 +62,8 @@
 /datum/outfit/job/roguetown/prince/militant/pre_equip(mob/living/carbon/human/H)
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 	l_hand = /obj/item/rogueweapon/sword/sabre
-	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates
+	r_hand = /obj/item/clothing/suit/roguetown/armor/brigandine/coatplates
+	neck = /obj/item/clothing/neck/roguetown/gorget/steel
 	if(H.mind)
 		H.mind.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
 		H.mind.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
@@ -82,7 +83,6 @@
 		H.change_stat("strength", 2)
 		H.change_stat("endurance", 2)
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
-	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 // Недокавалерист недорыцарь, куда более теперь способная боевая еденица, ничего сверхсильного, как по мне.
 
