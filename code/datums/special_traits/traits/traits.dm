@@ -751,19 +751,21 @@
 /datum/special_trait/eora
 	name = "Благословение Эоры"
 	greet_text = span_notice("Вас благословила богиня любви!")
-	req_text = "Быть Женщиной"
-	weight = 0
+	req_text = "Эора, милоствует лишь высоких женщин, а иные же... Получат лишь проклятье..."
+	weight = 40
 
 /datum/special_trait/eora/on_apply(mob/living/carbon/human/character, silent)
-	ADD_TRAIT(character, TRAIT_EORA, "[type]")
-	var/datum/species/C
-	C.limbs_icon_f = 'icons/mob/species/eora_f.dmi'
-	C.dam_icon_f = 'icons/roguetown/mob/bodies/dam/dam_female_eora.dmi'
-	C.clothes_id = "eora"
-	C.offset_features = list(
-	OFFSET_ID_F = list(0,-2), OFFSET_GLOVES_F = list(0,0), OFFSET_WRISTS_F = list(0,0), OFFSET_HANDS_F = list(0,0), \
-	OFFSET_CLOAK_F = list(0,0), OFFSET_FACEMASK_F = list(0,-2), OFFSET_HEAD_F = list(0,-2), \
-	OFFSET_FACE_F = list(0,-2), OFFSET_BELT_F = list(0,0), OFFSET_BACK_F = list(0,-2), \
-	OFFSET_NECK_F = list(0,-2), OFFSET_MOUTH_F = list(0,-2), OFFSET_PANTS_F = list(0,0), \
-	OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,0), \
-	)
+	if(character.gender == "female")
+		if(!(character.dna.species.clothes_id == "dwarf"))
+			ADD_TRAIT(character, TRAIT_EORA, "[type]")
+			character.dna.species.limbs_icon_f = 'icons/mob/species/eora_f.dmi'
+			character.dna.species.dam_icon_f = 'icons/roguetown/mob/bodies/dam/dam_female_eora.dmi'
+			character.dna.species.custom_clothes = TRUE
+			character.dna.species.clothes_id = "eora"
+			character.update_body_parts(TRUE)
+		else
+			ADD_TRAIT(character, TRAIT_EORA_CURSE, "[type]")
+			to_chat(character, span_warning("ВЫ НИЗКАЯ."))
+	else
+		ADD_TRAIT(character, TRAIT_EORA_CURSE, "[type]")
+		to_chat(character, span_warning("ВЫ МУЖИК."))
