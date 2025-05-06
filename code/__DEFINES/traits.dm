@@ -48,6 +48,7 @@
 #define TRAIT_WATERBREATHING "Water Breathing"
 #define TRAIT_DARKLING "Darkling"
 #define TRAIT_EXCOMMUNICATED "Excommunicated" //cannot be target of healing miracles or anastasia or cure rot
+#define TRAIT_EORA "Eora"
 
 ///trait determines if this mob can breed given by /datum/component/breeding
 #define TRAIT_MOB_BREEDER "mob_breeder"
@@ -185,6 +186,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_POISONBITE = "My bites inject venom into my target.", // Ham change
 	TRAIT_WANTED = span_info("You are wanted in this kingdom, if someone sees your face they might run away or attack you."),
 	TRAIT_EXCOMMUNICATED = span_info("The Ten are not on my side any longer..."),
+	TRAIT_EORA = span_info("desc"),
 ))	
 
 // trait accessor defines
