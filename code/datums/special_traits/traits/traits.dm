@@ -747,3 +747,23 @@
 
 /datum/special_trait/bailiff/on_apply(mob/living/carbon/human/character, silent)
 	ADD_TRAIT(character, TRAIT_NUTCRACKER, "[type]")
+
+/datum/special_trait/eora
+	name = "Благословение Эоры"
+	greet_text = span_notice("Вас благословила богиня любви!")
+	req_text = "Быть Женщиной"
+	weight = 0
+
+/datum/special_trait/eora/on_apply(mob/living/carbon/human/character, silent)
+	ADD_TRAIT(character, TRAIT_EORA, "[type]")
+	var/datum/species/C
+	C.limbs_icon_f = 'icons/mob/species/eora_f.dmi'
+	C.dam_icon_f = 'icons/roguetown/mob/bodies/dam/dam_female_eora.dmi'
+	C.clothes_id = "eora"
+	C.offset_features = list(
+	OFFSET_ID_F = list(0,-2), OFFSET_GLOVES_F = list(0,0), OFFSET_WRISTS_F = list(0,0), OFFSET_HANDS_F = list(0,0), \
+	OFFSET_CLOAK_F = list(0,0), OFFSET_FACEMASK_F = list(0,-2), OFFSET_HEAD_F = list(0,-2), \
+	OFFSET_FACE_F = list(0,-2), OFFSET_BELT_F = list(0,0), OFFSET_BACK_F = list(0,-2), \
+	OFFSET_NECK_F = list(0,-2), OFFSET_MOUTH_F = list(0,-2), OFFSET_PANTS_F = list(0,0), \
+	OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,0), \
+	)
