@@ -760,8 +760,8 @@
 			ADD_TRAIT(character, TRAIT_EORA, "[type]")
 			character.dna.species.limbs_icon_f = 'icons/mob/species/eora_f.dmi'
 			character.dna.species.dam_icon_f = 'icons/roguetown/mob/bodies/dam/dam_female_eora.dmi'
-			qdel(character.dna.species.clothes_id)
-			character.dna.species.clothes_id = "f_eora"
+			character.dna.species.custom_clothes = TRUE
+			character.dna.species.clothes_id = "eora"
 			character.update_body_parts(TRUE)
 		else
 			ADD_TRAIT(character, TRAIT_EORA_CURSE, "[type]")
