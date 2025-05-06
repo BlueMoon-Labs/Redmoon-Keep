@@ -754,7 +754,7 @@
 	req_text = "Быть Женщиной"
 	weight = 0
 
-/datum/special_trait/eora/on_apply(mob/living/carbon/human/character, silent, )
+/datum/special_trait/eora/on_apply(mob/living/carbon/human/character, silent)
 	ADD_TRAIT(character, TRAIT_EORA, "[type]")
 	var/datum/species/C
 	C.limbs_icon_f = 'icons/mob/species/eora_f.dmi'
