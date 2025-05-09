@@ -72,8 +72,8 @@
 
 	playsound(user, fire_sound, fire_sound_volume, vary_fire_sound)
 	if(message)
-		user.visible_message("<span class='danger'>[user] shoots [src]!</span>", \
-						"<span class='danger'>I shoot [src]!</span>", \
+		user.visible_message("<span class='danger'>[user] из [src.name_gen]!</span>", \
+						"<span class='danger'>Я выстрелил из [src.name_gen]!</span>", \
 						COMBAT_MESSAGE_RANGE)
 
 /obj/item/gun/emp_act(severity)

@@ -88,13 +88,13 @@
 	else
 		if(myrod)
 			playsound(src, "sound/items/sharpen_short1.ogg",  100)
-			to_chat(user, "<span class='warning'>I draw the ramrod from the [src]!</span>")
+			to_chat(user, "<span class='warning'>Я вытаскиваю шомпол из-под дула [src.name_gen]!</span>")
 			var/obj/item/ramrod/AM
 			for(AM in src)
 				user.put_in_hands(AM)
 				myrod = null
 		else
-			to_chat(user, "<span class='warning'>There is no rod stowed in the [src]!</span>")
+			to_chat(user, "<span class='warning'>Под дулом [src.name_gen] нет шомпола!</span>")
 
 
 /datum/intent/shoot/firarm
@@ -168,25 +168,25 @@
 
 	if(istype(A, /obj/item/ammo_box) || istype(A, /obj/item/ammo_casing))
 		if(chambered)
-			to_chat(user, "<span class='warning'>There is already a [chambered] in the [src]!</span>")
+			to_chat(user, "<span class='warning'>Внутри [src.name_gen] уже находится [chambered]!</span>")
 			return
 		if(!gunpowder)
-			to_chat(user, "<span class='warning'>You must fill the [src] with gunpowder first!</span>")
+			to_chat(user, "<span class='warning'>Я должен сначала засыпать порох в [src.name_accu]!</span>")
 			return
 		if((loc == user) && (user.get_inactive_held_item() != src))
 			return
 		playsound(src, "sound/arquebus/insert.ogg",  100)
-		user.visible_message("<span class='notice'>[user] forces a [A] down the barrel of the [src].</span>")
+		user.visible_message("<span class='notice'>[user] закатывает [A] в дуло [src.name_gen].</span>")
 		..()
 
 	if(istype(A, /obj/item/powderflask))
 		if(gunpowder)
-			user.visible_message("<span class='notice'>The [src] is already filled with gunpowder!</span>")
+			user.visible_message("<span class='notice'>[src] уже с порохом!</span>")
 			return
 		else
 			playsound(src, "sound/arquebus/pour_powder.ogg",  100)
 			if(do_after(user, load_time_skill, src))
-				user.visible_message("<span class='notice'>[user] fills the [src] with gunpowder.</span>")
+				user.visible_message("<span class='notice'>[user] засыпает порох в [src.name_accu].</span>")
 				gunpowder = TRUE
 			return
 		user.stop_sound_channel(gunchannel)
@@ -194,22 +194,22 @@
 		var/obj/item/ramrod/R=A
 		if(!reloaded)
 			if(chambered)
-				user.visible_message("<span class='notice'>[user] begins ramming the [R.name] down the barrel of the [src] .</span>")
+				user.visible_message("<span class='notice'>[user] утрамбовывает содержимое [src.name_gen] [R.name_inst].</span>")
 				playsound(src, "sound/arquebus/ramrod.ogg",  100)
 				if(do_after(user, load_time_skill, src))
-					user.visible_message("<span class='notice'>[user] has finished reloading the [src].</span>")
+					user.visible_message("<span class='notice'>[user] заканчивает заряжать [src.name_accu]!</span>")
 					reloaded = TRUE
 				return
 		if(reloaded && !myrod)
 			user.transferItemToLoc(R, src)
 			myrod = R
 			playsound(src, "sound/foley/musketload.ogg",  100)
-			user.visible_message("<span class='notice'>[user] stows the [R.name] under the barrel of the [src].</span>")
+			user.visible_message("<span class='notice'>[user] засовывает [R.name] под дулом [src.name_accu].</span>")
 		if(!chambered && !myrod)
 			user.transferItemToLoc(R, src)
 			myrod = R
 			playsound(src, "sound/foley/musketload.ogg",  100)
-			user.visible_message("<span class='notice'>[user] stows the [R.name] under the barrel of the [src] without chambering it.</span>")
+			user.visible_message("<span class='notice'>[user] засовывает [R.name] под дуло [src.name_accu] без утрамбовывания содержимого.</span>")
 		if(!myrod == null)
 			to_chat(user, span_warning("There's already a [R.name] inside of the [name]."))
 			return
@@ -264,14 +264,14 @@
 	if(prob(accident_chance))
 		user.flash_fullscreen("whiteflash")
 		user.apply_damage(rand(5,15), BURN, pick(BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE, BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_MOUTH, BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_PRECISE_R_HAND))
-		user.visible_message("<span class='danger'>[user] accidentally burnt themselves while firing the [src].</span>")
+		user.visible_message("<span class='danger'>[user] случайно обжигается при выстреле из [src.name_gen].</span>")
 		user.emote("painscream")
 		if(prob(60))
 			user.dropItemToGround(src)
 			user.Knockdown(rand(15,30))
 			user.Immobilize(30)
 	if(prob(accident_chance))
-		user.visible_message("<span class='danger'>[user] is knocked back by the recoil!</span>")
+		user.visible_message("<span class='danger'>[user] отбрасывается назад отдачей!</span>")
 		user.throw_at(knockback, rand(1,2), 7)
 		if(prob(accident_chance))
 			user.dropItemToGround(src)
@@ -384,14 +384,14 @@
 		if(prob(accident_chance))
 			user.flash_fullscreen("whiteflash")
 			user.apply_damage(rand(5,15), BURN, pick(BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE, BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_MOUTH, BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_PRECISE_R_HAND))
-			user.visible_message(span_danger("[user] accidentally burnt themselves while firing the [src]."))
+			user.visible_message(span_danger("[user] случайно обжигается в момент выстрела из [src.name_gen]."))
 			user.emote("painscream")
 			if(prob(60))
 				user.dropItemToGround(src)
 				user.Knockdown(rand(15,30))
 				user.Immobilize(30)
 		if(prob(accident_chance))
-			user.visible_message(span_danger("[user] is knocked back by the recoil!"))
+			user.visible_message(span_danger("[user] отбрасывается отдачей!"))
 			user.throw_at(knockback, rand(1,2), 7)
 			if(prob(accident_chance))
 				user.dropItemToGround(src)
