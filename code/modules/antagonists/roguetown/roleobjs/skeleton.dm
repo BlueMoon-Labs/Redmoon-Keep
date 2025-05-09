@@ -12,6 +12,8 @@
 		return span_boldnotice("Another deadite.")
 	if(istype(examined_datum, /datum/antagonist/skeleton))
 		return span_boldnotice("Another deadite. My ally.")
+	if(istype(examined_datum, /datum/antagonist/vurdalak))
+		return span_boldwarning("Another deadite... May be hostile. Better not provoke.")
 
 /datum/antagonist/skeleton/on_gain()
 

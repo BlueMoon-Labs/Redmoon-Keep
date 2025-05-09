@@ -9,6 +9,7 @@
 #define ROLE_MANIAC				"Maniac"
 #define ROLE_WEREWOLF			"Werewolf"
 #define ROLE_VAMPIRE			"Vampire"
+#define ROLE_VURDALAK			"Vurdalak"
 #define ROLE_NBEAST				"Vampire Lord"
 #define ROLE_BANDIT				"Bandit"
 #define ROLE_DELF				"Dark Elf"
@@ -64,6 +65,7 @@ GLOBAL_LIST_INIT(special_roles_rogue, list(
 	ROLE_BANDIT = /datum/antagonist/bandit,
 	ROLE_ASPIRANT = /datum/antagonist/aspirant,
 	ROLE_WEREWOLF = /datum/antagonist/werewolf,
+	ROLE_VURDALAK = /datum/antagonist/vurdalak,
 	ROLE_ZIZOIDCULTIST = /datum/antagonist/zizocultist,
 	ROLE_NBEAST = /datum/antagonist/vampirelord,
 	ROLE_LICH = /datum/antagonist/lich

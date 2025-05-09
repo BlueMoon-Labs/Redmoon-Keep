@@ -102,6 +102,9 @@ var/sound_cooldown = 10 * 60 * 10 // cooldown in deciseconds (15 minutes)
 			if(target.mind.has_antag_datum(/datum/antagonist/vampirelord))
 				to_chat(src, span_warning("... What? Its an elder vampire!"))
 				return
+			if(target.mind.has_antag_datum(/datum/antagonist/vurdalak))
+				to_chat(src, span_warning("... What? Its an undead!"))
+				return
 		(!do_after(user, 7 SECONDS, target = target))
 		var/ramount = 20
 		var/rid = /datum/reagent/medicine/healthpot

@@ -24,6 +24,11 @@
 	faildirt = 3
 	icon_state = "grave"
 
+/obj/structure/closet/dirthole/grave/Initialize()
+	..()
+	if(is_valid_hunting_area(get_area(src)))
+		GLOB.vurdalak_spawn_locations += get_turf(src)
+
 /obj/structure/closet/dirthole/closed
 	desc = "A mound of dirt with something below."
 	stage = 4

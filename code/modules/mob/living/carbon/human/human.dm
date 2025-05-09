@@ -130,6 +130,8 @@
 		if(VD)
 			if(statpanel("Stats"))
 				stat("Vitae:",VD.vitae)
+		if(skin_armor)
+			stat("Skin Armor Integrity:", skin_armor.obj_integrity)
 		if((mind.assigned_role == "Confessor") || (mind.assigned_role == "Inquisitor"))
 			if(statpanel("Status"))
 				stat("Confessions sent: [GLOB.confessors.len]")
