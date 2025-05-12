@@ -9,6 +9,7 @@
 // BEGIN_INCLUDE
 #include "_maps\_basemap.dm"
 #include "_maps\conflict_marker.dm"
+#include "_maps\roguetest.dm"
 #include "_maps\templates\arcyne_fortress.dm"
 #include "_maps\templates\bog_shack_small.dm"
 #include "_maps\templates\sewers.dm"
@@ -2208,10 +2209,6 @@
 #include "modular_redmoon\code\modules\clothing\rogueclothes\shoes.dm"
 #include "modular_redmoon\code\modules\clothing\rogueclothes\rings\ring.dm"
 #include "modular_redmoon\code\modules\eora_bless\eora_clothes\armor.dm"
-#include "modular_redmoon\code\modules\eora_bless\eora_clothes\gloves.dm"
-#include "modular_redmoon\code\modules\eora_bless\eora_clothes\pants.dm"
-#include "modular_redmoon\code\modules\eora_bless\eora_clothes\shirts.dm"
-#include "modular_redmoon\code\modules\eora_bless\eora_clothes\wrists.dm"
 #include "modular_redmoon\code\modules\events\spacevine.dm"
 #include "modular_redmoon\code\modules\language\kraukalee.dm"
 #include "modular_redmoon\code\modules\mob\dead\new_player\sprite_accessory\genitals.dm"
