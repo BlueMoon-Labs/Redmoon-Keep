@@ -33,6 +33,18 @@
 		H.real_name = "[title] [prev_real_name]"
 		H.name = "[title] [prev_name]"
 		addtimer(CALLBACK(src, PROC_REF(templar_helmet_choice), H), 50)
+		// REDMOON ADD START - tabard_fix
+		if(istype(H.cloak, /obj/item/clothing/cloak))
+			var/obj/item/clothing/cloak/S = H.cloak
+			var/index = findtext(prev_real_name, " ")
+			if(index)
+				index = copytext(prev_real_name, 1,index)
+			if(!index)
+				index = H.real_name
+			index = "[title] [index]"
+			S.name += " ([index])"
+			S.visual_name = index
+		// REDMOON ADD END
 	..() // REDMOON ADD - fixes_for_characters_memory - исправление, что персонажи запоминают имена без титулов
 
 
