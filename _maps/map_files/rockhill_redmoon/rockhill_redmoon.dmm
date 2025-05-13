@@ -34650,6 +34650,12 @@
 /obj/structure/bars/grille,
 /turf/open/floor/rogue/metal,
 /area/rogue/outdoors/town)
+"oUu" = (
+/obj/machinery/light/rogue/torchholder{
+	dir = 1
+	},
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/indoors/town/magician)
 "oUP" = (
 /obj/structure/fluff/railing/border{
 	dir = 1
@@ -230515,7 +230521,7 @@ rSC
 rSC
 fkC
 jMR
-tuP
+oUu
 fkC
 gLf
 gLf
