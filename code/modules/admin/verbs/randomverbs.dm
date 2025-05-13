@@ -217,6 +217,9 @@
 		if(MUTE_OOC)
 			mute_string = "OOC"
 			feedback_string = "OOC"
+		if(MUTE_LOOC) // REDMOON ADD - looc_addition
+			mute_string = "LOOC" // REDMOON ADD - looc_addition
+			feedback_string = "LOOC" // REDMOON ADD - looc_addition
 		if(MUTE_PRAY)
 			mute_string = "pray"
 			feedback_string = "Pray"
