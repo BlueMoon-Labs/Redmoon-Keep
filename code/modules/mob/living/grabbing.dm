@@ -536,6 +536,7 @@
 
 	if(user.mind && C.mind)
 		var/datum/antagonist/vampirelord/VDrinker = user.mind.has_antag_datum(/datum/antagonist/vampirelord)
+		var/datum/antagonist/vurdalak/vurdalak_drinker = user.mind.has_antag_datum(/datum/antagonist/vurdalak)
 		var/datum/antagonist/vampirelord/VVictim = C.mind.has_antag_datum(/datum/antagonist/vampirelord)
 		var/zomwerewolf = C.mind.has_antag_datum(/datum/antagonist/werewolf)
 		if(!zomwerewolf)
@@ -565,6 +566,16 @@
 						VDrinker.handle_vitae(500)
 				else
 					to_chat(user, span_warning("No more vitae from this blood..."))
+		else if(vurdalak_drinker)
+			if(C.vitae_bank > 500)
+				C.blood_volume = max(C.blood_volume-45, 0)
+				C.vitae_bank -= 1500
+				if(!C.vitae_bank)
+					if(!(C.real_name in vurdalak_drinker.unique_victims))
+						vurdalak_drinker.unique_victims += C.real_name
+						vurdalak_drinker.handle_power_up()
+			else
+				to_chat(user, span_warning("No more vitae from this blood..."))
 		else
 			if(VVictim)
 				to_chat(user, "<span class='notice'>A strange, sweet taste tickles my throat.</span>")
@@ -581,6 +592,8 @@
 					VDrinker.handle_vitae(300, 300)
 				else
 					VDrinker.handle_vitae(300)
+			else if(user.mind.has_antag_datum(/datum/antagonist/vurdalak))
+				to_chat(user, span_warning("I feel no lifeforce in this blood... It's useless."))
 
 	C.blood_volume = max(C.blood_volume-5, 0)
 	C.handle_blood()

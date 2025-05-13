@@ -178,7 +178,8 @@
 		else
 			if(mind && mind.special_role == "Vampire Lord")
 				. += "<span class='userdanger'>A MONSTER!</span>"
-
+			else if(mind?.special_role == ROLE_VURDALAK)
+				. += span_userdanger("A MONSTER!")
 
 		var/commie_text
 		if(mind)
@@ -192,6 +193,9 @@
 				. += span_userdanger("THERE IS A BOUNTY ON HIS HEAD!")
 
 			if(mind.special_role == "Vampire Lord")
+				. += span_userdanger("A MONSTER!")
+
+			if(mind.special_role == ROLE_VURDALAK)
 				. += span_userdanger("A MONSTER!")
 
 			if(mind.assigned_role == "Lunatic")
