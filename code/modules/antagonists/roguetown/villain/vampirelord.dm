@@ -238,7 +238,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 /obj/item/clothing/suit/roguetown/armor/chainmail/iron/vampire
 	icon_state = "vunder"
 	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/shirts.dmi'
 	name = "ancient chain shirt"
 	desc = ""
 	body_parts_covered = CHEST|GROIN|VITALS

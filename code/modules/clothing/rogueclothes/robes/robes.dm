@@ -157,7 +157,7 @@
 	icon_state = "wizardrobes"
 	icon = 'icons/roguetown/clothing/shirts.dmi'
 	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/shirts.dmi'
-	sleeved = 'modular_redmoon/
+	sleeved = 'modular_redmoon//icons/roguetown/clothing/onmob/shirts.dmi'
 	boobed = TRUE
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
@@ -169,7 +169,7 @@
 /obj/item/clothing/suit/roguetown/shirt/robe/physician
 	name = "plague coat"
 	desc = "Medicum morbo adhibere."
-	icon = 'icons/roguetown/clothing/armor.dmi'
+	icon = 'icons/roguetown/clothing/shirts.dmi'
 	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/armor.dmi'
 	icon_state = "physcoat"
 	slot_flags = ITEM_SLOT_ARMOR

@@ -2,11 +2,11 @@
 	slot_flags = ITEM_SLOT_SHIRT
 	body_parts_covered = CHEST|VITALS
 	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/shirts.dmi'
 	equip_sound = 'sound/blank.ogg'
 	drop_sound = 'sound/blank.ogg'
 	pickup_sound =  'sound/blank.ogg'
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 	sleevetype = "shirt"
 	edelay_type = 1
 	equip_delay_self = 25
@@ -253,7 +253,7 @@
 	desc = "A dress made with the finest velvet, befitting a person of high standing"
 	body_parts_covered = CHEST|GROIN|LEGS|VITALS
 	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/shirts.dmi'
 	icon_state = "velvetdress"
 	item_state = "velvetdress"
 	ignore_sleeves_code = TRUE // No sleeves, otherwise arms will be over the sprite
@@ -278,7 +278,7 @@
 	desc = "a noble dress, fit for a person of high standing"
 	body_parts_covered = CHEST|GROIN|LEGS|VITALS
 	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/shirts.dmi'
 	icon_state = "nobledress"
 	item_state = "nobledress"
 	ignore_sleeves_code = TRUE // No sleeves, otherwise arms will be over the sprite
@@ -331,8 +331,8 @@
 	icon_state = "jestershirt"
 	do_sound_bell = FALSE
 	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/shirts.dmi'
+	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/shirts.dmi'
 	boobed = TRUE
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
@@ -410,8 +410,8 @@
 	body_parts_covered = CHEST|GROIN|VITALS|LEGS|ARMS
 	boobed = FALSE
 	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/shirts.dmi'
+	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 	icon_state = "stewardtunic"
 	item_state = "stewardtunic"
 	flags_inv = HIDECROTCH|HIDEBOOB
@@ -430,8 +430,8 @@
 	desc = "A nightly uniform worn by those that protect the citizenry from what lurks beyond."
 	body_parts_covered = CHEST|GROIN|VITALS|LEGS
 	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/shirts.dmi'
+	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 	icon_state = "shadowrobe"
 	r_sleeve_status = SLEEVE_NORMAL
 	l_sleeve_status = SLEEVE_NORMAL
@@ -443,8 +443,8 @@
 	desc = "Robes belonging to seekers of knowledge."
 	icon_state = "archivist"
 	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/shirts.dmi'
+	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/helpers/sleeves_shirts.dmi'
 	body_parts_covered = CHEST|GROIN|ARMS|VITALS
 	boobed = TRUE
 	flags_inv = HIDECROTCH|HIDEBOOB
@@ -501,7 +501,7 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/royal
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/shirts.dmi'
 	name = "royal gown"
 	desc = "An elaborate ball gown, a favoured fashion of queens and elevated nobility in Enigma."
 	body_parts_covered = CHEST|GROIN|ARMS|VITALS
