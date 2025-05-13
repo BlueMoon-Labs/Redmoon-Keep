@@ -8,8 +8,8 @@
 		return
 	if(controller.blackboard[BB_BASIC_MOB_FOOD_TARGET]) // this means we are likely eating a corpse
 		return
+	var/mob/living/simple_animal/wanderer = controller.pawn
 	if(isanimal(controller.pawn)) // REDMOON ADD - ai_fixes - для NPC под управлением некроманта
-		var/mob/living/simple_animal/wanderer = controller.pawn
 		if(wanderer.binded == TRUE)
 			return
 
