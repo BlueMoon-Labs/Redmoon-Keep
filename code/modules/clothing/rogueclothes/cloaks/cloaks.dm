@@ -1360,7 +1360,7 @@
 	name = "citywatch cape"
 	desc = ""
 	icon = 'icons/roguetown/clothing/licensed-infraredbaron/cloaks.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/licensed-infraredbaron/onmob/cloaks.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/licensed-infraredbaron/onmob/cloaks.dmi'
 	icon_state = "citywatch_cape"
 	item_state = "citywatch_cape"
 

@@ -399,7 +399,7 @@
 	break_sound = 'sound/foley/cloth_rip.ogg'
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sewrepair = TRUE
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
+	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
 	sleevetype = "shirt"
 	max_integrity = 100
 	sellprice = 50
@@ -621,7 +621,7 @@
 	icon_state = "sailorvest"
 	color = null
 	slot_flags = ITEM_SLOT_ARMOR
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
+	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
 	sleevetype = "shirt"
 
 /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor/ComponentInitialize()
@@ -760,7 +760,7 @@
 	desc = "A long leather coat made with quality materials for experienced hunters or noble explorers. The leather still offers some protection."
 	icon = 'icons/roguetown/clothing/armor.dmi'
 	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/armor.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
+	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/helpers/sleeves_armor.dmi'
 	icon_state = "leathercoat"
 	blocksound = SOFTHIT
 	body_parts_covered = CHEST|GROIN|VITALS|ARMS|LEGS
@@ -817,7 +817,7 @@
 	name = "citywatch armor"
 	desc = "Heavy, well worn armour. Incredibly resilient to all forms of damage. Issued to the Citywatch."
 	icon = 'icons/roguetown/clothing/licensed-infraredbaron/armor.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
 	icon_state = "citywatch"
 	item_state = "citywatch"
 	blocksound = PLATEHIT
@@ -839,7 +839,7 @@
 	desc = ""
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS|VITALS
 	icon = 'icons/roguetown/clothing/licensed-infraredbaron/armor.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
 	icon_state = "duchess"
 	item_state = "duchess"
 	ignore_sleeves_code = TRUE // No sleeves, otherwise arms will be over the sprite
@@ -848,7 +848,7 @@
 	name = "ducal uniform"
 	desc = ""
 	icon = 'icons/roguetown/clothing/licensed-infraredbaron/armor.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
 	icon_state = "duke"
 	item_state = "duke"
 	armor = list("blunt" = 30, "slash" = 35, "stab" = 10, "bullet" = 10, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
@@ -871,7 +871,7 @@
 	name = "Hand's dress"
 	desc = "A soft vest of finest fabric."
 	icon = 'icons/roguetown/clothing/licensed-infraredbaron/armor.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
 	icon_state = "hand"
 	item_state = "hand"
 	allowed_sex = list(MALE, FEMALE)
@@ -882,7 +882,7 @@
 	name = "Heir's uniform"
 	desc = ""
 	icon = 'icons/roguetown/clothing/licensed-infraredbaron/armor.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
 	icon_state = "heir"
 	item_state = "heir"
 	body_parts_covered = CHEST|GROIN|VITALS|LEGS|ARMS
@@ -894,7 +894,7 @@
 	name = "Heiress's uniform"
 	desc = ""
 	icon = 'icons/roguetown/clothing/licensed-infraredbaron/armor.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
 	icon_state = "heiress"
 	item_state = "heiress"
 	body_parts_covered = CHEST|GROIN|VITALS|LEGS|ARMS
@@ -907,7 +907,7 @@
 	name = "councillorial uniform"
 	desc = ""
 	icon = 'icons/roguetown/clothing/licensed-infraredbaron/armor.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
 	icon_state = "councillor"
 	item_state = "councillor"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS|VITALS
@@ -927,7 +927,7 @@
 	name = "Magos' Robes"
 	desc = ""
 	icon = 'icons/roguetown/clothing/licensed-infraredbaron/armor.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
 	icon_state = "magos"
 	item_state = "magos"
 	allowed_sex = list(MALE, FEMALE)
@@ -938,7 +938,7 @@
 	name = "Steward's Vest"
 	desc = ""
 	icon = 'icons/roguetown/clothing/licensed-infraredbaron/armor.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
 	icon_state = "steward"
 	item_state = "steward"
 	allowed_sex = list(MALE, FEMALE)
