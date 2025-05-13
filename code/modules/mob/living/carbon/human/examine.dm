@@ -396,9 +396,9 @@
 	if(bleed_rate)
 		var/bleed_wording = "bleeding"
 		switch(bleed_rate)
-			if(0 to 1)
+			if(1 to 2) // REDMOON EDIT - повышение выживаемости - WAS: 0 to 1
 				bleed_wording = "bleeding slightly"
-			if(1 to 5)
+			if(2 to 5) // REDMOON EDIT - повышение выживаемости - WAS: 1 to 5
 				bleed_wording = "bleeding"
 			if(5 to 10)
 				bleed_wording = "bleeding a lot"
