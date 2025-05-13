@@ -95,11 +95,11 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	switch(H.patron.name)
 		if("Necra")
-			backpack_contents = list(/obj/item/key/graveyard, /obj/item/key/church)
+			backpack_contents = list(/obj/item/key/graveyard = 1, /obj/item/key/church = 1, /obj/item/ritualfeather = 1)
 		if("Xylix")
-			backpack_contents = list(/obj/item/key/church, /obj/item/squeeze_me)
+			backpack_contents = list(/obj/item/key/church = 1, /obj/item/squeeze_me = 1, /obj/item/ritualfeather = 1)
 		else
-			backpack_contents = list(/obj/item/key/church = 1)
+			backpack_contents = list(/obj/item/key/church = 1, /obj/item/ritualfeather = 1)
 	backr = /obj/item/rogueweapon/shield/tower/metal
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
@@ -138,7 +138,7 @@
 		H.change_stat("endurance", 2)
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_SOFTHEARTED, TRAIT_GENERIC)
-//	ADD_TRAIT(H, TRAIT_BOGVULNERABLE, TRAIT_GENERIC)	//applies debuff of -2end -2 spd when in the bog
+	ADD_TRAIT(H, TRAIT_RITUALIST, TRAIT_GENERIC)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_spells_templar(H)
