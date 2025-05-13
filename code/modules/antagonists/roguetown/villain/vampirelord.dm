@@ -46,6 +46,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		return span_boldnotice("Another deadite.")
 	if(istype(examined_datum, /datum/antagonist/skeleton))
 		return span_boldnotice("Another deadite.")
+	if(istype(examined_datum, /datum/antagonist/vurdalak))
+		return span_boldwarning("Another deadite... A competitor for blood. Hunter of the terror bog.")
 
 /datum/antagonist/vampirelord/apply_innate_effects(mob/living/mob_override)
 	var/mob/living/M = mob_override || owner.current
@@ -238,7 +240,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 /obj/item/clothing/suit/roguetown/armor/chainmail/iron/vampire
 	icon_state = "vunder"
 	icon = 'icons/roguetown/clothing/shirts.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/shirts.dmi'
 	name = "ancient chain shirt"
 	desc = ""
 	body_parts_covered = CHEST|GROIN|VITALS

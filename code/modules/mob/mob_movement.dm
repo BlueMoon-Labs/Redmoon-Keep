@@ -656,6 +656,9 @@
 					return
 				if(L.energy <= 0)
 					return
+				if(HAS_TRAIT(L, TRAIT_NORUN))
+					to_chat(L, span_warning("My joints have decayed too much for running!"))
+					return
 				if(ishuman(L))
 					var/mob/living/carbon/human/H = L
 					if(!H.check_armor_skill() || H.legcuffed)
