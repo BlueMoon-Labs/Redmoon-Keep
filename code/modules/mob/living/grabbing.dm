@@ -13,7 +13,7 @@
 	experimental_inhand = FALSE
 	var/atom/movable/grabbed //ref to what atom we are grabbing
 	var/obj/item/bodypart/limb_grabbed		//ref to actual bodypart being grabbed if we're grabbing a carbo
-	var/sublimb_grabbed		//ref to what precise (sublimb) we are grabbing (if any) (text)
+	var/sublimb_grabbed		//ref to what precise (sublimb) we are grabbing (if any) (zone string or item ref)
 	var/mob/living/carbon/grabbee
 	var/bleed_suppressing = 0.5 //multiplier for how much we suppress bleeding, can accumulate so two grabs means 25% bleeding
 	var/chokehold = FALSE
@@ -272,15 +272,27 @@
 	C.next_attack_msg.Cut()
 	log_combat(user, C, "limbtwisted [sublimb_grabbed] ")
 
+// if user is null, the twist is being initiated via a resist
 /obj/item/grabbing/proc/twistitemlimb(mob/living/user) //implies limb_grabbed and sublimb are things
-	var/mob/living/M = grabbed
+	var/mob/living/living_victim = grabbed
 	var/damage = rand(5,10)
 	var/obj/item/I = sublimb_grabbed
-	playsound(M.loc, "genblunt", 100, FALSE, -1)
-	M.apply_damage(damage, BRUTE, limb_grabbed)
-	M.visible_message(span_danger("[user] twists [I] in [M]'s wound!"), \
-					span_userdanger("[user] twists [I] in my wound!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE)
-	log_combat(user, M, "itemtwisted [sublimb_grabbed] ")
+	playsound(living_victim.loc, "genblunt", 100, FALSE, -1)
+	living_victim.apply_damage(damage, BRUTE, limb_grabbed)
+	// use the user's intent if it's intentional, else use cut by default
+	var/bclass_used = user?.used_intent?.blade_class || BCLASS_CUT
+	if(istype(limb_grabbed))
+		limb_grabbed.try_crit(bclass_used, damage, user || grabbee, silent = TRUE)
+	else
+		living_victim.simple_try_crit(bclass_used, damage, user || grabbee, silent = TRUE)
+	if(user)
+		living_victim.visible_message(span_danger("[user] twists [I] in [living_victim]'s wound!"), \
+						span_userdanger("[user] twists [I] in my wound!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE)
+		log_combat(user, living_victim, "itemtwisted [sublimb_grabbed] ")
+	else
+		living_victim.visible_message(span_danger("[living_victim] flails, twisting [I] in the wound!"), \
+			span_userdanger("Your flailing twists [I] in the wound!"), span_hear("I hear a sickening sound of pugilism!"), COMBAT_MESSAGE_RANGE)
+		log_combat(living_victim, living_victim, "self itemtwisted [sublimb_grabbed] ")
 
 /obj/item/grabbing/proc/removeembeddeditem(mob/living/user) //implies limb_grabbed and sublimb are things
 	var/mob/living/M = grabbed
@@ -312,9 +324,9 @@
 		M.emote("paincrit", TRUE)
 		playsound(M, 'sound/foley/flesh_rem.ogg', 100, TRUE, -2)
 		if(user == M)
-			user.visible_message(span_notice("[user] rips [I] out of [user.p_them()]self!"), span_notice("I remove [I] from myself."))
+			user.visible_message(span_notice("[user] rips [I] out of [user.p_them()]self!"), span_notice("I rip [I] out of myself."))
 		else
-			user.visible_message(span_notice("[user] rips [I] out of [M]!"), span_notice("I rip [I] from [src]."))
+			user.visible_message(span_notice("[user] rips [I] out of [M]!"), span_notice("I rip [I] out of [src]."))
 		sublimb_grabbed = M.simple_limb_hit(user.zone_selected)
 	user.update_grab_intents(grabbed)
 	return TRUE
@@ -536,6 +548,7 @@
 
 	if(user.mind && C.mind)
 		var/datum/antagonist/vampirelord/VDrinker = user.mind.has_antag_datum(/datum/antagonist/vampirelord)
+		var/datum/antagonist/vurdalak/vurdalak_drinker = user.mind.has_antag_datum(/datum/antagonist/vurdalak)
 		var/datum/antagonist/vampirelord/VVictim = C.mind.has_antag_datum(/datum/antagonist/vampirelord)
 		var/zomwerewolf = C.mind.has_antag_datum(/datum/antagonist/werewolf)
 		if(!zomwerewolf)
@@ -565,13 +578,23 @@
 						VDrinker.handle_vitae(500)
 				else
 					to_chat(user, span_warning("No more vitae from this blood..."))
+		else if(vurdalak_drinker)
+			if(C.vitae_bank > 500)
+				C.blood_volume = max(C.blood_volume-45, 0)
+				C.vitae_bank -= 1500
+				if(!C.vitae_bank)
+					if(!(C.real_name in vurdalak_drinker.unique_victims))
+						vurdalak_drinker.unique_victims += C.real_name
+						vurdalak_drinker.handle_power_up()
+			else
+				to_chat(user, span_warning("No more vitae from this blood..."))
 		else
 			if(VVictim)
 				to_chat(user, "<span class='notice'>A strange, sweet taste tickles my throat.</span>")
 				addtimer(CALLBACK(user, .mob/living/carbon/human/proc/vampire_infect), 1 MINUTES) // I'll use this for succession later.
-			else 
-				to_chat(user, "<span class='warning'>I'm going to puke...</span>")
-			addtimer(CALLBACK(user, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
+			else if(!HAS_TRAIT(user, TRAIT_ORGAN_EATER))
+				to_chat(user, span_warning("I'm going to puke..."))
+				addtimer(CALLBACK(user, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
 	else
 		if(user.mind)
 			if(user.mind.has_antag_datum(/datum/antagonist/vampirelord))
@@ -581,9 +604,13 @@
 					VDrinker.handle_vitae(300, 300)
 				else
 					VDrinker.handle_vitae(300)
+			else if(user.mind.has_antag_datum(/datum/antagonist/vurdalak))
+				to_chat(user, span_warning("I feel no lifeforce in this blood... It's useless."))
 
-	C.blood_volume = max(C.blood_volume-5, 0)
+	C.blood_volume = max(C.blood_volume-10, 0)
 	C.handle_blood()
+	if(HAS_TRAIT(user, TRAIT_ORGAN_EATER))
+		user.adjust_hydration(10)
 
 	playsound(user.loc, 'sound/misc/drink_blood.ogg', 100, FALSE, -4)
 

@@ -98,6 +98,8 @@
 #define TRAIT_COMMIE "Eye of a Brigand" //bandit trait
 #define TRAIT_DEATHBYSNUSNU "Bed Breaker" // double sex damage (requires strong intent)
 #define TRAIT_POISONBITE "Venomous Bite" // Adds tox damage on bites
+#define TRAIT_RITUALIST "Ritualist" // Allows use of ritual feathers
+#define TRAIT_DEATHBARGAIN "Death Bargain" // Used by UNDERMAIDEN'S BARGAIN
 
 // PATRON CURSE TRAITS
 #define TRAIT_CURSE "Curse" //source
@@ -183,7 +185,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SHARPER_BLADES = span_info("My weapons lose their sharpness slower."),					// REDMOON ADD
 	TRAIT_BLACKLEG = span_info("I can cheat by rigging coin and dice, and peek at cards."),		// REDMOON ADD
 	TRAIT_INQUISITION = span_info("I am a member of the Inquisition. I can easily identify others of my cadre at a glance."), // REDMOON ADD
-	TRAIT_BARDIC_TRAINING = "Xylixian inspiration grants my songs boons and ailments.",
+	TRAIT_BARDIC_TRAINING = "Xylixian inspiration grants my songs boons and ailments.", // REDMOON ADD
+	TRAIT_GROUNDSLEEPER = span_info("I can sleep on floor or even bare soil with ease."), // REDMOON ADD
 	TRAIT_STUDENT = span_info("The scholar has taught me new skills!"),
 	TRAIT_DARKLING = span_info("I am a creature of the dark and am sensitive to the light. The hateful sun is especially harsh on my eyes, and I prefer to sleep during the dae."),
 	TRAIT_BOG_TREKKING = "Expert in navigating these lands.",
@@ -191,6 +194,9 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_POISONBITE = "My bites inject venom into my target.", // Ham change
 	TRAIT_WANTED = span_info("You are wanted in this kingdom, if someone sees your face they might run away or attack you."),
 	TRAIT_EXCOMMUNICATED = span_info("The Ten are not on my side any longer..."),
+	TRAIT_EORA = span_info("Ты была благославлена Эорой!"),
+	TRAIT_RITUALIST = span_info("I am skilled in the holy arts. Using a ritual feather, I can more deftly channel my God's powers via runes."),
+	TRAIT_DEATHBARGAIN = span_info("A horrible deal has been prepared in your name. May you never see it fulfilled..."),
 ))
 
 // trait accessor defines

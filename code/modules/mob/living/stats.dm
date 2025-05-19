@@ -249,6 +249,7 @@
 			STASPD = newamt - REDMOON REMOVAL END*/
 			BUFSPE += amt // REDMOON ADD - after_death_stats_fix - фикс для статов после смерти и оверкапа статов
 			STASPD = CLAMP(ROUNDSTART_STASPD + BUFSPE, 1, 20) // REDMOON ADD - after_death_stats_fix - фикс для статов после смерти и оверкапа статов
+			update_move_intent_slowdown()
 
 		if("fortune")
 /*			newamt = STALUC + amt - REDMOON REMOVAL START - after_death_stats_fix - фикс для статов после смерти и оверкапа статов

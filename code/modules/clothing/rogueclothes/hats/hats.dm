@@ -1449,7 +1449,7 @@
 	name = "city watch helmet"
 	desc = "A heavy helmet. Incredibly resilient to all forms of damage. Issued to the Citywatch."
 	icon = 'icons/roguetown/clothing/licensed-infraredbaron/head.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/licensed-infraredbaron/onmob/armor.dmi'
 	icon_state = "citywatch_helmet"
 	item_state = "citywatch_helmet"
 	max_integrity = 225

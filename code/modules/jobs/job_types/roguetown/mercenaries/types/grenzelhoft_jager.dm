@@ -57,15 +57,7 @@
 			backr = /obj/item/gun/ballistic/firearm/flintgonne
 			beltl = /obj/item/ammo_holder/bullet/lead
 
-	//Humie grenzelhofts are always set to be, well, grenzelhoft
-	if(ishumannorthern(H))
-		var/list/skin_slop = H.dna.species.get_skin_list()
-		H.skin_tone = skin_slop["Grenzelhoft"]
-		H.update_body()
-	if(isdemihuman(H))
-		var/list/skin_slop = H.dna.species.get_skin_list()
-		H.skin_tone = skin_slop["Grenzelhoft"]
-		H.update_body()
+	//Gone are the days of the Grenzelhoft whitewashing forcefields
 	if(iswoodelf(H))
 		H.change_stat("strength", 1)
 		H.change_stat("speed", -1)

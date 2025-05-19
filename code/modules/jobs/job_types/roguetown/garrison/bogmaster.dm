@@ -22,6 +22,7 @@
 	give_bank_account = 35
 	min_pq = 8
 	max_pq = null
+	can_leave_round = FALSE
 	// cmode_music = 'sound/music/combat_bog.ogg'
 
 /datum/job/roguetown/bogmaster/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
@@ -29,13 +30,14 @@
 	if(ishuman(L))
 		var/mob/living/carbon/human/H = L
 		if(istype(H.cloak, /obj/item/clothing/cloak/shadow))
-			var/obj/item/clothing/S = H.cloak
+			var/obj/item/clothing/cloak/S = H.cloak
 			var/index = findtext(H.real_name, " ")
 			if(index)
 				index = copytext(H.real_name, 1,index)
 			if(!index)
 				index = H.real_name
 			S.name = "warden cloak ([index])"
+			S.visual_name = index // REDMOON ADD - tabard_fix
 
 /datum/outfit/job/roguetown/bogmaster/pre_equip(mob/living/carbon/human/H)
 	. = ..()

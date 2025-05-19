@@ -4,12 +4,10 @@
 	can_adjust = FALSE
 	body_parts_covered = GROIN|LEGS
 	icon = 'icons/roguetown/clothing/pants.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/pants.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/pants.dmi'
 	equip_sound = 'sound/blank.ogg'
 	drop_sound = 'sound/blank.ogg'
 	pickup_sound =  'sound/blank.ogg'
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_pants.dmi'
-	sleevetype = "leg"
 	equip_delay_self = 30
 	bloody_icon_state = "bodyblood"
 	sewrepair = TRUE
@@ -271,8 +269,7 @@
 	desc = "Pants made from silk, famous choice for wealthy people that don't have to worry about it getting dirty with mud."
 	gender = PLURAL
 	icon = 'icons/roguetown/clothing/pants.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/pants.dmi'
-	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_pants.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/pants.dmi'
 	icon_state = "shadowpants"
 	max_integrity = 150
 	sewrepair = TRUE
@@ -387,7 +384,7 @@
 	desc = "Long, flowing, and modest."
 	icon_state = "skirt"
 	item_state = "skirt"
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/pants.dmi'
+	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/pants.dmi'
 
 /obj/item/clothing/under/roguetown/skirt/random
 	name = "skirt"

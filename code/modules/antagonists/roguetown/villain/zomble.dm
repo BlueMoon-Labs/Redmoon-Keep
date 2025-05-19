@@ -39,6 +39,8 @@
 		return span_boldnotice("Another deadite. [fellow_zombie.has_turned ? "My ally." : span_warning("Hasn't turned yet.")]")
 	if(istype(examined_datum, /datum/antagonist/skeleton))
 		return span_boldnotice("Another deadite.")
+	if(istype(examined_datum, /datum/antagonist/vurdalak))
+		return span_boldwarning("Another deadite. May be agressive...")
 
 /datum/antagonist/zombie/on_gain()
 	var/mob/living/carbon/human/zombie = owner?.current
@@ -187,9 +189,10 @@
 	return ..()
 
 /datum/antagonist/zombie/on_life(mob/user)
-	var/mob/living/carbon/human/deadite = owner?.current
-	deadite.try_do_deadite_bite()
-	deadite.try_do_deadite_idle()
+	if (has_turned)
+		var/mob/living/carbon/human/deadite = owner?.current
+		deadite.try_do_deadite_bite()
+		deadite.try_do_deadite_idle()
 
 //Infected wake param is just a transition from living to zombie, via zombie_infect()
 //Previously you just died without warning in 3 minutes, now you just become an antag

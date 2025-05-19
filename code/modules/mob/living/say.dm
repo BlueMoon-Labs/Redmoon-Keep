@@ -285,6 +285,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	var/Zs_yell = FALSE
 	var/listener_has_ceiling	= TRUE
 	var/speaker_has_ceiling		= TRUE
+	var/ignore_z_checks 		= FALSE
 
 	var/turf/speaker_turf = get_turf(src)
 	var/turf/speaker_ceiling = get_step_multiz(speaker_turf, UP)
@@ -323,12 +324,12 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 //	var/list/yellareas	//CIT CHANGE - adds the ability for yelling to penetrate walls and echo throughout areas
 	for(var/_M in GLOB.player_list)
 		var/mob/M = _M
-//		if(M.stat != DEAD) //not dead, not important
+		if(M.stat != DEAD) //not dead, not important
 //			if(yellareas)	//CIT CHANGE - see above. makes yelling penetrate walls
 //				var/area/A = get_area(M)	//CIT CHANGE - ditto
 //				if(istype(A) && A.ambientsounds != SPACE && (A in yellareas))	//CIT CHANGE - ditto
 //					listening |= M	//CIT CHANGE - ditto
-//			continue
+			continue
 		if(!client) //client is so that ghosts don't have to listen to mice
 			continue
 		if(!M)
@@ -341,8 +342,13 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 					continue
 				if(!(M.client.prefs.chat_toggles & CHAT_GHOSTEARS)) //they're talking normally and we have hearing at any range off
 					continue
+				// REDMOON ADD START
+				if(isobserver(M) && (M.client.prefs.chat_toggles & CHAT_GHOSTEARS))
+					ignore_z_checks = TRUE
+				// REDMOON ADD END
 		if(!is_in_zweb(src.z, M.z))
-			continue
+			if(!ignore_z_checks) // REDMOON ADD
+				continue
 		listening |= M
 		the_dead[M] = TRUE
 	
@@ -372,9 +378,10 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			if(istransparentturf(listener_ceiling))
 				listener_has_ceiling = FALSE
 		if((!Zs_too && !isobserver(AM)) || message_mode == MODE_WHISPER)
-			if(AM.z != src.z)
-				continue
-		if(Zs_too && AM.z != src.z && !Zs_all)
+			if(!ignore_z_checks)
+				if(AM.z != src.z)
+					continue
+		if(Zs_too && AM.z != src.z && !Zs_all && !ignore_z_checks)
 			if(!Zs_yell)
 				if(listener_turf.z < speaker_turf.z && listener_has_ceiling)	//Listener is below the speaker and has a ceiling above them
 					continue
