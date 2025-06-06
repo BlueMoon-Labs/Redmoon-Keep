@@ -331,7 +331,7 @@
 /obj/structure/pillory/bounty/proc/bounty_redeem(mob/living/carbon/human/victim)
 	pay_bounty(bounty_step_reward, victim, active_bounty)
 
-/obj/structure/pillory/bounty/proc/pay_bounty(amount = 0, mob/living/carbon/human/victim, active_bounty, violation = FALSE)
+/obj/structure/pillory/bounty/proc/pay_bounty(amount = 0, mob/living/carbon/human/victim, violation = FALSE)
 	if(amount <= 0 || !active_bounty) return 0
 	var/reward_amount = min(active_bounty.amount, amount)
 

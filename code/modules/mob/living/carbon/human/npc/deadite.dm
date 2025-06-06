@@ -98,17 +98,17 @@
 
 	// Deadites will still be affected by certain lingering status conditions, but should be immune to
 	// the nastiest ones (eg. blood loss) thanks to their traits
-	var/strdiff = rand(6, 13) - stats.STASTR
-	var/spddiff = rand(6, 13) - stats.STASPD
-	var/condiff = rand(6, 13) - stats.STACON
-	var/enddiff = rand(6, 13) - stats.STAEND
-	var/intdiff = 1 - stats.STAINT
+	// var/strdiff = rand(6, 13) - stats.STASTR
+	// var/spddiff = rand(6, 13) - stats.STASPD
+	// var/condiff = rand(6, 13) - stats.STACON
+	// var/enddiff = rand(6, 13) - stats.STAEND
+	// var/intdiff = 1 - stats.STAINT
 
-	change_stat("strength", strdiff, "deadite_str")
-	change_stat("speed", spddiff, "deadite_spd")
-	change_stat("constitution", condiff, "deadite_con")
-	change_stat("endurance", enddiff, "deadite_end")
-	change_stat("intelligence", intdiff, "deadite_int")
+	// change_stat("strength", strdiff, "deadite_str")
+	// change_stat("speed", spddiff, "deadite_spd")
+	// change_stat("constitution", condiff, "deadite_con")
+	// change_stat("endurance", enddiff, "deadite_end")
+	// change_stat("intelligence", intdiff, "deadite_int")
 
 /mob/living/carbon/human/proc/deadite_get_aimheight(victim)
 	if(!(mobility_flags & MOBILITY_STAND))
