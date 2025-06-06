@@ -687,10 +687,10 @@
 // 	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
 // 	owner.adjustCloneLoss(-healing_on_tick, 0)
 
-	// Fix for simplemob slow after healing
-	if(istype(owner, /mob/living/simple_animal))
-		var/mob/living/simple_animal/S = owner
-		S.updatehealth()
+// Fix for simplemob slow after healing
+// if(istype(owner, /mob/living/simple_animal))
+// 	var/mob/living/simple_animal/S = owner
+// 	S.updatehealth()
 
 /datum/status_effect/buff/vitae
 	id = "druqks"
