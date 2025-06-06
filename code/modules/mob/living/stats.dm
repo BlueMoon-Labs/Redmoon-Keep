@@ -100,7 +100,7 @@
 		if(statindex[index])
 			change_stat(statindex[index]["stat"], -1*statindex[index]["amt"])
 			statindex[index] = null
-			return
+		return
 	if(!amt)
 		return
 	if(index)

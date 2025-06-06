@@ -54,12 +54,16 @@
 	C.deathknightspawn = FALSE
 	C.deathknights |= H.mind
 	..()
-	if(H)
-		H.can_do_sex = FALSE
-		if(H.mind)
-			H.mind.special_role = "Death Knight"
-			H.mind.assigned_role = "Death Knight"
-			H.mind.current.job = null
+	if(L)
+		var/mob/living/carbon/human/H = L
+		L.can_do_sex = FALSE
+		if(M.mind)
+			M.mind.special_role = "Death Knight"
+			M.mind.assigned_role = "Death Knight"
+			M.mind.current.job = null
+			for(var/datum/mind/vampire in C.vampires)
+				if (vampire.special_role == "Vampire Lord")
+					M.mind.add_special_person(vampire.current, "#DC143C")
 		if(H.dna && H.dna.species)
 			H.dna.species.species_traits |= NOBLOOD
 			H.dna.species.soundpack_m = new /datum/voicepack/skeleton()

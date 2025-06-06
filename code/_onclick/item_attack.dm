@@ -113,6 +113,8 @@
 
 //	if(force)
 //		user.emote("attackgrunt")
+	//I wanted to avoid this
+	user.mob_timers[MT_SNEAKATTACK] = world.time
 	var/datum/intent/cached_intent = user.used_intent
 	if(user.used_intent.swingdelay)
 		if(!user.used_intent.noaa)
@@ -196,6 +198,8 @@
 
 //the equivalent of the standard version of attack() but for object targets.
 /obj/item/proc/attack_obj(obj/O, mob/living/user)
+	//I wanted to avoid this
+	user.mob_timers[MT_SNEAKATTACK] = world.time
 	if(SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_OBJ, O, user) & COMPONENT_NO_ATTACK_OBJ)
 		return
 	if(item_flags & NOBLUDGEON)
@@ -207,6 +211,8 @@
 /obj/item/proc/attack_turf(turf/T, mob/living/user)
 	if(T.max_integrity)
 		if(T.attacked_by(src, user))
+			//I wanted to avoid this
+			user.mob_timers[MT_SNEAKATTACK] = world.time
 			user.do_attack_animation(T)
 			return TRUE
 

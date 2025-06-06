@@ -450,6 +450,16 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	real_name = reject_bad_name(real_name)
 	gender = sanitize_gender(gender)
+
+
+	//Should help old characters with no voice type auto set it
+	S["voice_type"]		>> voice_type
+	if (!voice_type)
+		voice_type = VOICE_TYPE_MASC
+		if(gender == FEMALE)
+			voice_type = VOICE_TYPE_FEM
+
+
 	if(!real_name)
 		real_name = random_unique_name(gender)
 

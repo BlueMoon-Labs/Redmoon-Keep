@@ -36,6 +36,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	var/cache_hair
 	var/obj/effect/proc_holder/spell/targeted/shapeshift/bat/batform //attached to the datum itself to avoid cloning memes, and other duplicates
 	var/obj/effect/proc_holder/spell/targeted/shapeshift/gaseousform/gas
+	var/staked = FALSE
 
 /datum/antagonist/vampirelord/examine_friendorfoe(datum/antagonist/examined_datum,mob/examiner,mob/examined)
 	if(istype(examined_datum, /datum/antagonist/vampirelord/lesser))
@@ -72,6 +73,11 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	ADD_TRAIT(owner.current, TRAIT_NOSLEEP, "[type]")
 	ADD_TRAIT(owner.current, TRAIT_VAMPMANSION, "[type]")
 	ADD_TRAIT(owner.current, TRAIT_HEAVYARMOR, "[type]")
+
+	// Undead have infinite stamina; they should not be using swift intent under any circumstances.
+	if (istype(owner.current.rmb_intent, /datum/rmb_intent/swift))
+		owner.current.swap_rmb_intent(null, 1)
+
 	for(var/obj/structure/fluff/traveltile/vampire/tile in GLOB.traveltiles)
 		tile.show_travel_tile(owner.current)
 	ADD_TRAIT(owner.current, TRAIT_VAMP_DREAMS, "[type]")
@@ -86,6 +92,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	owner.current.AddSpell(new /obj/effect/proc_holder/spell/targeted/vamp_rejuv)
 	owner.current.verbs |= /mob/living/carbon/human/proc/vampire_telepathy
 	if(isspawn)
+		owner.current.verbs |= /mob/living/carbon/human/proc/alter_button
 		owner.current.verbs |= /mob/living/carbon/human/proc/disguise_button
 		add_objective(/datum/objective/vlordserve)
 		finalize_vampire_lesser()
@@ -95,6 +102,11 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		greet()
 		if(!sired)
 			addtimer(CALLBACK(owner.current, TYPE_PROC_REF(/mob/living/carbon/human, spawn_pick_class), "VAMPIRE SPAWN"), 5 SECONDS)
+		// All vampyre spawn consider the vampyre lord special
+		for(var/datum/mind/vampire in C.vampires)
+			if (vampire.special_role == "Vampire Lord")
+				owner.add_special_person(vampire.current, "#DC143C")
+				// Don't break - an admin may need to create a second vampyre lord
 	else
 		forge_vampirelord_objectives()
 		finalize_vampire()
@@ -105,6 +117,16 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		equip_lord()
 		addtimer(CALLBACK(owner.current, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "VAMPIRE LORD"), 5 SECONDS)
 		greet()
+		// Vampyre Lord is special to all vampyre spawn
+		for(var/datum/mind/thrall in C.vampires)
+			if (thrall.special_role == "Vampire Spawn")
+				thrall.add_special_person(owner.current, "#DC143C")
+		// And to all death knights
+		if (istype(C, /datum/game_mode/chaosmode))
+			var/datum/game_mode/chaosmode/chaosmode = C
+			for(var/datum/mind/deathknight in chaosmode.deathknights)
+				deathknight.add_special_person(owner.current, "#DC143C")
+
 	return ..()
 
 // OLD AND EDITED
@@ -156,7 +178,9 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		/datum/subclass/magos,
 		/datum/subclass/vagabond,
 		/datum/subclass/scavenger,
-		/datum/subclass/deserter)
+		/datum/subclass/deserter,
+		/datum/subclass/vampirerogue,
+		/datum/subclass/vampiremagos)
 	var/list/visoptions = list()
 
 	for(var/datum/subclass/A in SSrole_class_handler.sorted_class_categories[CTAG_ALLCLASS])
@@ -393,7 +417,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 				var/turf/T = H.loc
 				if(T.can_see_sky())
 					if(T.get_lumcount() > 0.15)
-						if(!isspawn && !disguised) //VLord has no access to disguise by default, but this is good for adminbus. 
+						if(!isspawn && !disguised) //VLord has no access to disguise by default, but this is good for adminbus.
 							to_chat(H, span_warning("Astrata spurns me! I must get out of her rays!")) // VLord is more punished for daylight excursions.
 							var/turf/N = H.loc
 							if(N.can_see_sky())
@@ -497,6 +521,19 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 						thrall.current.change_stat(S, 3) //Overall stat nerf to VLord (not huge)
 	return
 
+
+/datum/antagonist/vampirelord/proc/stake()
+    if(staked)
+        return
+    staked = TRUE
+    to_chat(owner, span_danger("You feel your unholy power slipping away... you have been staked!"))
+
+/datum/antagonist/vampirelord/proc/unstake()
+    if(!staked)
+        return
+    staked = FALSE
+    to_chat(owner, span_notice("The stake is removed... your power returns."))
+
 // SPAWN
 /datum/antagonist/vampirelord/lesser
 	name = "Vampire Spawn"
@@ -540,11 +577,13 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 /mob/living/carbon/human/proc/vampire_telepathy()
 	set name = "Telepathy"
 	set category = "VAMPIRE"
-
+	if(!is_not_staked(usr))
+		return
 	var/datum/game_mode/chaosmode/C = SSticker.mode
 	var/msg = input("Send a message.", "Command") as text|null
 	if(!msg)
 		return
+	log_game("[key_name(src)] used vampyre telepathy to say \"[msg]\"")
 	for(var/datum/mind/V in C.vampires)
 		to_chat(V, span_boldnotice("A message from [src.real_name]: \"[msg]\""))
 	for(var/datum/mind/D in C.deathknights)
@@ -555,7 +594,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 /mob/living/carbon/human/proc/punish_spawn()
 	set name = "Punish Minion"
 	set category = "VAMPIRE"
-
+	if(!is_not_staked(usr))
+		return
 	var/datum/game_mode/chaosmode/C = SSticker.mode
 	var/list/possible = list()
 	for(var/datum/mind/V in C.vampires)
@@ -881,8 +921,18 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 		var/mob/dead/observer/C = pick(candidates)
 		log_game("VAMPIRE LOG: [C.ckey] chosen as new death knight.")
 		var/mob/living/carbon/human/new_knight = new /mob/living/carbon/human/species/human/northern(get_turf(usr))
-		new_knight.key = C.key
-		new_knight.equipOutfit(/datum/job/roguetown/deathknight)
+		new_knight.ckey = C.key
+    
+		SSjob.EquipRank(new_knight, "Death Knight", TRUE)
+		new_knight.forceMove(usr.loc) // Latejoin will place them in one of the latejoin locations,
+									  // so move the death knight to the vampyre lord AFTER applying the job
+
+		var/datum/game_mode/chaosmode/chaosmode = SSticker.mode
+		if (istype(chaosmode) && new_knight.mind)
+			for(var/datum/mind/vampire in chaosmode.vampires)
+				if (vampire.special_role == "Vampire Lord")
+					new_knight.mind.add_special_person(vampire.current, "#DC143C")
+
 		new_knight.regenerate_icons()
 //	else // REDMOON REMOVAL - фиксим удаление челиков в лобби при отказе становиться лордом
 		qdel(src)
@@ -1096,7 +1146,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 /obj/item/clothing/neck/roguetown/portalamulet/Initialize()
 	GLOB.vampire_objects |= src
 	. = ..()
-	
+
 /obj/item/clothing/neck/roguetown/portalamulet/Destroy()
 	GLOB.vampire_objects -= src
 	return ..()
@@ -1109,7 +1159,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 /obj/structure/vampire/Initialize()
 	GLOB.vampire_objects |= src
 	. = ..()
-	
+
 /obj/structure/vampire/Destroy()
 	GLOB.vampire_objects -= src
 	return ..()
@@ -1351,6 +1401,15 @@ GLOBAL_LIST_EMPTY(vteleportsenddest)
 
 	Moved(oldloc, direct)
 
+/proc/is_not_staked(mob/living/user)
+	var/datum/antagonist/vampirelord/VL = user.mind.has_antag_datum(/datum/antagonist/vampirelord)
+	if(!VL)
+		return TRUE // Not a vampire lord, no stake check needed
+	if(VL.staked)
+		to_chat(user, span_userdanger("The stake is making it impossible to use my bloodmagic!"))
+		return FALSE
+	else
+		return TRUE
 // Spells
 /obj/effect/proc_holder/spell/targeted/transfix
 	name = "Transfix"
@@ -1370,6 +1429,8 @@ GLOBAL_LIST_EMPTY(vteleportsenddest)
 	max_targets = 1
 
 /obj/effect/proc_holder/spell/targeted/transfix/cast(list/targets, mob/user = usr)
+	if(!is_not_staked(usr))
+		return
 	var/msg = input("Soothe them. Dominate them. Speak and they will succumb.", "Transfix") as text|null
 	if(length(msg) < 10)
 		to_chat(user, span_userdanger("This is not enough!"))
@@ -1389,7 +1450,7 @@ GLOBAL_LIST_EMPTY(vteleportsenddest)
 		for(var/obj/item/clothing/neck/roguetown/psicross/silver/I in L.contents) //Subpath fix.
 			found_psycross = TRUE
 			break
-			
+
 		if(bloodroll >= willroll)
 			if(found_psycross == TRUE)
 				to_chat(L, "<font color='white'>The silver psycross shines and protect me from the unholy magic.</font>")
@@ -1455,6 +1516,8 @@ GLOBAL_LIST_EMPTY(vteleportsenddest)
 	max_targets = 0
 
 /obj/effect/proc_holder/spell/targeted/transfix/master/cast(list/targets, mob/user = usr)
+	if(!is_not_staked(usr))
+		return
 	var/msg = input("Soothe them. Dominate them. Speak and they will succumb.", "Transfix") as text|null
 	if(length(msg) < 10)
 		to_chat(user, span_userdanger("This is not enough!"))
@@ -1541,6 +1604,8 @@ GLOBAL_LIST_EMPTY(vteleportsenddest)
 	vitaedrain = 250
 
 /obj/effect/proc_holder/spell/targeted/vamp_rejuv/cast(list/targets, mob/user = usr)
+	if(!is_not_staked(usr))
+		return
 	if(user && iscarbon(user))
 		var/mob/living/carbon/vampire = user
 		var/silver_curse_status = FALSE // Fail to cast condition.
