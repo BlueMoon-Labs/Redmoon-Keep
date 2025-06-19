@@ -74,8 +74,6 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 	var/underwear = "Nude"				//underwear type
 	var/underwear_color = null			//underwear color
 	var/undershirt = "Nude"				//undershirt type
-	var/accessory = "Nothing"
-	var/detail = "Nothing"
 	var/socks = "Nude"					//socks type
 	var/backpack = DBACKPACK				//backpack type
 	var/jumpsuit_style = PREF_SUIT		//suit/skirt
@@ -230,7 +228,6 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 		else
 			to_chat(user, "<font color='red'>Classes reset.</font>")
 	random_character(gender)
-	accessory = "Nothing"
 
 	headshot_link = null
 	nudeshot_link = null
@@ -2691,21 +2688,16 @@ Slots: [job.spawn_positions]</span>
 		character.regenerate_limb(BODY_ZONE_R_ARM)
 		character.regenerate_limb(BODY_ZONE_L_ARM)
 
-	var/datum/species/chosen_species
-	chosen_species = pref_species.type
-	if(!(pref_species.name in GLOB.roundstart_races))
-		set_new_race(new /datum/species/human/northern)
-
-		random_character(gender)
-	if(parent)
-		if(pref_species.patreon_req > parent.patreonlevel())
+	if(roundstart_checks)
+		if(!(pref_species.name in GLOB.roundstart_races))
 			set_new_race(new /datum/species/human/northern)
-			random_character(gender)
+		else if(parent && pref_species.patreon_req > parent.patreonlevel())
+			set_new_race(new /datum/species/human/northern)
 
 	character.age = age
 	character.dna.features = features.Copy()
 	character.gender = gender
-	character.set_species(chosen_species, icon_update = FALSE, pref_load = src)
+	character.set_species(pref_species.type, icon_update = FALSE, pref_load = src)
 
 	if((randomise[RANDOM_NAME] || randomise[RANDOM_NAME_ANTAG] && antagonist) && !character_setup)
 		slot_randomized = TRUE
@@ -2743,8 +2735,6 @@ Slots: [job.spawn_positions]</span>
 	//character.underwear = underwear
 //	character.underwear_color = underwear_color
 	character.undershirt = undershirt
-//	character.accessory = accessory
-	character.detail = detail
 	character.socks = socks
 	character.set_patron(selected_patron)
 	character.backpack = backpack
@@ -2775,12 +2765,11 @@ Slots: [job.spawn_positions]</span>
 			for(var/X in L)
 				ADD_TRAIT(character, curse2trait(X), TRAIT_GENERIC)
 
-	apply_trait_bans(character, parent.ckey)
-
-	if(is_misc_banned(parent.ckey, BAN_MISC_LEPROSY))
-		ADD_TRAIT(character, TRAIT_LEPROSY, TRAIT_BAN_PUNISHMENT)
-	if(is_misc_banned(parent.ckey, BAN_MISC_PUNISHMENT_CURSE))
-		ADD_TRAIT(character, TRAIT_PUNISHMENT_CURSE, TRAIT_BAN_PUNISHMENT)
+		apply_trait_bans(character, parent.ckey)
+		if(is_misc_banned(parent.ckey, BAN_MISC_LEPROSY))
+			ADD_TRAIT(character, TRAIT_LEPROSY, TRAIT_BAN_PUNISHMENT)
+		if(is_misc_banned(parent.ckey, BAN_MISC_PUNISHMENT_CURSE))
+			ADD_TRAIT(character, TRAIT_PUNISHMENT_CURSE, TRAIT_BAN_PUNISHMENT)
 
 	if(icon_updates)
 		character.update_body()
