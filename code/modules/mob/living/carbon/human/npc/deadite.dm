@@ -162,7 +162,9 @@
 		return FALSE
 
 	victim.onbite(src)
-	return TRUE
+	// onbite doesn't directly apply the attack delay so we do it here
+	changeNext_move(/datum/intent/bite::clickcd)
+	return TRUE // use up our turn regardless of if the bite succeeded or not
 
 /mob/living/carbon/human/proc/try_do_deadite_idle()
 

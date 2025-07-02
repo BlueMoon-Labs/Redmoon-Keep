@@ -106,14 +106,12 @@
 		if(prob(5))
 			to_chat(current_fisherman, user.client.prefs.be_russian ? "Здесь я драгоценности не выловлю... В реке у болот шансы выше." : "I will not catch any treasure here, but fish... Bog river would be more fitting.") // REDMOON ADD END
 	var/caught_thing = pickweight(baited.fishloot)
-	var/obj/item/I = new caught_thing()
-
-	I.forceMove(current_fisherman.loc)
+	var/obj/item/I = new caught_thing(current_fisherman.loc)
 
 	if(istype(I, /obj/item/reagent_containers/food/snacks/fish))
 		var/obj/item/reagent_containers/food/snacks/fish/F = I
 		F.fished_from = target
-		F.Initialize()
+		F.set_rarity()
 		
 	amt2raise = current_fisherman.STAINT * 2
 	playsound(loc, 'sound/items/Fish_out.ogg', 100, TRUE)

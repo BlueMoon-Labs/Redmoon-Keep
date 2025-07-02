@@ -13,6 +13,22 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	allowed_races = RACES_TOLERATED_UP
 	allowed_sexes = list(MALE, FEMALE)
 	can_leave_round = FALSE
+	allowed_patrons = list(\
+	/datum/patron/divine/astrata,\
+	/datum/patron/divine/noc,\
+	/datum/patron/divine/dendor,\
+	/datum/patron/divine/abyssor,\
+	/datum/patron/divine/ravox,\
+	/datum/patron/divine/necra,\
+	/datum/patron/divine/xylix,\
+	/datum/patron/divine/pestra,\
+	/datum/patron/divine/malum,\
+	/datum/patron/divine/eora,\
+	/datum/patron/zizo,\
+	/datum/patron/inhumen/matthios,\
+	/datum/patron/inhumen/baotha,\
+	/datum/patron/inhumen/graggar\
+) //combining defines into a list like this didn't work for some raisin so...
 
 	spells = list(
 		SPELL_GRANT_TITLE,
@@ -163,6 +179,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 			H.mind.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
 			H.mind.adjust_skillrank(/datum/skill/misc/treatment, 2, TRUE)
 			H.mind.adjust_skillrank(/datum/skill/combat/firearms, 4, TRUE)
+			H.mind.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
 			H.change_stat("strength", 1)
 			H.change_stat("intelligence", 3)
 			H.change_stat("endurance", 3)
