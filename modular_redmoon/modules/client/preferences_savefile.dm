@@ -53,8 +53,6 @@
 	if(!islist(rumors_dangerous))
 		rumors_dangerous = list()
 
-	_load_loadout(S)
-
 /datum/preferences/proc/redmoon_character_pref_save(savefile/S)
 	WRITE_FILE(S["bark_id"]								, bark_id)
 	WRITE_FILE(S["bark_speed"]							, bark_speed)
@@ -118,12 +116,6 @@
 	character.rumors_overal = rumors_overal
 	character.rumors_overal_good = rumors_overal_good
 	character.rumors_dangerous = rumors_dangerous
-
-/datum/preferences/proc/_load_loadout(S)
-	var/loadout_type
-	S["loadout"] >> loadout_type
-	if (loadout_type)
-		loadout = new loadout_type()
 
 /datum/preferences/proc/redmoon_save_preferences(savefile/S)
 	WRITE_FILE(S["redmoon_toggles"] 					, redmoon_toggles) // gain_stress_indicator

@@ -80,7 +80,7 @@
 	range = 1
 	include_user = FALSE
 	sound = 'sound/combat/newstuck.ogg'
-	associated_skill = /datum/skill/misc/treatment
+	associated_skill = /datum/skill/misc/medicine
 	antimagic_allowed = TRUE
 	charge_max = 1 MINUTES
 	miracle = FALSE
