@@ -49,13 +49,6 @@
     icon = 'modular_redmoon/modules/inquisition_overseers/icons/overseer.dmi'
     mob_overlay_icon = 'modular_redmoon/modules/inquisition_overseers/icons/onmob/overseer_onmob.dmi'
 
-/obj/item/clothing/suit/roguetown/shirt/undershirt/overseer
-    icon_state = "overseershirt"
-    icon = 'modular_redmoon/modules/inquisition_overseers/icons/overseer.dmi'
-    mob_overlay_icon = 'modular_redmoon/modules/inquisition_overseers/icons/onmob/overseer_onmob.dmi'
-    sleeved = 'modular_redmoon/modules/inquisition_overseers/icons/onmob/overseer_onmob.dmi'
-    color = null
-
 /obj/item/storage/belt/rogue/leather/overseer
     name = "belt with pouches"
     desc = "Leather belt with some pouches attached."
