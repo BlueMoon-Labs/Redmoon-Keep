@@ -4,6 +4,7 @@
 		Вы много лет служили своему дворянскому дому, став мастером интриг и знаете как подбирать слова, чтобы добиться своего. \
 		Пусть люд не забывает, кому вы нашёптываете советы, ибо этим вы убили больше людей, чем любой мастер фехтования мог бы себе представить."
 	cmode_music = 'sound/music/cmode/nobility/combat_noble.ogg'
+	min_pq = 0
 
 // sethand remake
 /datum/job/roguetown/hand/special_check_latejoin(client/C)

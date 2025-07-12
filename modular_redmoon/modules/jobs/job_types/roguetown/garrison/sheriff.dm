@@ -4,6 +4,7 @@
 	Повышение вы заслужили уважительным отношением к правосудию и слежкой за тем, чтобы все соблюдали законы Рокхилла. \
 	У вас есть власть над городскими стражниками и Маршал исполняет свою волю через вас."
 	cmode_music = 'sound/music/cmode/garrison/CombatGarrison.ogg'
+	min_pq = 0
 
 /datum/job/roguetown/sheriff/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	if(ishuman(L))

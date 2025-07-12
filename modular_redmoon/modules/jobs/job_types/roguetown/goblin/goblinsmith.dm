@@ -4,6 +4,7 @@
 		Постарайтесь не подвести Вождя и многих существ, что вы обслуживаете под его командованием и милостью."
 	announce_latejoin = FALSE
 	family_blacklisted = TRUE
+	min_pq = 0
 
 /datum/outfit/job/roguetown/goblinsmith/pre_equip(mob/living/carbon/human/H)
 	..()

@@ -7,3 +7,4 @@
 	family_blacklisted = TRUE
 	total_positions = 8
 	spawn_positions = 8
+	min_pq = 0

@@ -5,6 +5,7 @@
 	Как самые фанатичные представители духовенства, они в первую очередь помогают местному инквизитору в его работе. \
 	Будь то выбивание признаний в грехах или охота на ночных зверей и культистов, которые прячутся у всех на виду."
 	cmode_music = 'sound/music/cmode/church/CombatInquisitor.ogg'
+	min_pq = 0
 
 /datum/outfit/job/roguetown/shepherd/pre_equip(mob/living/carbon/human/H)
 	..()

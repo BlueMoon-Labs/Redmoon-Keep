@@ -8,6 +8,7 @@
 	Это может быть земля Герцога, но именно вы дергаете за ниточки в этом городе. \
 	Всё во имя исполнения вашего долга перед Герцогом."
 	cmode_music = 'sound/music/cmode/nobility/combat_noble.ogg'
+	min_pq = 0
 
 /datum/job/roguetown/marshal/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	if(ishuman(L))

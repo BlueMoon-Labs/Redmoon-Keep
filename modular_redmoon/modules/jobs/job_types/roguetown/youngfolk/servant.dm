@@ -3,6 +3,7 @@
 	ru_f_title = "Горничная"
 	ru_tutorial = "Вы были награждены прекрасной должностью слуги в доме лорда.\
 	Вы слушаете приказы дворецкого и проводите день, выполняя необходимые, но рутинные задания."
+	min_pq = 0
 
 /datum/outfit/job/roguetown/servant/pre_equip(mob/living/carbon/human/H)
 	..()

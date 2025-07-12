@@ -6,6 +6,7 @@
 		пригодного для иной службы."
 	announce_latejoin = FALSE
 	allowed_races = ALL_RACES_TYPES
+	min_pq = 0
 
 /obj/effect/landmark/start/goblinrabble // Позволяет спавниться на этих точках гоблинам вместо обычных мест лейтжоина
 	jobspawn_override = list("Goblin Chief", "Goblin Shaman", "Goblin Rabble", "Goblin Smith", "Goblin Guard", "Goblin Cook")

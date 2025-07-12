@@ -1191,7 +1191,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 			if(!can_commend(forced))
 				return
 			if(add_commend(theykey, ckey))
-				to_chat(src,"[selection] получит похвалу (или даже \"спасибо\", если это первый commend).")
+				to_chat(src,"[selection] получит похвалу (или даже \"спасибо\", если это первый Commend).")
 				prefs.commendedsomeone = TRUE // REDMOON ADD
 			/* REDMOON REMOVAL START - логирование добавлено в add_commend
 			log_game("COMMEND: [ckey] commends [theykey].")
@@ -1199,17 +1199,17 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 			message_admins("[ckey] commends [theykey].")
 			REDMOON REMOVAL END */
 		else if(action == "Поругать" || action == "Uncommend")
-			if(!can_uncommend(forced))
-				return
-			if(get_playerquality(key) < 0) // Игроки с отрицательным PQ не могут снижать чужое PQ
-				to_chat(src, span_danger("У тебя слишком плохая репутация, чтобы обвинять кого-то."))
-				return FALSE
-			if(SSticker.current_state != GAME_STATE_FINISHED) // Снижать PQ можно только в конце раунда
-				to_chat(src, span_danger("Подожди конца раунда и лучше осмысли ситуацию."))
-				return FALSE
+			// if(!can_uncommend(forced))
+			// 	return
+			// if(get_playerquality(key) < 0) // Игроки с отрицательным PQ не могут снижать чужое PQ
+			// 	to_chat(src, span_danger("У тебя слишком плохая репутация, чтобы обвинять кого-то."))
+			// 	return FALSE
+			// if(SSticker.current_state != GAME_STATE_FINISHED) // Снижать PQ можно только в конце раунда
+			// 	to_chat(src, span_danger("Подожди конца раунда и лучше осмысли ситуацию."))
+			// 	return FALSE
 			if(add_uncommend(theykey, ckey))
 				to_chat(src,"[selection] получит негативный комментарий, видимый только ему (без снятия PQ).")
-				prefs.negative_commented_someone = TRUE // REDMOON ADD
+				// prefs.negative_commented_someone = TRUE // REDMOON ADD
 	return
 
 // Handles notifying funeralized players on login, or forcing them back to lobby, depending on configs. Called on /client/New().
