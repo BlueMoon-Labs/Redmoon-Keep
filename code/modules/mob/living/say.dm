@@ -145,7 +145,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 	if(check_subtler(original_message, forced) || !can_speak_basic(original_message, ignore_spam, forced))
 		return
-		
+
 	if(in_critical)
 		if(!(crit_allowed_modes[message_mode]))
 			return
@@ -351,7 +351,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 				continue
 		listening |= M
 		the_dead[M] = TRUE
-	
+
 	log_seen(src, null, listening, original_message, SEEN_LOG_SAY)
 
 	var/eavesdropping
@@ -457,7 +457,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	return TRUE
 
 /mob/living/proc/can_speak_vocal(message) //Check AFTER handling of xeno and ling channels
-	if(HAS_TRAIT(src, TRAIT_MUTE))
+	if(HAS_TRAIT(src, TRAIT_MUTE)|| HAS_TRAIT(src, TRAIT_PERMAMUTE))
 		return FALSE
 
 	if(is_muzzled())

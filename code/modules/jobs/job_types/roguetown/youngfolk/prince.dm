@@ -67,6 +67,7 @@
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich
 	backr = /obj/item/storage/backpack/rogue/satchel
 	shoes = /obj/item/clothing/shoes/roguetown/armor/nobleboot
+	head = /obj/item/clothing/head/roguetown/circlet
 
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC) // REDMOON ADD - для корректной работы семьи
 /datum/subclass/prince/sheltered

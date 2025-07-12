@@ -1,7 +1,7 @@
 /obj/item/clothing/cloak
 	name = "cloak"
-	icon = 'icons/roguetown/clothing/cloaks.dmi'
-	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	icon = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	slot_flags = ITEM_SLOT_CLOAK
 	desc = "Protects you from the weather and your identity from everyone else."
 	edelay_type = 1
@@ -9,6 +9,9 @@
 	bloody_icon_state = "bodyblood"
 	sewrepair = TRUE //Vrell - AFAIK, all cloaks are cloth ATM. Technically semi-less future-proof, but it removes a line of code from every subtype, which is worth it IMO.
 	w_class = WEIGHT_CLASS_NORMAL
+	
+	grid_width = 64
+	grid_height = 64
 
 
 //////////////////////////
@@ -21,7 +24,7 @@
 	color = null
 	icon_state = "tabard"
 	item_state = "tabard"
-	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
 	alternate_worn_layer = TABARD_LAYER
 	body_parts_covered = CHEST|GROIN
 	boobed = TRUE
@@ -314,8 +317,8 @@
 	alternate_worn_layer = TABARD_LAYER
 	body_parts_covered = CHEST|GROIN
 	boobed = TRUE
-	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/detailed/tabards.dmi'
-	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/detailed/tabards.dmi'
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK
@@ -599,8 +602,8 @@
 	alternate_worn_layer = CLOAK_BEHIND_LAYER
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 	boobed = TRUE
-	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
-	sleevetype = "shirt"	
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
 //	allowed_sex = list(MALE)
@@ -635,16 +638,9 @@
 	GLOB.lordcolor -= src
 	return ..()
 
-
 /obj/item/clothing/cloak/lordcloak/ComponentInitialize()
 	. = ..()
-	// AddComponent(/datum/component/storage/concrete)
-	// var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	// if(STR)
-	// 	STR.max_combined_w_class = 4
-	// 	STR.max_w_class = WEIGHT_CLASS_BULKY
-	// 	STR.max_items = 1
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak/lord)
+	AddComponent(/datum/component/storage/concrete/grid/cloak/lord)
 
 /obj/item/clothing/cloak/lordcloak/dropped(mob/living/carbon/human/user)
 	..()
@@ -697,6 +693,7 @@
 /obj/item/clothing/cloak/apron/waist/bar
 	color = "#251f1d"
 
+
 /obj/item/clothing/cloak/apron/cook
 	name = "cook apron"
 	desc = "An apron meant to show how clean the cook is."
@@ -730,7 +727,7 @@
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 //	body_parts_covered = ARMS|CHEST
 	boobed = TRUE
-	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
@@ -745,17 +742,11 @@
 
 /obj/item/clothing/cloak/raincloak/ComponentInitialize()
 	. = ..()
-	// AddComponent(/datum/component/storage/concrete)
-	// var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	// if(STR)
-	// 	STR.max_combined_w_class = 3
-	// 	STR.max_w_class = WEIGHT_CLASS_NORMAL
-	// 	STR.max_items = 1
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
+	AddComponent(/datum/component/storage/concrete/grid/cloak)
 
 /obj/item/clothing/cloak/raincloak/dropped(mob/living/carbon/human/user)
 	..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage/concrete/grid/cloak)
 	if(STR)
 		var/list/things = STR.contents()
 		for(var/obj/item/I in things)
@@ -835,7 +826,7 @@
 	item_state = "cape"
 	alternate_worn_layer = CLOAK_BEHIND_LAYER
 	boobed = TRUE
-	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = FALSE
@@ -900,7 +891,7 @@
 	desc = ""
 	icon_state = "chasuble"
 	body_parts_covered = CHEST|GROIN|ARMS
-	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	sleevetype = "shirt"
 	slot_flags = ITEM_SLOT_CLOAK
 	allowed_sex = list(MALE, FEMALE)
@@ -927,7 +918,7 @@
 	desc = ""
 	icon_state = "black_cloak"
 	body_parts_covered = CHEST|GROIN|VITALS|ARMS
-	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	sleevetype = "shirt"
 	slot_flags = ITEM_SLOT_CLOAK
 	allowed_sex = list(MALE, FEMALE)
@@ -940,7 +931,7 @@
 	desc = ""
 	icon_state = "heartfelt_cloak"
 	body_parts_covered = CHEST|GROIN|VITALS|ARMS
-	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	sleevetype = "shirt"
 	slot_flags = ITEM_SLOT_CLOAK
 	allowed_sex = list(MALE, FEMALE)
@@ -956,7 +947,7 @@
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 //	body_parts_covered = ARMS|CHEST
 	boobed = TRUE
-	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
@@ -971,13 +962,7 @@
 
 /obj/item/clothing/cloak/half/ComponentInitialize()
 	. = ..()
-	// AddComponent(/datum/component/storage/concrete)
-	// var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	// if(STR)
-	// 	STR.max_combined_w_class = 3
-	// 	STR.max_w_class = WEIGHT_CLASS_NORMAL
-	// 	STR.max_items = 1
-	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
+	AddComponent(/datum/component/storage/concrete/grid/cloak)
 
 /obj/item/clothing/cloak/half/dropped(mob/living/carbon/human/user)
 	..()
@@ -1195,7 +1180,7 @@
 ///////////////////////////
 
 /obj/item/clothing/cloak/templar/astratan
-	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	alternate_worn_layer = TABARD_LAYER
 	boobed = FALSE
 	name = "astratan tabard"
@@ -1203,7 +1188,7 @@
 	icon_state = "astratatabard"
 
 /obj/item/clothing/cloak/templar/malummite
-	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	alternate_worn_layer = TABARD_LAYER
 	boobed = FALSE
 	name = "malummite tabard"
@@ -1211,7 +1196,7 @@
 	icon_state = "malumtabard"
 
 /obj/item/clothing/cloak/templar/necran
-	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	alternate_worn_layer = TABARD_LAYER
 	boobed = FALSE
 	name = "necran tabard"
@@ -1221,7 +1206,7 @@
 //Below are a couple tabards from Azure
 
 /obj/item/clothing/cloak/templar/pestran
-	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	alternate_worn_layer = TABARD_LAYER
 	boobed = FALSE
 	name = "pestran tabard"
@@ -1229,7 +1214,7 @@
 	icon_state = "pestratabard"
 
 /obj/item/clothing/cloak/templar/psydon
-	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	alternate_worn_layer = TABARD_LAYER
 	boobed = FALSE
 	name = "psydon tabard"
@@ -1237,7 +1222,7 @@
 	icon_state = "psydontabard"
 
 /obj/item/clothing/cloak/templar/abyssor
-	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	alternate_worn_layer = TABARD_LAYER
 	boobed = FALSE
 	name = "abyssor tabard"
@@ -1249,7 +1234,7 @@
 	desc = "A piece of cloth usually worn to cover the hips and part of the legs."
 	color = null
 	icon_state = "faulds"
-	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	alternate_worn_layer = TABARD_LAYER
 	body_parts_covered = LEGS|GROIN
 	slot_flags = ITEM_SLOT_CLOAK|ITEM_SLOT_PANTS
@@ -1297,11 +1282,8 @@
 
 /obj/item/clothing/cloak/cape/crusader/ComponentInitialize()
 	. = ..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	if(STR)
-		STR.max_combined_w_class = 3
-		STR.max_w_class = WEIGHT_CLASS_NORMAL
-		STR.max_items = 1
+	AddComponent(/datum/component/storage/concrete/grid/cloak/lord)
+
 
 /obj/item/clothing/cloak/cape/crusader/attack_right(mob/user)
 	var/datum/component/storage/CP = GetComponent(/datum/component/storage)
@@ -1309,9 +1291,11 @@
 		CP.rmb_show(user)
 		return TRUE
 	..()
-
+	
 /obj/item/clothing/cloak/cape/crusader/dropped(mob/living/carbon/human/user)
 	..()
+	if(QDELETED(src))
+		return
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	if(STR)
 		var/list/things = STR.contents()
@@ -1323,13 +1307,13 @@
 /obj/item/clothing/cloak/shadow
 	name = "vanguard cloak"
 	desc = "A nightly cloak worn by those that protect the citizenry from what lurks beyond."
-	icon = 'icons/roguetown/clothing/cloaks.dmi'
+	icon = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
 	icon_state = "shadowcloak"
 	item_state = "shadowcloak"
-	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	alternate_worn_layer = CLOAK_BEHIND_LAYER
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
-	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
 	toggle_icon_state = FALSE
@@ -1337,12 +1321,7 @@
 
 /obj/item/clothing/cloak/shadow/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/storage/concrete)
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	if(STR)
-		STR.max_combined_w_class = 3
-		STR.max_w_class = WEIGHT_CLASS_NORMAL
-		STR.max_items = 1
+	AddComponent(/datum/component/storage/concrete/grid/cloak)
 
 /obj/item/clothing/cloak/shadow/dropped(mob/living/carbon/human/user)
 	..()
@@ -1358,7 +1337,7 @@
 	name = "citywatch cape"
 	desc = ""
 	icon = 'icons/roguetown/clothing/licensed-infraredbaron/cloaks.dmi'
-	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/licensed-infraredbaron/onmob/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/licensed-infraredbaron/onmob/cloaks.dmi'
 	icon_state = "citywatch_cape"
 	item_state = "citywatch_cape"
 
@@ -1379,7 +1358,7 @@
 	alternate_worn_layer = CLOAK_BEHIND_LAYER
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 	boobed = TRUE
-	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	detail_tag = "_detail"
@@ -1389,10 +1368,10 @@
 	name = "matron cloak"
 	desc = "A cloak that only the meanest of old crones bother to wear."
 	icon_state = "matroncloak"
-	icon = 'icons/roguetown/clothing/cloaks.dmi'
-	mob_overlay_icon ='modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	icon = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	mob_overlay_icon ='icons/roguetown/clothing/onmob/cloaks.dmi'
 	body_parts_covered = CHEST|GROIN|VITALS|ARMS
-	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	sleevetype = "shirt"
 	slot_flags = ITEM_SLOT_CLOAK
 	nodismemsleeves = TRUE
@@ -1408,7 +1387,7 @@
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 	allowed_sex = list(MALE, FEMALE)
 	body_parts_covered = CHEST|GROIN|VITALS|ARMS|LEGS
-	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
@@ -1417,9 +1396,9 @@
 	name = "inquisitors cloak"
 	desc = "A time honored cloak Valorian design, used by founding clans of the Valorian Lodge"
 	icon_state = "inquisitor_cloak"
-	icon = 'icons/roguetown/clothing/cloaks.dmi'
-	mob_overlay_icon = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
-	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	icon = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 
 /obj/item/clothing/cloak/tribal
 	name = "tribal pelt"
@@ -1429,7 +1408,7 @@
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 	body_parts_covered = CHEST|GROIN|VITALS
 	allowed_sex = list(MALE, FEMALE)
-	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	nodismemsleeves = TRUE
 	boobed = FALSE
 	sellprice = 10
@@ -1451,7 +1430,7 @@
 	color = null
 	icon_state = "volfpelt"
 	item_state = "volfpelt"
-	sleeved = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = FALSE

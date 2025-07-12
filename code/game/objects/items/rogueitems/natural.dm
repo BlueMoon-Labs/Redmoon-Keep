@@ -8,6 +8,9 @@
 	var/bundletype = null
 	var/bundling_time = 4 SECONDS
 
+	grid_width = 32
+	grid_height = 32
+
 /obj/item/natural/attackby(obj/item/W, mob/living/user)
 	if(istype(W, /obj/item/natural/bundle))
 		var/obj/item/natural/bundle/B = W
@@ -50,6 +53,10 @@
 	var/icon3 = null
 	var/stacktype = /obj/item/natural/fibers/
 	var/stackname = "fibers"
+	var/items_per_increase = 5
+
+	var/base_width = 32
+	var/base_height = 32
 
 /obj/item/natural/bundle/attackby(obj/item/W, mob/living/user)
 	if(istype(W, /obj/item/natural/bundle))

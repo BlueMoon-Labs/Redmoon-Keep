@@ -223,6 +223,12 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/e
 	var/torn_sleeve_number = 0
 	var/enchanted = FALSE
 
+	// ~Grid INVENTORY VARIABLES
+	/// Width we occupy on the hud - Keep null to generate based on w_class
+	var/grid_width
+	/// Height we occupy on the hud - Keep null to generate based on w_class
+	var/grid_height
+
 /obj/item/Initialize()
 	. = ..()
 	if(!pixel_x && !pixel_y && !bigboy)
@@ -230,10 +236,12 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/e
 		pixel_y = rand(-5,5)
 	if(twohands_required)
 		has_inspect_verb = TRUE
+
 	if(grid_width <= 0)
 		grid_width = (w_class * world.icon_size)
 	if(grid_height <= 0)
 		grid_height = (w_class * world.icon_size)
+
 	update_transform()
 
 /obj/item/proc/step_action() //this was made to rewrite clown shoes squeaking
@@ -565,9 +573,6 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/e
 		to_chat(user,span_notice("I start picking up [src]..."))
 		if(!do_mob(user,src,30*grav_power))
 			return
-
-	if(SEND_SIGNAL(loc, COMSIG_STORAGE_BLOCK_USER_TAKE, src, user, TRUE))
-		return
 
 	if(!ontable() && isturf(loc))
 		if(!move_after(user,3,target = src))

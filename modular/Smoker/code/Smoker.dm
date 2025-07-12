@@ -10,15 +10,12 @@
 	throwforce = 0
 	slot_flags = null
 	spawn_type = /obj/item/clothing/mask/cigarette/rollie/snek
-	populate_contents = list(
-		/obj/item/clothing/mask/cigarette/rollie/snek,
-		/obj/item/clothing/mask/cigarette/rollie/snek,
-		/obj/item/clothing/mask/cigarette/rollie/snek,
-		/obj/item/clothing/mask/cigarette/rollie/snek,
-		/obj/item/clothing/mask/cigarette/rollie/snek
-	)
+	component_type = /datum/component/storage/concrete/grid/zigbox
 
-	component_type = /datum/component/storage/concrete/roguetown/cigarettepack
+/obj/item/storage/fancy/shhig/ComponentInitialize()
+	. = ..()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	STR.max_items = 5
 
 /obj/item/storage/fancy/shhig/attack_self(mob_user)
 	return

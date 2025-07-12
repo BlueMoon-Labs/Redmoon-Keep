@@ -230,9 +230,10 @@
 	if(user.patron) // REDMOON ADD START - Эора и Баота позволяют своему юзверю быть очень выносливым
 		if(user.patron.type != /datum/patron/inhumen/baotha || user.patron.type != /datum/patron/divine/eora)
 			if(prob(10))
-				to_chat(user, span_love((user.client.prefs.be_russian ? "Мой бог... Даёт мне сил продолжать! Славься!" : "My god... Grants me power to continue! Praise!")))
-		else // REDMOON ADD END
-			adjust_charge(-CHARGE_FOR_CLIMAX)
+				to_chat(user, span_love((user.client.prefs.be_russian ? "Мой бог... даёт мне сил продолжать! Славься!" : "My god... Grants me power to continue! Praise!")))
+	if(user.has_flaw(/datum/charflaw/addiction/lovefiend))
+		user.sate_addiction()
+	adjust_charge(-CHARGE_FOR_CLIMAX)
 	user.emote("sexmoanhvy", forced = TRUE)
 	user.playsound_local(user, 'sound/misc/mat/end.ogg', 100)
 	last_ejaculation_time = world.time
@@ -287,6 +288,8 @@
 	set_charge(charge + amount)
 
 /datum/sex_controller/proc/handle_charge(dt)
+	if(user.has_flaw(/datum/charflaw/addiction/lovefiend))
+		dt *= 2
 	adjust_charge(dt * CHARGE_RECHARGE_RATE)
 	if(is_spent())
 		if(arousal > 60)
@@ -353,7 +356,7 @@
 		arousal_amt = 0
 		pain_amt = 0
 
-	if(!arousal_frozen) 
+	if(!arousal_frozen)
 		adjust_arousal(arousal_amt)
 
 	damage_from_pain(pain_amt)
