@@ -11,12 +11,10 @@
 		text += "Похвала от <b>[admin]</b> за: <i>[reason]</i> ([GLOB.rogue_round_id]) \n"
 		text2file(text,"data/player_saves/[copytext(key,1,2)]/[key]/playerquality.txt")
 		message_admins("<small>[admin] похвалил (без PQ) [key] с причиной: [reason]</small>")
-		send2irc("PQ", "[fakekey == ckey ? "[ckey]" : "[fake_key] ([ckey])"] [mob ? "([mob.real_name])" : ""] оставил [key] комментарий: \"<i>[raisin]</i>\"")
 	else
 		text = "Недовольство от <b>[admin]</b> за: <i>[reason]</i> ([GLOB.rogue_round_id]) \n"
 		text2file(text,"data/player_saves/[copytext(key,1,2)]/[key]/playerquality.txt")
 		message_admins("<small>[admin] поругал (без PQ) [key] с причиной: [reason]</small>")
-		send2irc("PQ", "[fakekey == ckey ? "[ckey]" : "[fake_key] ([ckey])"] [mob ? "([mob.real_name])" : ""] оставил [key] комментарий: \"<i>[raisin]</i>\"")
 
 /client/proc/add_uncommend(key, giver)
 	if(!giver || !key)

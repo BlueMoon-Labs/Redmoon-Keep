@@ -244,6 +244,7 @@
 		return TRUE
 	else
 		give_comment(1, ckey(key), fakekey, raisin)
+		send2irc("Комментарий", "[fakekey == ckey ? "[ckey]" : "[fake_key] ([ckey])"] [mob ? "([mob.real_name])" : ""] оставил [key] комментарий: \"<i>[raisin]</i>\"")
 		return TRUE
 
 	// REDMOON ADD END
