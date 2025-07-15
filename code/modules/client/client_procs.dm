@@ -1172,7 +1172,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	var/theykey = selections[selection]
 	var/action 
 	if(usr?.client?.prefs?.be_russian)
-		action = alert(src, "Как вы хотите оценить [selection]?", "Выбор действия", "Похвалить", "Поругать", "Отмена")
+		action = alert(src, "Как вы хотите оценить [selection]?", "Выбор действия", "Похвалить", "Оставить Комментарий", "Отмена")
 	else
 		action = alert(src, "How do you want to evaluate [selection]?", "Action selection", "Commend", "Uncommend", "Cancellation")
 	if(action == "Отмена" || action == "Cancellation")
@@ -1198,7 +1198,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 			log_admin("COMMEND: [ckey] commends [theykey].")
 			message_admins("[ckey] commends [theykey].")
 			REDMOON REMOVAL END */
-		else if(action == "Поругать" || action == "Uncommend")
+		else if(action == "Оставить Комментарий" || action == "Uncommend")
 			// if(!can_uncommend(forced))
 			// 	return
 			// if(get_playerquality(key) < 0) // Игроки с отрицательным PQ не могут снижать чужое PQ
