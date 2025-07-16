@@ -54,8 +54,6 @@
 		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(apply_special_trait), H, /datum/special_trait/hunted, FALSE), 60 SECONDS)
 	if(!SSrole_class_handler.bandits_in_round)
 		SSrole_class_handler.bandits_in_round = TRUE
-	addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "BANDIT"), 5 SECONDS)
-
 
 /*BANDIT DESIGN GOALS:
 

@@ -24888,8 +24888,7 @@
 /obj/structure/mineral_door/wood/donjon{
 	lockdiff = 2;
 	locked = 1;
-	lockid = "town_barracks";
-	name = "Городские врата"
+	lockid = "town_barracks"
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/garrison)
@@ -39571,7 +39570,6 @@
 	})
 "rdB" = (
 /obj/structure/gate/bars/preopen{
-	name = "Городские врата";
 	redstone_id = "towngate";
 	gid = "towngate"
 	},
@@ -47835,7 +47833,6 @@
 /area/rogue/indoors/town/bath)
 "uGj" = (
 /obj/structure/gate/bars/preopen{
-	name = "Городские врата";
 	redstone_id = "towngateinner";
 	gid = "towngateinner"
 	},

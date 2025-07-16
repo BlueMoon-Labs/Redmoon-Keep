@@ -1,7 +1,7 @@
 /datum/triumph_buy/eora
-	triumph_buy_id = "Благословение Эоры"
-	desc = "Эора милоствует лишь высоких женщин, а иные же... получат проклятье..."
-	triumph_cost = 50
+	triumph_buy_id = "eora_blessing"
+	desc = "Благославление Эоры! Эора милоствует лишь высоких женщин, а иные же... получат проклятье..."
+	triumph_cost = 10
 	category = TRIUMPH_CAT_CHARACTER
 	pre_round_only = FALSE
 	visible_on_active_menu = FALSE

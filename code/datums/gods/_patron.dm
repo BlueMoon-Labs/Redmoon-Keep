@@ -38,7 +38,12 @@ GLOBAL_LIST_EMPTY(preference_patrons)
 /datum/patron/proc/on_gain(mob/living/pious)
 	for(var/trait in mob_traits)
 		ADD_TRAIT(pious, trait, "[type]")
+	if(HAS_TRAIT(pious, TRAIT_BLACKLEG))
+		pious.grant_language(/datum/language/thievescant)
+		pious.verbs += /mob/living/carbon/human/proc/emote_ffsalute
 
 /datum/patron/proc/on_loss(mob/living/pious)
 	for(var/trait in mob_traits)
 		REMOVE_TRAIT(pious, trait, "[type]")
+	if(HAS_TRAIT(pious, TRAIT_BLACKLEG))
+		pious.remove_language(/datum/language/thievescant)

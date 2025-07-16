@@ -394,28 +394,16 @@
 			lol++
 			switch(lol)
 				if(1)
-					if(usr?.client?.prefs?.be_russian)
-						intent1 = image(icon='icons/mob/ru_roguehud.dmi',icon_state=intenty.icon_state, pixel_x = 64, pixel_y = 16, layer = layer+0.02)
-					else
-						intent1 = image(icon='icons/mob/roguehud.dmi',icon_state=intenty.icon_state, pixel_x = 64, pixel_y = 16, layer = layer+0.02)
+					intent1 = image(icon='icons/mob/ru_roguehud.dmi',icon_state=intenty.icon_state, pixel_x = 64, pixel_y = 16, layer = layer+0.02)
 					add_overlay(intent1, TRUE)
 				if(2)
-					if(usr?.client?.prefs?.be_russian)
-						intent2 = image(icon='icons/mob/ru_roguehud.dmi',icon_state=intenty.icon_state, pixel_x = 96, pixel_y = 16, layer = layer+0.02)
-					else
-						intent2 = image(icon='icons/mob/roguehud.dmi',icon_state=intenty.icon_state, pixel_x = 96, pixel_y = 16, layer = layer+0.02)
+					intent2 = image(icon='icons/mob/ru_roguehud.dmi',icon_state=intenty.icon_state, pixel_x = 96, pixel_y = 16, layer = layer+0.02)
 					add_overlay(intent2, TRUE)
 				if(3)
-					if(usr?.client?.prefs?.be_russian)
-						intent3 = image(icon='icons/mob/ru_roguehud.dmi',icon_state=intenty.icon_state, pixel_x = 64, layer = layer+0.02)
-					else
-						intent3 = image(icon='icons/mob/roguehud.dmi',icon_state=intenty.icon_state, pixel_x = 64, layer = layer+0.02)
+					intent3 = image(icon='icons/mob/ru_roguehud.dmi',icon_state=intenty.icon_state, pixel_x = 64, layer = layer+0.02)
 					add_overlay(intent3, TRUE)
 				if(4)
-					if(usr?.client?.prefs?.be_russian)
-						intent4 = image(icon='icons/mob/ru_roguehud.dmi',icon_state=intenty.icon_state, pixel_x = 96, layer = layer+0.02)
-					else
-						intent4 = image(icon='icons/mob/roguehud.dmi',icon_state=intenty.icon_state, pixel_x = 96, layer = layer+0.02)
+					intent4 = image(icon='icons/mob/ru_roguehud.dmi',icon_state=intenty.icon_state, pixel_x = 96, layer = layer+0.02)
 					add_overlay(intent4, TRUE)
 		if(ismob(usr))
 			var/mob/M = usr
@@ -437,46 +425,22 @@
 			other = r_index
 		switch(used_index)
 			if(1)
-				if(usr?.client?.prefs?.be_russian)
-					border1 = image(icon='icons/mob/ru_roguehud.dmi',icon_state="intentselected", pixel_x = 64, pixel_y = 16, layer = layer+0.01)
-				else
-					border1 = image(icon='icons/mob/roguehud.dmi',icon_state="intentselected", pixel_x = 64, pixel_y = 16, layer = layer+0.01)
+				border1 = image(icon='icons/mob/ru_roguehud.dmi',icon_state="intentselected", pixel_x = 64, pixel_y = 16, layer = layer+0.01)
 			if(2)
-				if(usr?.client?.prefs?.be_russian)
-					border1 = image(icon='icons/mob/ru_roguehud.dmi',icon_state="intentselected", pixel_x = 96, pixel_y = 16, layer = layer+0.01)
-				else
-					border1 = image(icon='icons/mob/roguehud.dmi',icon_state="intentselected", pixel_x = 96, pixel_y = 16, layer = layer+0.01)
+				border1 = image(icon='icons/mob/ru_roguehud.dmi',icon_state="intentselected", pixel_x = 96, pixel_y = 16, layer = layer+0.01)
 			if(3)
-				if(usr?.client?.prefs?.be_russian)
-					border1 = image(icon='icons/mob/ru_roguehud.dmi',icon_state="intentselected", pixel_x = 64, layer = layer+0.01)
-				else
-					border1 = image(icon='icons/mob/roguehud.dmi',icon_state="intentselected", pixel_x = 64, layer = layer+0.01)
+				border1 = image(icon='icons/mob/ru_roguehud.dmi',icon_state="intentselected", pixel_x = 64, layer = layer+0.01)
 			if(4)
-				if(usr?.client?.prefs?.be_russian)
-					border1 = image(icon='icons/mob/ru_roguehud.dmi',icon_state="intentselected", pixel_x = 96, layer = layer+0.01)
-				else
-					border1 = image(icon='icons/mob/roguehud.dmi',icon_state="intentselected", pixel_x = 96, layer = layer+0.01)
+				border1 = image(icon='icons/mob/ru_roguehud.dmi',icon_state="intentselected", pixel_x = 96, layer = layer+0.01)
 		switch(other)
 			if(1)
-				if(usr?.client?.prefs?.be_russian)
-					border2 = image(icon='icons/mob/ru_roguehud.dmi',icon_state=used, pixel_x = 64, pixel_y = 16, layer = layer+0.01)
-				else
-					border2 = image(icon='icons/mob/roguehud.dmi',icon_state=used, pixel_x = 64, pixel_y = 16, layer = layer+0.01)
+				border2 = image(icon='icons/mob/ru_roguehud.dmi',icon_state=used, pixel_x = 64, pixel_y = 16, layer = layer+0.01)
 			if(2)
-				if(usr?.client?.prefs?.be_russian)
-					border2 = image(icon='icons/mob/ru_roguehud.dmi',icon_state=used, pixel_x = 96, pixel_y = 16, layer = layer+0.01)
-				else
-					border2 = image(icon='icons/mob/roguehud.dmi',icon_state=used, pixel_x = 96, pixel_y = 16, layer = layer+0.01)
+				border2 = image(icon='icons/mob/ru_roguehud.dmi',icon_state=used, pixel_x = 96, pixel_y = 16, layer = layer+0.01)
 			if(3)
-				if(usr?.client?.prefs?.be_russian)
-					border2 = image(icon='icons/mob/ru_roguehud.dmi',icon_state=used, pixel_x = 64, layer = layer+0.01)
-				else
-					border2 = image(icon='icons/mob/roguehud.dmi',icon_state=used, pixel_x = 64, layer = layer+0.01)
+				border2 = image(icon='icons/mob/ru_roguehud.dmi',icon_state=used, pixel_x = 64, layer = layer+0.01)
 			if(4)
-				if(usr?.client?.prefs?.be_russian)
-					border2 = image(icon='icons/mob/ru_roguehud.dmi',icon_state=used, pixel_x = 96, layer = layer+0.01)
-				else
-					border2 = image(icon='icons/mob/roguehud.dmi',icon_state=used, pixel_x = 96, layer = layer+0.01)
+				border2 = image(icon='icons/mob/ru_roguehud.dmi',icon_state=used, pixel_x = 96, layer = layer+0.01)
 		add_overlay(border2, TRUE)
 		add_overlay(border1, TRUE)
 
@@ -565,7 +529,7 @@
 /atom/movable/screen/quad_intents
 	name = "mmb intents"
 	icon_state = "mmbintents0"
-	icon = 'icons/mob/roguehud.dmi'
+	icon = 'icons/mob/ru_roguehud.dmi'
 	screen_loc = rogueui_quad
 
 /atom/movable/screen/quad_intents/proc/switch_intent(input)
@@ -596,7 +560,7 @@
 /atom/movable/screen/give_intent
 	name = "give/take"
 	icon_state = "take0"
-	icon = 'icons/mob/roguehud.dmi'
+	icon = 'icons/mob/ru_roguehud.dmi'
 	screen_loc = rogueui_give
 	var/giving = 0
 
@@ -627,7 +591,7 @@
 /atom/movable/screen/def_intent
 	name = "defense intent"
 	icon_state = "def1n"
-	icon = 'icons/mob/roguehud.dmi'
+	icon = 'icons/mob/ru_roguehud.dmi'
 	screen_loc = rogueui_def
 
 /atom/movable/screen/def_intent/update_icon()
@@ -645,7 +609,7 @@
 /atom/movable/screen/cmode
 	name = "combat mode"
 	icon_state = "combat0"
-	icon = 'icons/mob/roguehud.dmi'
+	icon = 'icons/mob/ru_roguehud.dmi'
 	screen_loc = rogueui_cmode
 
 /atom/movable/screen/cmode/update_icon()
@@ -684,7 +648,7 @@
 
 /atom/movable/screen/rogmove
 	name = "sneak mode"
-	icon = 'icons/mob/roguehud.dmi'
+	icon = 'icons/mob/ru_roguehud.dmi'
 	icon_state = "sneak0"
 	screen_loc = rogueui_moves
 
@@ -710,7 +674,7 @@
 
 /atom/movable/screen/rogmove/sprint
 	name = "sprint mode"
-	icon = 'icons/mob/roguehud.dmi'
+	icon = 'icons/mob/ru_roguehud.dmi'
 	icon_state = "sprint0"
 	screen_loc = rogueui_moves
 
@@ -780,7 +744,7 @@
 
 /atom/movable/screen/eye_intent
 	name = "eye intent"
-	icon = 'icons/mob/roguehud.dmi'
+	icon = 'icons/mob/ru_roguehud.dmi'
 	icon_state = "eye"
 
 /atom/movable/screen/eye_intent/Click(location,control,params)
@@ -1528,7 +1492,7 @@
 
 /atom/movable/screen/aim
 	name = ""
-	icon = 'icons/mob/roguehud.dmi'
+	icon = 'icons/mob/ru_roguehud.dmi'
 	icon_state = "aimbg"
 	layer = HUD_LAYER
 	plane = HUD_PLANE
@@ -1557,9 +1521,10 @@
 				M.client.mouseoverbox.screen_loc = null
 	..()
 
+
 /atom/movable/screen/stress
 	name = "sanity"
-	icon = 'icons/mob/roguehud.dmi'
+	icon = 'icons/mob/ru_roguehud.dmi'
 	icon_state = "stressback"
 
 /atom/movable/screen/stress/update_icon()
@@ -1569,23 +1534,23 @@
 		var/mob/living/carbon/human/H = usr
 		if(!HAS_TRAIT(H, TRAIT_NOMOOD))
 			var/stress_amt = H.get_stress_amount()
-			if(stress_amt > STRESS_BAD)
+			if(stress_amt > 0)
 				state2use = "stress2"
-			if(stress_amt >= STRESS_VBAD)
+			if(stress_amt >= 5)
 				state2use = "stress3"
-			if(stress_amt == STRESS_INSANE)
+			if(stress_amt >= 15)
 				state2use = "stress4"
-			if(stress_amt >= STRESS_INSANE)
+			if(stress_amt >= 25)
 				state2use = "stress5"
 		if(H.has_status_effect(/datum/status_effect/buff/drunk))
 			state2use = "mood_drunk"
 		if(H.has_status_effect(/datum/status_effect/buff/druqks))
 			state2use = "mood_drunk"
 		if(H.InFullCritical())
-			state2use = "mood_fear"
+			state2use = "stress4"
 		if(H.mind)
 			if(H.mind.has_antag_datum(/datum/antagonist/zombie))
-				state2use = "mood_fear"
+				state2use = "stress4"
 		if(H.stat == DEAD)
 			state2use = "mood_dead"
 	add_overlay(state2use)
@@ -1601,7 +1566,7 @@
 				to_chat(M, span_info("[M.charflaw.desc]"))
 			to_chat(M, "*--------*")
 			var/list/already_printed = list()
-			var/list/pos_stressors = M.positive_stressors
+			var/list/pos_stressors = M.get_positive_stressors()
 			for(var/datum/stressevent/S in pos_stressors)
 				if(S in already_printed)
 					continue
@@ -1616,10 +1581,10 @@
 				if(islist(S.desc))
 					ddesc = pick(S.desc)
 				if(cnt > 1)
-					to_chat(M, "• [ddesc] (x[cnt])")
+					to_chat(M, "[ddesc] (x[cnt])")
 				else
-					to_chat(M, "• [ddesc]")
-			var/list/neg_stressors = M.negative_stressors
+					to_chat(M, "[ddesc]")
+			var/list/neg_stressors = M.get_negative_stressors()
 			for(var/datum/stressevent/S in neg_stressors)
 				if(S in already_printed)
 					continue
@@ -1641,17 +1606,18 @@
 			to_chat(M, "*--------*")
 		if(modifiers["right"])
 			if(M.get_triumphs() <= 0)
-				to_chat(M, "<span class='warning'>I haven't TRIUMPHED.</span>")
+				to_chat(M, span_warning("I haven't TRIUMPHED."))
 				return
 			if(alert("Do you want to remember a TRIUMPH?", "", "Yes", "No") == "Yes")
-				var/mob/living/carbon/V = M
-				if(V.add_stress(/datum/stressevent/triumph))
+				if(!M.has_stress_event(/datum/stressevent/triumph))
+					M.add_stress(/datum/stressevent/triumph)
 					M.adjust_triumphs(-1)
 					M.playsound_local(M, 'sound/misc/notice (2).ogg', 100, FALSE)
 
+
 /atom/movable/screen/rmbintent
 	name = "alt intents"
-	icon = 'icons/mob/roguehud.dmi'
+	icon = 'icons/mob/ru_roguehud.dmi'
 	icon_state = "rmbintent"
 	var/list/shown_intents = list()
 	var/showing = FALSE
@@ -1662,7 +1628,7 @@
 	if(isliving(hud?.mymob))
 		var/mob/living/L = hud.mymob
 		if(L.rmb_intent)
-//			var/image/I = image(icon='icons/mob/roguehud.dmi',icon_state="[L.rmb_intent.icon_state]_x", layer = layer+0.01)
+//			var/image/I = image(icon='icons/mob/ru_roguehud.dmi',icon_state="[L.rmb_intent.icon_state]_x", layer = layer+0.01)
 			add_overlay("[L.rmb_intent.icon_state]_x")
 			name = L.rmb_intent.name
 			desc = L.rmb_intent.desc
@@ -1705,10 +1671,6 @@
 		var/atom/movable/screen/rintent_selection/R = new(M.client)
 		var/datum/rmb_intent/RI = new X
 		R.stored_intent = X
-		if(usr?.client?.prefs?.be_russian)
-			R.icon = 'icons/mob/ru_roguehud.dmi'
-		else
-			R.icon = 'icons/mob/roguehud.dmi'
 		R.icon_state = RI.icon_state
 		R.name = RI.name
 		R.desc = RI.desc
@@ -1727,7 +1689,7 @@
 
 /atom/movable/screen/rintent_selection
 	name = "rmb intent"
-	icon = 'icons/mob/roguehud.dmi'
+	icon = 'icons/mob/ru_roguehud.dmi'
 	icon_state = "rmbaimed"
 	var/stored_intent
 	var/stored_name
