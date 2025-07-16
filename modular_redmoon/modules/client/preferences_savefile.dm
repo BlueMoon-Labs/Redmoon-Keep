@@ -121,7 +121,7 @@
 	WRITE_FILE(S["redmoon_toggles"] 					, redmoon_toggles) // gain_stress_indicator
 	WRITE_FILE(S["detailed_family_loging"] 				, detailed_family_loging) // family_changes
 	WRITE_FILE(S["be_russian"]							, be_russian) // translation
-	WRITE_FILE(S["donator_bonus_received"]				, donator_bonus_received) // PQ bonus for supporters
+	WRITE_FILE(S["donut_bonus_received"]				, donut_bonus_received) // PQ bonus for supporters
 
 /datum/preferences/proc/redmoon_load_preferences(savefile/S)
 	S["redmoon_toggles"] 								>> redmoon_toggles
@@ -133,4 +133,4 @@
 	S["be_russian"]										>> be_russian
 
 	// PQ bonus for supporters
-	S["donator_bonus_received"]    						>> donator_bonus_received
+	S["donut_bonus_received"]    						>> donut_bonus_received

@@ -1,6 +1,6 @@
 /datum/preferences
 	var/be_russian = FALSE
-	var/donator_bonus_received = FALSE
+	var/donut_bonus_received = FALSE
 	// Vocal bark prefs
 	var/bark_id = "mutedc3"
 	var/bark_speed = 4
