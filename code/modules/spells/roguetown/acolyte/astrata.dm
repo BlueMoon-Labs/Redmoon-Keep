@@ -85,6 +85,8 @@
 			to_chat(user, span_warning("Nothing happens."))
 			revert_cast()
 			return FALSE
+		if(HAS_TRAIT(target, TRAIT_ROTTOUCHED))
+			REMOVE_TRAIT(target, TRAIT_ROTTOUCHED)
 		target.remove_status_effect(/datum/status_effect/debuff/death_weaken)
 		target.remove_status_effect(/datum/status_effect/debuff/death_embrace)
 		target.remove_status_effect(/datum/status_effect/debuff/death_claimed)
