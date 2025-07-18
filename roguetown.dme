@@ -2364,6 +2364,7 @@
 #include "modular_redmoon\modules\inquisition_overseers\code\jobs\confessor.dm"
 #include "modular_redmoon\modules\inquisition_overseers\code\jobs\puritan.dm"
 #include "modular_redmoon\modules\jobs\job_types\_job.dm"
+#include "modular_redmoon\modules\jobs\job_types\roguetown\adventurer\adventurer.dm"
 #include "modular_redmoon\modules\jobs\job_types\roguetown\bandits\bandit.dm"
 #include "modular_redmoon\modules\jobs\job_types\roguetown\bandits\types\brigand.dm"
 #include "modular_redmoon\modules\jobs\job_types\roguetown\bandits\types\foresworn.dm"
