@@ -31,7 +31,7 @@
 		if(H.gender == FEMALE)
 			title = "Sister"
 		H.real_name = "[title] [prev_real_name]"
-		H.name = "[prev_name]"
+		H.name = "[title] [prev_name]"
 		addtimer(CALLBACK(src, PROC_REF(templar_helmet_choice), H), 50)
 		// REDMOON ADD START - tabard_fix
 		if(istype(H.cloak, /obj/item/clothing/cloak))
