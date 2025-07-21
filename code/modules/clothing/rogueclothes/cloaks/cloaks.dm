@@ -1,6 +1,6 @@
 /obj/item/clothing/cloak
 	name = "cloak"
-	icon = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	icon = 'icons/roguetown/clothing/cloaks.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	slot_flags = ITEM_SLOT_CLOAK
 	desc = "Protects you from the weather and your identity from everyone else."
@@ -1307,7 +1307,7 @@
 /obj/item/clothing/cloak/shadow
 	name = "vanguard cloak"
 	desc = "A nightly cloak worn by those that protect the citizenry from what lurks beyond."
-	icon = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	icon = 'icons/roguetown/clothing/cloaks.dmi'
 	icon_state = "shadowcloak"
 	item_state = "shadowcloak"
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
@@ -1368,7 +1368,7 @@
 	name = "matron cloak"
 	desc = "A cloak that only the meanest of old crones bother to wear."
 	icon_state = "matroncloak"
-	icon = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	icon = 'icons/roguetown/clothing/cloaks.dmi'
 	mob_overlay_icon ='icons/roguetown/clothing/onmob/cloaks.dmi'
 	body_parts_covered = CHEST|GROIN|VITALS|ARMS
 	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
@@ -1396,7 +1396,7 @@
 	name = "inquisitors cloak"
 	desc = "A time honored cloak Valorian design, used by founding clans of the Valorian Lodge"
 	icon_state = "inquisitor_cloak"
-	icon = 'modular_redmoon/icons/roguetown/clothing/onmob/cloaks.dmi'
+	icon = 'icons/roguetown/clothing/cloaks.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 
