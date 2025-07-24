@@ -71,7 +71,7 @@
 	var/obj/item/organ/breasts/targetbreasts = target.getorgan(/obj/item/organ/breasts)
 	var/mob/living/carbon/human/targetussy = target
 	var/stealskill =  max(1,user.mind.get_skill_level(/datum/skill/misc/stealing))
-	var/medicineskill =  max(1,user.mind.get_skill_level(/datum/skill/misc/treatment))
+	var/medicineskill =  max(1,user.mind.get_skill_level(/datum/skill/misc/medicine))
 	var/flubchance = 100
 	if(stealskill > medicineskill) //medicine or stealth, taken higher and used to divide the flubbing chance, if you got neither skill its 100 odds, go home bro.
 		flubchance = flubchance/stealskill

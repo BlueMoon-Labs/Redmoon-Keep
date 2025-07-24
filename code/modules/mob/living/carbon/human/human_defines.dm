@@ -13,6 +13,7 @@
 	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID
 
 	ambushable = 1
+	defprob = 0
 
 	var/footstep_type = FOOTSTEP_MOB_HUMAN
 
@@ -45,10 +46,6 @@
 	var/undershirt = "Nude" //Which undershirt the player wants
 
 	var/cached_underwear = "Nude"
-
-	var/accessory = "None"
-	var/detail = "None"
-	var/marking = "None"
 
 	var/shavelevel = 0
 
@@ -109,6 +106,13 @@
 
 	var/headshot_link = null
 	var/nudeshot_link = null
+
+	var/flavortext = null
+	var/flavortext_display = null
+	var/flavortext_nsfw = null
+	var/flavortext_nsfw_display = null
+	var/ooc_notes = null
+	var/ooc_notes_display = null
 
 	var/received_resident_key = FALSE
 

@@ -1,5 +1,5 @@
 /obj/machinery/light/roguestreet
-	name = "street lamp"
+	name = "street lamp" // Crafted through metalizing brazier(/obj/machinery/light/rogue/firebowl) and Standing Fire (/obj/machinery/light/rogue/firebowl/standing)
 	desc = "An obelisk of caste iron with an eerily glowing lamp attached to it. A promise of new technology at the dawn of a new age."
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	icon_state = "slamp1_nozap"
@@ -11,9 +11,13 @@
 	fueluse = 0
 	bulb_colour = "#58dd90"
 	bulb_power = 0.95
-	max_integrity = 0
+	destroy_sound = "sound/foley/machinebreak.ogg" // A nice zappy noise for electric lights.
+	destroy_message = "The lamp sparks as it is smashed!" // Some flavor for when it's destroyed.
+	blade_dulling = DULLING_BASH
+	max_integrity = 250
 	pass_flags = LETPASSTHROW
 	smeltresult = /obj/item/ingot/bronze
+	resistance_flags = INDESTRUCTIBLE // This item is not craftable yet, setting for anti-grief
 
 /obj/machinery/light/roguestreet/midlamp
 	icon = 'icons/roguetown/misc/64x64.dmi'
@@ -21,13 +25,15 @@
 	base_state = "midlamp"
 	pixel_x = -16
 	density = TRUE
+	resistance_flags = INDESTRUCTIBLE // This item is not craftable yet, setting for anti-grief
 
 /obj/machinery/light/roguestreet/walllamp
-	name = "wall lamp"
+	name = "wall lamp" // Crafted through metalizing sconce.
 	desc = "An eerily glowing lamp attached to the wall via a caste iron frame. A promise of new technology at the dawn of a new age."
 	icon_state = "wlamp1_nozap"
 	base_state = "wlamp"
 	brightness = 7.8
+	max_integrity = 125
 	density = FALSE
 
 /obj/machinery/light/roguestreet/orange
@@ -37,6 +43,7 @@
 	brightness = 10.9
 	bulb_colour = "#da8c45"
 	bulb_power = 1
+	resistance_flags = null // This one is craftable.
 
 /obj/machinery/light/roguestreet/orange/midlamp
 	icon = 'icons/roguetown/misc/64x64.dmi'
@@ -44,6 +51,7 @@
 	base_state = "o_midlamp"
 	pixel_x = -16
 	density = TRUE
+	resistance_flags = INDESTRUCTIBLE // This item is not craftable yet, setting for anti-grief
 
 /obj/machinery/light/roguestreet/orange/walllamp
 	name = "wall lamp"
@@ -51,7 +59,9 @@
 	icon_state = "o_wlamp1_nozap"
 	base_state = "o_wlamp"
 	brightness = 7.8
+	max_integrity = 125
 	density = FALSE
+	resistance_flags = null // This one is craftable.
 
 /obj/machinery/light/roguestreet/proc/lights_out()
 	on = FALSE
@@ -96,7 +106,6 @@
 	pass_flags = LETPASSTHROW
 	var/cookonme = FALSE
 	var/crossfire = TRUE
-	var/can_damage = FALSE
 	var/start_fuel //Override for fueluse. Mostly used for smelters.
 	var/fuel_modifier = 1 //Modifier for firefuel
 
@@ -140,8 +149,8 @@
 
 /obj/machinery/light/rogue/OnCrafted(dirin, user)
 	. = ..()
-	can_damage = TRUE
 	burn_out()
+
 
 /obj/machinery/light/rogue/burn_out()
 	if(soundloop)
@@ -276,11 +285,6 @@
 				W.spark_act()
 	. = ..()
 
-/obj/machinery/light/rogue/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1)
-	if(!can_damage)
-		return
-	. = ..()
-
 /obj/machinery/light/rogue/firebowl
 	name = "brazier"
 	icon = 'icons/roguetown/misc/lighting.dmi'
@@ -292,6 +296,7 @@
 	cookonme = TRUE
 	fueluse = 0
 	max_integrity = 150
+	metalizer_result = /obj/machinery/light/roguestreet/orange // Can be crafted into street lamp.
 
 /obj/machinery/light/rogue/firebowl/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover) && (mover.pass_flags & PASSTABLE))
@@ -309,24 +314,20 @@
 
 	if(on)
 		var/mob/living/carbon/human/H = user
-
 		if(istype(H))
-			H.visible_message(span_info("[H] warms \his hand over the fire."))
-
-			if(do_after(H, 15, target = src))
+			H.visible_message(span_info("[H] warms [H.p_their()] hand over the fire."))
+			if(do_after(H, 1.5 SECONDS, target = src))
 				var/obj/item/bodypart/affecting = H.get_bodypart((user.active_hand_index % 2 == 0) ? BODY_ZONE_R_ARM : BODY_ZONE_L_ARM)
 				to_chat(H, span_warning("HOT!"))
 				if(affecting && affecting.receive_damage( 0, 5 ))		// 5 burn damage
 					H.update_damage_overlays()
 		return TRUE //fires that are on always have this interaction with lmb unless its a torch
-
-	else
-		if(icon_state == "[base_state]over")
-			user.visible_message(span_notice("[user] starts to pick up [src]..."), \
-				span_notice("I start to pick up [src]..."))
-			if(do_after(user, 30, target = src))
-				icon_state = "[base_state]0"
-			return
+	else if(icon_state == "[base_state]over")
+		user.visible_message(span_notice("[user] starts to pick up [src]..."), \
+			span_notice("I start to pick up [src]..."))
+		if(do_after(user, 3 SECONDS, target = src))
+			icon_state = "[base_state]0"
+		return
 
 /obj/machinery/light/rogue/firebowl/stump
 	icon_state = "stumpfire1"
@@ -335,7 +336,8 @@
 /obj/machinery/light/rogue/firebowl/church
 	icon_state = "churchfire1"
 	base_state = "churchfire"
-
+	metalizer_result = null // This item is not craftable, setting this to prevent grief by metalizer.
+	resistance_flags = INDESTRUCTIBLE // This item is not craftable yet, setting for anti-grief
 
 /obj/machinery/light/rogue/firebowl/standing
 	name = "standing fire"
@@ -344,17 +346,21 @@
 	bulb_colour = "#ff9648"
 	cookonme = FALSE
 	crossfire = FALSE
-
+	metalizer_result = /obj/machinery/light/roguestreet/orange
 
 /obj/machinery/light/rogue/firebowl/standing/blue
 	bulb_colour = "#b9bcff"
 	icon_state = "standingb1"
 	base_state = "standingb"
+	metalizer_result = null // This item is not craftable, setting this to prevent grief by metalizer.
+	resistance_flags = INDESTRUCTIBLE // This item is not craftable yet, setting for anti-grief
 
 /obj/machinery/light/rogue/firebowl/standing/green
 	bulb_colour = "#8ee2a7"
 	icon_state = "standingg1"
 	base_state = "standingg"
+	metalizer_result = null // This item is not craftable, setting this to prevent grief by metalizer.
+	resistance_flags = INDESTRUCTIBLE // This item is not craftable yet, setting for anti-grief
 
 /obj/machinery/light/rogue/firebowl/standing/proc/knock_over() //use this later for jump impacts and shit
 	icon_state = "[base_state]over"
@@ -399,6 +405,7 @@
 	cookonme = FALSE
 	pixel_y = 32
 	soundloop = null
+	resistance_flags = INDESTRUCTIBLE // This item is not craftable yet, setting for anti-grief
 
 /obj/machinery/light/rogue/wallfire/candle/OnCrafted(dirin, user)
 	pixel_x = 0
@@ -452,7 +459,7 @@
 	crossfire = FALSE
 	plane = GAME_PLANE_UPPER
 	cookonme = FALSE
-	metalizer_result = /obj/machinery/light/roguestreet/walllamp
+	metalizer_result = /obj/machinery/light/roguestreet/orange/walllamp
 
 /obj/machinery/light/rogue/torchholder/c
 	pixel_y = 32
@@ -583,6 +590,7 @@
 	soundloop = null
 	crossfire = FALSE
 	obj_flags = CAN_BE_HIT | BLOCK_Z_OUT_DOWN | BLOCK_Z_IN_UP
+	resistance_flags = INDESTRUCTIBLE // This item is not craftable yet, setting for anti-grief
 
 /obj/machinery/light/rogue/chand/attack_hand(mob/user)
 	if(isliving(user) && on)
@@ -602,10 +610,9 @@
 	var/obj/item/attachment = null
 	var/obj/item/reagent_containers/food/snacks/food = null
 	cookonme = TRUE
-	var/datum/looping_sound/boilloop/boilloop
+
 
 /obj/machinery/light/rogue/hearth/Initialize()
-	boilloop = new(src, FALSE)
 	. = ..()
 
 /obj/machinery/light/rogue/hearth/attackby(obj/item/W, mob/living/user, params)
@@ -635,103 +642,24 @@
 					playsound(src.loc, 'sound/misc/frying.ogg', 80, FALSE, extrarange = 5)
 					return
 		else if(istype(attachment, /obj/item/reagent_containers/glass/bucket/pot))
-			var/obj/item/reagent_containers/glass/bucket/pot = attachment
-			if(istype(W, /obj/item/reagent_containers/food/snacks/grown/oat))
-				if(!pot.reagents.has_reagent(/datum/reagent/water, 51))
-					to_chat(user, "<span class='notice'>Not enough water.</span>")
-					return TRUE
-				if(pot.reagents.chem_temp < 374)
-					to_chat(user, "<span class='warning'>[pot] isn't boiling!</span>")
-					return
-				if(do_after(user,2 SECONDS, target = src))
-					user.visible_message("<span class='info'>[user] places [W] into the pot.</span>")
-					qdel(W)
-					playsound(src.loc, 'sound/items/Fish_out.ogg', 20, TRUE)
-					pot.reagents.remove_reagent(/datum/reagent/water, 51)
-					sleep(300)
-					playsound(src, "bubbles", 30, TRUE)
-					pot.reagents.add_reagent(/datum/reagent/consumable/soup/oatmeal, 50)
-					pot.reagents.remove_reagent(/datum/reagent/water, 1)
-				return
+			var/obj/item/reagent_containers/glass/bucket/pot/P = attachment
+			P.attackby(W, user, params)
 
-			if(W.type in subtypesof(/obj/item/reagent_containers/food/snacks/rogue/veg))
-				if(!pot.reagents.has_reagent(/datum/reagent/water, 24))
-					to_chat(user, "<span class='notice'>Not enough water.</span>")
-					return TRUE
-				if(pot.reagents.chem_temp < 374)
-					to_chat(user, "<span class='warning'>[pot] isn't boiling!</span>")
-					return
-				if(do_after(user,2 SECONDS, target = src))
-					user.visible_message("<span class='info'>[user] places [W] into the pot.</span>")
-					playsound(src.loc, 'sound/items/Fish_out.ogg', 20, TRUE)
-					pot.reagents.remove_reagent(/datum/reagent/water, 15)
-					if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/veg/potato_sliced))
-						qdel(W)
-						sleep(800)
-						playsound(src, "bubbles", 30, TRUE)
-						pot.reagents.add_reagent(/datum/reagent/consumable/soup/veggie/potato, 16)
-						pot.reagents.remove_reagent(/datum/reagent/water, 1)
-					if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/veg/onion_sliced))
-						qdel(W)
-						sleep(600)
-						playsound(src, "bubbles", 30, TRUE)
-						pot.reagents.add_reagent(/datum/reagent/consumable/soup/veggie/onion, 16)
-						pot.reagents.remove_reagent(/datum/reagent/water, 1)
-					if(istype(W, /obj/item/reagent_containers/food/snacks/grown/beet))
-						qdel(W)
-						sleep(600)
-						playsound(src, "bubbles", 30, TRUE)
-						pot.reagents.add_reagent(/datum/reagent/consumable/soup/veggie/beet, 16)
-						pot.reagents.remove_reagent(/datum/reagent/water, 1)
-					if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/veg/cabbage_sliced))
-						qdel(W)
-						sleep(700)
-						playsound(src, "bubbles", 30, TRUE)
-						pot.reagents.add_reagent(/datum/reagent/consumable/soup/veggie/cabbage, 16)
-						pot.reagents.remove_reagent(/datum/reagent/water, 1)
-				return
-
-			if(W.type in subtypesof(/obj/item/reagent_containers/food/snacks/rogue/meat))
-				if(!pot.reagents.has_reagent(/datum/reagent/water, 19))
-					to_chat(user, "<span class='notice'>Not enough water.</span>")
-					return TRUE
-				if(pot.reagents.chem_temp < 374)
-					to_chat(user, "<span class='warning'>[pot] isn't boiling!</span>")
-					return
-				if(do_after(user,2 SECONDS, target = src))
-					user.visible_message("<span class='info'>[user] places [W] into the pot.</span>")
-					playsound(src.loc, 'sound/items/Fish_out.ogg', 20, TRUE)
-					pot.reagents.remove_reagent(/datum/reagent/water, 18)
-					if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/meat/mince/fish))
-						qdel(W)
-						sleep(800)
-						playsound(src, "bubbles", 30, TRUE)
-						pot.reagents.add_reagent(/datum/reagent/consumable/soup/stew/fish, 18)
-						pot.reagents.remove_reagent(/datum/reagent/water, 1)
-					if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/meat/spider))
-						qdel(W)
-						sleep(1000)
-						playsound(src, "bubbles", 30, TRUE)
-						pot.reagents.add_reagent(/datum/reagent/consumable/soup/stew/yucky, 18)
-						pot.reagents.remove_reagent(/datum/reagent/water, 1)
-					if(istype(W, /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/cutlet) || istype(W, /obj/item/reagent_containers/food/snacks/rogue/meat/mince/poultry))
-						qdel(W)
-						sleep(900)
-						playsound(src, "bubbles", 30, TRUE)
-						pot.reagents.add_reagent(/datum/reagent/consumable/soup/stew/chicken, 18)
-						pot.reagents.remove_reagent(/datum/reagent/water, 1)
-					else
-						qdel(W)
-						sleep(900)
-						playsound(src, "bubbles", 30, TRUE)
-						pot.reagents.add_reagent(/datum/reagent/consumable/soup/stew/meat, 18)
-						pot.reagents.remove_reagent(/datum/reagent/water, 1)
-				return
 	. = ..()
 
+//If you know what I have to do to make this work let me know!!
 
+/obj/machinery/light/rogue/hearth/MouseDrop(mob/over)
+	if(attachment)
+		if(istype(attachment, /obj/item/reagent_containers/glass/bucket/pot))
+			var/obj/item/reagent_containers/glass/bucket/pot/P = attachment
+			var/datum/component/storage/STR = P.GetComponent(/datum/component/storage)
+			if(STR)
+				STR.mousedrop_onto(STR, over, over)
+			return
+	. = ..()
 
-
+	
 
 /* This is the blackstone version, not compatible but retained so it can be injected into say stews if the new system ends up too shallow.
 
@@ -795,7 +723,6 @@
 				attachment.forceMove(user.loc)
 			attachment = null
 			update_icon()
-			boilloop.stop()
 	else
 		if(on)
 			var/mob/living/carbon/human/H = user
@@ -827,12 +754,12 @@
 						qdel(food)
 						food = C
 			if(istype(attachment, /obj/item/reagent_containers/glass/bucket/pot))
-				if(attachment.reagents)
-					attachment.reagents.expose_temperature(400, 0.033)
-					if(attachment.reagents.chem_temp > 374)
-						boilloop.start()
-					else
-						boilloop.stop()
+				var/obj/item/reagent_containers/glass/bucket/pot/P = attachment
+				if(P.reagents)
+					P.reagents.expose_temperature(400, 0.033)
+					if(P.reagents.chem_temp >= T100C)
+						if(!P.active)
+							P.start_boiling()
 		update_icon()
 
 
@@ -842,7 +769,6 @@
 		burn_out()
 
 /obj/machinery/light/rogue/hearth/Destroy()
-	QDEL_NULL(boilloop)
 	. = ..()
 
 /obj/machinery/light/rogue/campfire
@@ -855,7 +781,6 @@
 	fueluse = 10 MINUTES
 	bulb_colour = "#da5e21"
 	cookonme = TRUE
-	can_damage = TRUE
 	max_integrity = 30
 
 /obj/machinery/light/rogue/campfire/process()

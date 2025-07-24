@@ -6,7 +6,7 @@
 
 // The default UI style is the first one in the list
 GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
-	"Rogue" = 'icons/mob/roguehud.dmi')))
+	"Rogue" = 'icons/mob/ru_roguehud.dmi')))
 
 /proc/ui_style2icon(ui_style)
 	return GLOB.available_ui_styles[ui_style] || GLOB.available_ui_styles[GLOB.available_ui_styles[1]]

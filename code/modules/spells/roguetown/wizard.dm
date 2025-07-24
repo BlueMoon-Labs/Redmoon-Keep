@@ -13,7 +13,8 @@ That said, mage apprentices for the most part, start off with 5 (8 if counting t
 Court magos has a total of 17 points, To allow for picking of their 'strongest' spell, between greater fireball, meteor, and sundering lightning.
 Theoretically someone could get 12 spell points to get one of those spells, in 4 nights, but odds are, it's unlikely.
 Unless of course, they went heavy into the gameplay loop, and got a better book. And even then, it's likely only feasible for apprentices given modifiers.
--Radiantflash */
+-Radiantflash
+*/
 //A spell to choose new spells, upon spawning or gaining levels - NOTE: Please keep this spell at the top of the file to make it better for organization -RadiantFlash
 /obj/effect/proc_holder/spell/invoked/learnspell
 	name = "Attempt to learn a new spell"
@@ -22,6 +23,10 @@ Unless of course, they went heavy into the gameplay loop, and got a better book.
 	overlay_state = "book1"
 	chargedrain = 0
 	chargetime = 0
+	var/maxspells = 12 //Handles how many spells you can have (12 is the maximum, and mages always start with 2 spells, so in reality you will want to add 2 to any number you cap mage spells at, e.g 5 is actually 3 learnable spells)
+
+/obj/effect/proc_holder/spell/invoked/learnspell/weak
+	maxspells = 7 //5 max.
 
 /obj/effect/proc_holder/spell/invoked/learnspell/cast(list/targets, mob/living/user)
 	. = ..()
@@ -104,10 +109,10 @@ Unless of course, they went heavy into the gameplay loop, and got a better book.
 	var/totalspellcount = 0
 	for(var/obj/effect/proc_holder/spell/knownspell in user.mind.spell_list)
 		totalspellcount++
-	if(totalspellcount >= 12)
+	if(totalspellcount >= maxspells)
 		to_chat(user,span_warning("You can not memorize more spells then you already have!"))
 		return
-	var/spellsleft = 12 - totalspellcount
+	var/spellsleft = maxspells - totalspellcount
 	to_chat(user,span_warning("You can memorize [spellsleft] more spells."))
 	var/choice = input("Choose a spell, points left: [user.mind.spell_points - user.mind.used_spell_points]") as null|anything in choices
 	var/obj/effect/proc_holder/spell/item = choices[choice]
@@ -125,6 +130,7 @@ Unless of course, they went heavy into the gameplay loop, and got a better book.
 	else
 		user.mind.used_spell_points += item.cost
 		user.mind.AddSpell(new item)
+
 
 /obj/effect/proc_holder/spell/invoked/projectile/lightningbolt
 	name = "Bolt of Lightning"
@@ -923,7 +929,7 @@ Unless of course, they went heavy into the gameplay loop, and got a better book.
 			to_chat(HL, "Arcyne whispers fill the back of my head, resolving into a clear, if distant, voice: </span><font color=#7246ff>\"[message]\"</font>")
 			HL.playsound_local(HL, 'sound/magic/message.ogg', 100)
 			log_game("[key_name(user)] sent a message to [key_name(HL)] with contents [message]")
-			to_chat(user, span_notice("I close my eyes and focus my mind towards [HL.real_name]... The words I speak enter their head."))
+			to_chat(user, span_notice("I close my eyes and focus my mind towards [HL.real_name]... The words I speak enter their head: </span><font color=#7246ff>\"[message]\"</font>"))
 			// maybe an option to return a message, here?
 			return TRUE
 	to_chat(user, span_warning("I seek a mental connection, but can't find [input]."))
@@ -932,6 +938,7 @@ Unless of course, they went heavy into the gameplay loop, and got a better book.
 /obj/effect/proc_holder/spell/invoked/push_spell
 	name = "Repulse"
 	desc = "Conjure forth a wave of energy, repelling anyone around you."
+	overlay_state = "repulse"
 	cost = 3
 	xp_gain = TRUE
 	releasedrain = 50
@@ -1054,6 +1061,7 @@ Unless of course, they went heavy into the gameplay loop, and got a better book.
 /obj/effect/proc_holder/spell/targeted/touch/nondetection
 	name = "Nondetection"
 	desc = "Consume a handful of ash and shroud a target that you touch from divination magic for 1 hour."
+	overlay_state = "nondetection"
 	clothes_req = FALSE
 	drawmessage = "I prepare to form a magical shroud."
 	dropmessage = "I release my arcyne focus."
@@ -1120,6 +1128,7 @@ Unless of course, they went heavy into the gameplay loop, and got a better book.
 /obj/effect/proc_holder/spell/targeted/touch/darkvision
 	name = "Darkvision"
 	desc = "Enhance the night vision of a target you touch for an hour."
+	overlay_state = "darkvision"
 	clothes_req = FALSE
 	drawmessage = "I prepare to grant Darkvision."
 	dropmessage = "I release my arcyne focus."
@@ -1192,6 +1201,7 @@ Unless of course, they went heavy into the gameplay loop, and got a better book.
 /obj/effect/proc_holder/spell/invoked/haste
 	name = "Haste"
 	desc = "Cause a target to be magically hastened."
+	overlay_state = "haste"
 	cost = 2
 	xp_gain = TRUE
 	releasedrain = 50
@@ -1228,6 +1238,7 @@ Unless of course, they went heavy into the gameplay loop, and got a better book.
 /obj/effect/proc_holder/spell/invoked/enlarge
 	name = "Enlarge"
 	desc = "Cause a target to be magically enlarged."
+	overlay_state = "enlarge"
 	cost = 2
 	xp_gain = TRUE
 	releasedrain = 50
@@ -1282,7 +1293,7 @@ Unless of course, they went heavy into the gameplay loop, and got a better book.
 	clothes_req = FALSE
 	active = FALSE
 	sound = 'sound/blank.ogg'
-	overlay_state = "forcewall"
+	overlay_state = "familiar"
 	range = -1
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
@@ -1339,7 +1350,7 @@ Unless of course, they went heavy into the gameplay loop, and got a better book.
 	desc = "A ray of frozen energy, slowing the first thing it touches and lightly damaging it."
 	range = 8
 	projectile_type = /obj/projectile/magic/frostbolt
-	overlay_state = "null"
+	overlay_state = "frostbolt"
 	sound = list('sound/magic/whiteflame.ogg')
 	active = FALSE
 
@@ -1398,7 +1409,7 @@ Unless of course, they went heavy into the gameplay loop, and got a better book.
 /obj/effect/proc_holder/spell/targeted/lightninglure
 	name = "Lightning Lure"
 	desc = "An electric connection forms between you and the target, and after several seconds of build up, shocks the target if they remain nearby."
-	overlay_state = "null"
+	overlay_state = "lightning_lure"
 	releasedrain = 50
 	chargetime = 1
 	charge_max = 12 SECONDS
@@ -1481,7 +1492,7 @@ Unless of course, they went heavy into the gameplay loop, and got a better book.
 		if(I.obj_integrity < I.max_integrity)
 			var/repair_percent = 0.25
 			repair_percent *= I.max_integrity
-			I.obj_integrity = min(I.obj_integrity + repair_percent, I.max_integrity)
+			I.mend_damage(repair_percent, TRUE)
 			user.visible_message(span_info("[I] glows in a faint mending light."))
 		else
 			user.visible_message(span_info("[I] appears to be in pefect condition."))
@@ -1553,6 +1564,7 @@ Unless of course, they went heavy into the gameplay loop, and got a better book.
 /obj/effect/proc_holder/spell/invoked/meteor_storm
 	name = "Meteor storm"
 	desc = "Summons forth dangerous meteors from the sky to scatter and smash foes."
+	overlay_state = "meteor_storm"
 	cost = 13
 	releasedrain = 50
 	chargedrain = 1
@@ -1733,6 +1745,7 @@ Unless of course, they went heavy into the gameplay loop, and got a better book.
 /obj/effect/proc_holder/spell/invoked/sundering_lightning
 	name = "Sundering Lightning"
 	desc = "Summons forth dangerous rapid lightning strikes."
+	overlay_state = "lightning_sunder"
 	cost = 13
 	releasedrain = 50
 	chargedrain = 1

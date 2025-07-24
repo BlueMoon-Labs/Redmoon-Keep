@@ -22,7 +22,7 @@
 	var/obj_broken = FALSE
 	var/obj_destroyed = FALSE
 
-	var/resistance_flags = NONE // INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ON_FIRE | UNACIDABLE | ACID_PROOF
+	var/resistance_flags = NONE // INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ON_FIRE | UNACIDABLE | ACID_PROOF | FLAMMABLE
 
 	///how much acid is on that obj
 	var/acid_level = 0 
@@ -189,7 +189,7 @@
 /obj/get_dumping_location(datum/component/storage/source,mob/user)
 	return get_turf(src)
 
-/obj/proc/CanAStarPass()
+/obj/proc/CanAStarPass(ID, to_dir, caller)
 	. = !density
 
 /obj/proc/check_uplink_validity()

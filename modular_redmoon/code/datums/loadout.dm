@@ -1,11 +1,3 @@
-GLOBAL_LIST_EMPTY(loadout_items)
-
-/datum/loadout_item
-	var/name = "Parent loadout datum"
-	var/desc
-	var/path
-
-
 //HATS
 /datum/loadout_item/shalal
 	name = "Keffiyeh"

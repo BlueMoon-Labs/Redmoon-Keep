@@ -14,10 +14,16 @@
 	move_to_delay = 2
 	vision_range = 9
 	aggro_vision_range = 9
+	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
 
+	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1, 
+						/obj/item/natural/fur = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2,
 						/obj/item/natural/hide = 2,
 						/obj/item/natural/fur = 1)
+	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2,
+						/obj/item/natural/hide = 2,
+						/obj/item/natural/fur = 2)
 
 	health = VOLF_HEALTH
 	maxHealth = VOLF_HEALTH
@@ -66,10 +72,12 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/wolf/Initialize()
 	. = ..()
 	AddElement(/datum/element/ai_flee_while_injured, 0.75, retreat_health)
+	
 
 	gender = MALE
 	if(prob(33))
 		gender = FEMALE
+	ADD_TRAIT(src, TRAIT_DARKVISION, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC)
 	update_icon()
 

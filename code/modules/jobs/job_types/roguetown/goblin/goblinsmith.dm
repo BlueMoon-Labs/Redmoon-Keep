@@ -15,6 +15,7 @@
 	min_pq = 2
 	max_pq = null
 	announce_latejoin = FALSE
+	allowed_maps = list("Rockhill")
 
 /datum/outfit/job/roguetown/goblinsmith
 	allowed_patrons = list(/datum/patron/inhumen/graggar)
@@ -46,6 +47,7 @@
 		H.change_stat("strength", 1)
 		H.change_stat("endurance", 1)
 		H.change_stat("speed", -2)
+		H.ventcrawler = VENTCRAWLER_ALWAYS
 
 //If a non-Goblin gets control by admin intervention.
 	if(!H.has_language(/datum/language/orcish))

@@ -39,7 +39,6 @@
 	//Sellection screen color
 	var/selection_color = "#dbdce3"
 
-
 	//If this is set to 1, a text is printed to the player when jobs are assigned, telling him that he should let admins know that he has to disconnect.
 	var/req_admin_notify
 
@@ -104,6 +103,11 @@
 	var/announce_latejoin = TRUE
 	var/give_bank_account = FALSE
 
+	/// If TRUE, this job isn't shown in the actors menu.
+	var/hidden_job = FALSE
+	/// If TRUE, this job is shown as a refugee rather than as its actual title.
+	var/obfuscated_job = FALSE
+
 	var/can_random = TRUE
 
 	//is the job required for game progression
@@ -129,8 +133,14 @@
 	/// This job re-opens slots if someone dies as it
 	var/job_reopens_slots_on_death = FALSE
 
+	//used on the carriage to allow leaving rounds
+	var/can_leave_round = TRUE
+
 	/// This job is immune to species-based swapped gender locks
 	var/immune_to_genderswap = FALSE
+
+	/// List of map names this job is allowed on. If null, allowed on all maps.
+	var/list/allowed_maps = null
 
 /*
 	How this works, its CTAG_DEFINE = amount_to_attempt_to_role
@@ -198,15 +208,21 @@
 			H.change_stat(S, jobstats[S])
 
 
-	if(H.islatejoin && show_in_credits && announce_latejoin) // REDMOON ADD - дополнительная проверка на оповещения при лейтжоине - было if(H.islatejoin && show_in_credits)
-		var/used_title = title
-		if((H.gender == FEMALE) && f_title)
-			used_title = f_title
+	var/used_title = title
+	if((H.gender == FEMALE) && f_title)
+		used_title = f_title
+	if(H.islatejoin && show_in_credits)
 
 		// Migrant_type isn't used, job titles apply to all, and by this point in the code
 		// This is the only thing I can think of that distinguishes towners from all outside forces...
 		if(peopleknowme.len) 
 			scom_announce("[H.real_name] the [used_title] arrives from Kingsfield.")
+
+	if (!hidden_job)
+		if (obfuscated_job)
+			GLOB.actors_list[H.mobid] = "[H.real_name] as Refugee<BR>"
+		else
+			GLOB.actors_list[H.mobid] = "[H.real_name] as [used_title]<BR>"
 
 	if(give_bank_account)
 		if(give_bank_account > 1)
@@ -392,7 +408,9 @@
 	return TRUE
 
 /datum/job/proc/map_check()
-	return TRUE
+    if(allowed_maps && !(SSmapping.config.map_name in allowed_maps))
+        return FALSE
+    return TRUE
 
 /datum/outfit/job
 	name = "Standard Gear"
@@ -415,3 +433,7 @@
 	if(CONFIG_GET(flag/security_has_maint_access))
 		return list(ACCESS_MAINT_TUNNELS)
 	return list()
+
+// Whether the job should be anonymised when recorded in a character's memories
+/datum/job/proc/should_anonymise_job()
+	return ((wanderer_examine || foreign_examine) && !mercenary_examine)

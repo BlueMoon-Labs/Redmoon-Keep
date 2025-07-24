@@ -188,3 +188,23 @@
 	stressadd = -5
 	desc = span_green("I feel inspired by the sermon.")
 	timer = 20 MINUTES
+
+/datum/stressevent/calmed
+	timer = 30 MINUTES
+	stressadd = -5
+	desc = span_green("All my problems have washed away!")
+
+/datum/stressevent/dimwitted
+	timer = 10 MINUTES
+	stressadd = -4
+	desc = span_green("Everything is nice and simple...")
+
+/datum/stressevent/feebleminded
+	timer = 10 MINUTES
+	stressadd = -10
+	desc = span_green("Heeh...")
+
+/datum/stressevent/arcane_high
+	timer = 10 MINUTES
+	stressadd = -2
+	desc = span_green("Since my magical accident, everything just seems so funny!")

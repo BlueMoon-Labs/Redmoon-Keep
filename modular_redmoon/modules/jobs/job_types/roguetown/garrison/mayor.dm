@@ -5,6 +5,7 @@
 			Хоть Герцог и может носить свой титул, но, с вашим Шерифом, будете ли вы следовать традициям или переосмыслите нынешнюю идею власти?"
 	spells = list(/obj/effect/proc_holder/spell/self/convertrole/watchman_lesser, /obj/effect/proc_holder/spell/self/convertrole/vanguard_lesser, /obj/effect/proc_holder/spell/self/convertrole/citizenship)
 	cmode_music = 'sound/music/cmode/nobility/combat_noble.ogg'
+	min_pq = 0
 
 /datum/job/roguetown/mayor/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 //	..() - REDMOON REMOVAL - fixes_for_characters_memory

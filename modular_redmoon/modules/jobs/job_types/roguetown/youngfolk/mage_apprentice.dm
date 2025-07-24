@@ -6,6 +6,8 @@
 	department_flag = YEOMEN
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
 	tutorial = "You are a guild mage. Your guild of mages is young. The crown rented you a dilapidated building in the port so that you could prove your usefulness to the city and your right to be there."
+	min_pq = 0
+
 /datum/outfit/job/roguetown/wapprentice/pre_equip(mob/living/carbon/human/H)
 	..()
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt

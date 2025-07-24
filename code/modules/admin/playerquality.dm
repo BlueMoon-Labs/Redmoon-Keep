@@ -244,6 +244,8 @@
 		return TRUE
 	else
 		give_comment(1, ckey(key), fakekey, raisin)
+		send2irc("Комментарий", "[fakekey == ckey ? "[ckey]" : "[fake_key] ([ckey])"] [mob ? "([mob.real_name])" : ""] оставил [key] комментарий: \"<i>[raisin]</i>\"")
+		send2chat(new /datum/tgs_message_content("Комментарий | [fakekey == ckey ? "[ckey]" : "[fake_key]"] [mob ? "([mob.real_name])" : ""] оставил кому-то комментарий: \"<i>[raisin]</i>\""), CONFIG_GET(string/chat_announce_new_game))
 		return TRUE
 
 	// REDMOON ADD END

@@ -16,6 +16,7 @@
 	var/verb_ask = "asks"
 	var/verb_exclaim = "exclaims"
 	var/verb_whisper = "whispers"
+	var/verb_sing = "sings"
 	var/verb_yell = "yells"
 	var/speech_span
 	var/inertia_dir = 0
@@ -195,6 +196,9 @@
 		var/mob/living/L = pulling
 		if(L.buckled && L.buckled.buckle_prevents_pull) //if they're buckled to something that disallows pulling, prevent it
 			stop_pulling()
+			return FALSE
+		else if (L.buckled == src) // Prevent shoving ourselves if we're carrying somebody
+			// Don't stop pulling - that will make us drop the other character - just negate the action.
 			return FALSE
 	if(A == loc && pulling.density)
 		return FALSE
@@ -476,11 +480,19 @@
 	A.Bumped(src)
 
 /atom/movable/proc/forceMove(atom/destination)
+	//Fix for human intents
+	var/mob/living/carbon/human/H = null
+	if(ishuman(src.loc))
+		H = src.loc
+
 	. = FALSE
 	if(destination)
 		. = doMove(destination)
 	else
 		CRASH("[src] No valid destination passed into forceMove")
+	
+	if(H)
+		H.update_a_intents()
 
 /atom/movable/proc/moveToNullspace()
 	return doMove(null)

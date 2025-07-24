@@ -10,6 +10,7 @@
 	поскольку церковь часто вмешивается в несправедливости, вызванные бессердечными институтами, что терзают Рокхилл."
 	spells = list(/obj/effect/proc_holder/spell/self/convertrole/templar, /obj/effect/proc_holder/spell/self/convertrole/monk, /obj/effect/proc_holder/spell/invoked/heal, /obj/effect/proc_holder/spell/invoked/solar_smite)
 	cmode_music = 'sound/music/cmode/church/CombatAstrata.ogg'
+	min_pq = 0
 
 /obj/effect/proc_holder/spell/invoked/solar_smite
 	name = "Solar Smite"

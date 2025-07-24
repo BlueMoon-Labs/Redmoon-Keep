@@ -58,6 +58,11 @@
 	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
 	owner.adjustCloneLoss(-healing_on_tick, 0)
 
+	// Fix for simplemob slow after healing
+	if(istype(owner, /mob/living/simple_animal))
+		var/mob/living/simple_animal/S = owner
+		S.updatehealth()
+
 /datum/status_effect/buff/healing/on_remove()
 	owner.remove_filter(MIRACLE_HEALING_FILTER)
 

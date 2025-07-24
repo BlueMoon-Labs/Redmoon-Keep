@@ -53,8 +53,6 @@
 	if(!islist(rumors_dangerous))
 		rumors_dangerous = list()
 
-	_load_loadout(S)
-
 /datum/preferences/proc/redmoon_character_pref_save(savefile/S)
 	WRITE_FILE(S["bark_id"]								, bark_id)
 	WRITE_FILE(S["bark_speed"]							, bark_speed)
@@ -119,17 +117,11 @@
 	character.rumors_overal_good = rumors_overal_good
 	character.rumors_dangerous = rumors_dangerous
 
-/datum/preferences/proc/_load_loadout(S)
-	var/loadout_type
-	S["loadout"] >> loadout_type
-	if (loadout_type)
-		loadout = new loadout_type()
-
 /datum/preferences/proc/redmoon_save_preferences(savefile/S)
 	WRITE_FILE(S["redmoon_toggles"] 					, redmoon_toggles) // gain_stress_indicator
 	WRITE_FILE(S["detailed_family_loging"] 				, detailed_family_loging) // family_changes
 	WRITE_FILE(S["be_russian"]							, be_russian) // translation
-	WRITE_FILE(S["donator_bonus_received"]				, donator_bonus_received) // PQ bonus for supporters
+	WRITE_FILE(S["donut_bonus_received"]				, donut_bonus_received) // PQ bonus for supporters
 
 /datum/preferences/proc/redmoon_load_preferences(savefile/S)
 	S["redmoon_toggles"] 								>> redmoon_toggles
@@ -141,4 +133,4 @@
 	S["be_russian"]										>> be_russian
 
 	// PQ bonus for supporters
-	S["donator_bonus_received"]    						>> donator_bonus_received
+	S["donut_bonus_received"]    						>> donut_bonus_received

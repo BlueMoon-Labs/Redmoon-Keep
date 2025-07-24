@@ -32,6 +32,8 @@
 
 /atom/proc/handle_mouseover(location, control, params)
 	var/mob/p = usr
+	if(QDELETED(src))
+		return FALSE
 	if(p.client)
 		if(!p.client.mouseovertext)
 			p.client.genmouseobj()
@@ -84,6 +86,8 @@
 
 /turf/handle_mouseover(location,control,params)
 	var/mob/p = usr
+	if(QDELETED(src))
+		return FALSE
 	if(p.client)
 		if(!p.client.mouseovertext)
 			p.client.genmouseobj()
@@ -107,6 +111,8 @@
 
 /turf/open/handle_mouseover(location, control, params)
 	var/mob/p = usr
+	if(QDELETED(src))
+		return FALSE
 	if(p.client)
 		if(!p.client.mouseovertext)
 			p.client.genmouseobj()
@@ -125,6 +131,8 @@
 
 /mob/handle_mouseover(location,control,params)
 	var/mob/p = usr
+	if(QDELETED(src))
+		return FALSE
 	if(p.client)
 		if(!p.client.mouseovertext)
 			p.client.genmouseobj()
@@ -161,7 +169,7 @@
 	icon = 'icons/mouseover.dmi'
 	icon_state = "mouseover"
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-	layer = ABOVE_HUD_LAYER+3
+	layer = ABOVE_HUD_LAYER+1
 	plane = HUD_PLANE + 1
 
 /atom/movable/screen/movable/mouseover/maptext

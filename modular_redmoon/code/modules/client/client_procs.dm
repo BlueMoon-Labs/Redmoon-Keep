@@ -7,7 +7,7 @@
 
 /client/proc/process_donator_bonus()
 	
-	if(!ckey || !prefs || prefs.donator_bonus_received)
+	if(!ckey || !prefs || prefs.donut_bonus_received)
 		return
 	
 	var/is_donor = FALSE
@@ -25,12 +25,12 @@
 	if(!is_donor)
 		return
 
-	if(prefs.donator_bonus_received)
+	if(prefs.donut_bonus_received)
 		return
 
 	adjust_playerquality(15, ckey, "SYSTEM", "Donator bonus")
 
-	prefs.donator_bonus_received = TRUE
+	prefs.donut_bonus_received = TRUE
 	prefs.save_preferences()
 	prefs.save_character()
 	

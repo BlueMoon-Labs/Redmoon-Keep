@@ -5,3 +5,4 @@
 		В настоящее время вы находитесь в скрытии, под городом, и являетесь самой главной силой в лесу."
 	announce_latejoin = FALSE
 	family_blacklisted = TRUE
+	min_pq = 0

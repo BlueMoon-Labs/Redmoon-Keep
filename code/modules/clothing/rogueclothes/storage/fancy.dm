@@ -7,6 +7,11 @@
 	throwforce = 1
 	slot_flags = null
 	icon_type = "pill"
+	populate_contents = list(
+		/obj/item/reagent_containers/pill/caffpill,
+		/obj/item/reagent_containers/pill/caffpill,
+		/obj/item/reagent_containers/pill/caffpill
+	)
 
 /obj/item/storage/fancy/pilltin/update_icon()
 	if(fancy_open)
@@ -26,22 +31,17 @@
 	update_icon()
 	to_chat(user, span_notice("[src] is now [fancy_open ? "open" : "closed"]."))
 
-// /obj/item/storage/fancy/pilltin/ComponentInitialize()
-// 	. = ..()
-// 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-// 	if(STR)
-// 		STR.max_combined_w_class = 42
-// 		STR.max_w_class = WEIGHT_CLASS_NORMAL
-// 		STR.max_items = 12
-// 		STR.set_holdable(list(/obj/item/reagent_containers/pill))
+/obj/item/storage/fancy/pilltin/ComponentInitialize()
+	. = ..()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	if(STR)
+		STR.max_combined_w_class = 42
+		STR.max_w_class = WEIGHT_CLASS_NORMAL
+		STR.max_items = 12
+		STR.set_holdable(list(/obj/item/reagent_containers/pill))
 
 /obj/item/storage/fancy/pilltin/wake
 	name = "pill tin (wake)"
-
-// /obj/item/storage/fancy/pilltin/wake/PopulateContents()
-// 	new /obj/item/reagent_containers/pill/caffpill(src)
-// 	new /obj/item/reagent_containers/pill/caffpill(src)
-// 	new /obj/item/reagent_containers/pill/caffpill(src)
 
 /obj/item/storage/fancy/skit
 	name = "surgery kit"
@@ -51,6 +51,17 @@
 	w_class = WEIGHT_CLASS_SMALL
 	slot_flags = ITEM_SLOT_HIP
 	throwforce = 1
+	populate_contents = list(
+		/obj/item/rogueweapon/surgery/scalpel,
+		/obj/item/rogueweapon/surgery/saw,
+		/obj/item/rogueweapon/surgery/hemostat,
+		/obj/item/rogueweapon/surgery/hemostat,
+		/obj/item/rogueweapon/surgery/retractor,
+		/obj/item/rogueweapon/surgery/bonesetter,
+		/obj/item/rogueweapon/surgery/cautery,
+		/obj/item/natural/worms/leech,
+		/obj/item/needle
+	)
 
 /obj/item/storage/fancy/skit/update_icon()
 	if(fancy_open)
@@ -92,28 +103,17 @@
 	update_icon()
 	to_chat(user, span_notice("[src] is now [fancy_open ? "open" : "closed"]."))
 
-// /obj/item/storage/fancy/skit/ComponentInitialize()
-// 	..()
-// 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-// 	STR.max_items = 10
-// 	STR.max_w_class = WEIGHT_CLASS_NORMAL
-// 	STR.max_combined_w_class = 42
-// 	STR.set_holdable(list(
-// 		/obj/item/rogueweapon/surgery/,
-// 		/obj/item/natural/worms/leech/,
-// 		/obj/item/needle/,
-// 	))
-
-// /obj/item/storage/fancy/skit/PopulateContents()
-// 	new /obj/item/rogueweapon/surgery/scalpel(src)
-// 	new /obj/item/rogueweapon/surgery/saw(src)
-// 	new /obj/item/rogueweapon/surgery/hemostat(src)
-// 	new /obj/item/rogueweapon/surgery/hemostat(src)
-// 	new /obj/item/rogueweapon/surgery/retractor(src)
-// 	new /obj/item/rogueweapon/surgery/bonesetter(src)
-// 	new /obj/item/rogueweapon/surgery/cautery(src)
-// 	new /obj/item/natural/worms/leech/cheele(src)
-// 	new /obj/item/needle/pestra(src)
+/obj/item/storage/fancy/skit/ComponentInitialize()
+	..()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	STR.max_items = 10
+	STR.max_w_class = WEIGHT_CLASS_NORMAL
+	STR.max_combined_w_class = 42
+	STR.set_holdable(list(
+		/obj/item/rogueweapon/surgery/,
+		/obj/item/natural/worms/leech/,
+		/obj/item/needle/,
+	))
 
 /obj/item/storage/fancy/ifak
 	name = "personal patch kit"
@@ -123,11 +123,15 @@
 	w_class = WEIGHT_CLASS_SMALL
 	throwforce = 1
 	slot_flags = null
-
-// /obj/item/storage/fancy/ifak/PopulateContents()
-// 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-// 	for(var/i = 1 to STR.max_items)
-// 		new spawn_type(src)
+	populate_contents = list(
+		/obj/item/reagent_containers/hypospray/medipen/sealbottle/reju,
+		/obj/item/natural/bundle/cloth/bandage/full,
+		/obj/item/reagent_containers/hypospray/medipen/sty/detox,
+		/obj/item/reagent_containers/pill/pnkpill,
+		/obj/item/candle/yellow,
+		/obj/item/needle,
+		/obj/item/reagent_containers/glass/bottle/rogue/embalm,
+	)
 
 /obj/item/storage/fancy/ifak/update_icon()
 	if(fancy_open)
@@ -169,26 +173,16 @@
 	update_icon()
 	to_chat(user, span_notice("[src] is now [fancy_open ? "open" : "closed"]."))
 
-// /obj/item/storage/fancy/ifak/ComponentInitialize()
-// 	. = ..()
-// 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-// 	STR.max_items = 7
-// 	STR.max_w_class = WEIGHT_CLASS_NORMAL
-// 	STR.max_combined_w_class = 42
-// 	STR.set_holdable(list(
-// 		/obj/item/natural/cloth/,
-// 		/obj/item/natural/bundle/cloth/,
-// 		/obj/item/reagent_containers/,
-// 		/obj/item/candle/,
-// 		/obj/item/needle/,
-// 		/obj/item/book/rogue/medical_notebook,
-// 	))
-
-// /obj/item/storage/fancy/ifak/PopulateContents()
-// 	new /obj/item/reagent_containers/hypospray/medipen/sealbottle/reju(src)
-// 	new /obj/item/natural/bundle/cloth/bandage/full(src)
-// 	new /obj/item/reagent_containers/hypospray/medipen/sty/detox(src)
-// 	new /obj/item/reagent_containers/pill/pnkpill(src)
-// 	new /obj/item/candle/yellow(src)
-// 	new /obj/item/needle(src)
-// 	new /obj/item/book/rogue/medical_notebook(src)
+/obj/item/storage/fancy/ifak/ComponentInitialize()
+	. = ..()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	STR.max_items = 7
+	STR.max_w_class = WEIGHT_CLASS_NORMAL
+	STR.max_combined_w_class = 42
+	STR.set_holdable(list(
+		/obj/item/natural/cloth,
+		/obj/item/natural/bundle/cloth,
+		/obj/item/reagent_containers,
+		/obj/item/candle,
+		/obj/item/needle,
+	))

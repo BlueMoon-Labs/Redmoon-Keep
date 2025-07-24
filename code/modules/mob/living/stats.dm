@@ -100,7 +100,7 @@
 		if(statindex[index])
 			change_stat(statindex[index]["stat"], -1*statindex[index]["amt"])
 			statindex[index] = null
-			return
+		return
 	if(!amt)
 		return
 	if(index)
@@ -249,6 +249,7 @@
 			STASPD = newamt - REDMOON REMOVAL END*/
 			BUFSPE += amt // REDMOON ADD - after_death_stats_fix - фикс для статов после смерти и оверкапа статов
 			STASPD = CLAMP(ROUNDSTART_STASPD + BUFSPE, 1, 20) // REDMOON ADD - after_death_stats_fix - фикс для статов после смерти и оверкапа статов
+			update_move_intent_slowdown()
 
 		if("fortune")
 /*			newamt = STALUC + amt - REDMOON REMOVAL START - after_death_stats_fix - фикс для статов после смерти и оверкапа статов
@@ -271,6 +272,23 @@
 			STALUC = newamt - REDMOON REMOVAL END*/
 			BUFLUC += amt // REDMOON ADD - after_death_stats_fix - фикс для статов после смерти и оверкапа статов
 			STALUC = CLAMP(ROUNDSTART_STALUC + BUFLUC, 1, 20) // REDMOON ADD - after_death_stats_fix - фикс для статов после смерти и оверкапа статов
+
+/// Calculates a luck value in the range [1, 400] (calculated as STALUC^2), then maps the result linearly to the given range
+/// min must be >= 0, max must be <= 100, and min must be <= max
+/// For giving 
+/mob/living/proc/get_scaled_sq_luck(min, max)
+	if (min < 0)
+		min = 0
+	if (max > 100)
+		max = 100
+	if (min > max)
+		var/temp = min
+		min = max
+		max = temp
+	var/adjusted_luck = (src.STALUC * src.STALUC) / 400
+	
+	return LERP(min, max, adjusted_luck)
+
 
 /proc/generic_stat_comparison(userstat as num, targetstat as num)
 	var/difference = userstat - targetstat

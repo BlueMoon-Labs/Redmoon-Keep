@@ -56,6 +56,15 @@
 	if(lay)
 		layer = lay
 
+/obj/structure/fluff/railing/post_craft()
+	switch(dir)
+		if(NORTH)
+			pixel_y = 10
+		if(WEST)
+			pixel_x = -10
+		if(EAST)
+			pixel_x = 10
+
 /obj/structure/fluff/railing/proc/getwlayer(dirin)
 	switch(dirin)
 		if(NORTH)
@@ -448,6 +457,11 @@ obj/structure/bars/steel
 				day = "Sun's dae."
 		. += "Oh no, it's [station_time_timestamp("hh:mm")] on a [day]"
 
+/obj/structure/fluff/clock/CanAStarPass(ID, to_dir, caller)
+	if(to_dir == dir)
+		return FALSE // don't even bother climbing over it
+	return ..()
+
 /obj/structure/fluff/clock/CanPass(atom/movable/mover, turf/target)
 	if(get_dir(loc, mover) == dir)
 		return 0
@@ -659,6 +673,11 @@ obj/structure/bars/steel
 		return 0
 	return !density
 
+/obj/structure/fluff/statue/CanAStarPass(ID, to_dir, caller)
+	if(to_dir == dir)
+		return FALSE // don't even bother climbing over it
+	return ..()
+
 /obj/structure/fluff/statue/CheckExit(atom/movable/O, turf/target)
 	if(get_dir(O.loc, target) == dir)
 		return 0
@@ -841,15 +860,23 @@ obj/structure/bars/steel
 					proceed_with_offer = TRUE
 					break
 			if(proceed_with_offer)
+				var/list/bandits_to_benefit = list()
+				for(var/mob/player in GLOB.player_list)
+					if(player.mind && player.stat != DEAD) //You better be alive if you actually want your cut.
+						if(player.mind.has_antag_datum(/datum/antagonist/bandit))
+							bandits_to_benefit += player.mind.has_antag_datum(/datum/antagonist/bandit)
+				if(isemptylist(bandits_to_benefit))
+					to_chat(user, span_warning("Something is wrong."))
+					return
 				playsound(loc,'sound/items/carvty.ogg', 50, TRUE)
 				qdel(W)
-				for(var/mob/player in GLOB.player_list)
-					if(player.mind)
-						if(player.mind.has_antag_datum(/datum/antagonist/bandit))
-							var/datum/antagonist/bandit/bandit_players = player.mind.has_antag_datum(/datum/antagonist/bandit)
-							bandit_players.favor += donatedamnt
-							bandit_players.totaldonated += donatedamnt
-							to_chat(player, ("<font color='yellow'>[user.name] donates [donatedamnt] to the shrine! You now have [bandit_players.favor] favor.</font>"))
+				var/to_distribute = round(donatedamnt / bandits_to_benefit.len, 0.1)
+				if(bandits_to_benefit.len > 4 && donatedamnt > 20)
+					to_distribute += 5
+				for(var/datum/antagonist/bandit/bandit_player in bandits_to_benefit)
+					bandit_player.favor += to_distribute
+					bandit_player.totaldonated += donatedamnt
+					to_chat(bandit_player.owner, ("<font color='yellow'>[user.name] donates [donatedamnt] to the shrine! You get [to_distribute] and now have <b>[bandit_player.favor]</b> favor.</font>"))
 
 			else
 				to_chat(user, span_warning("This item isn't a good offering."))
@@ -886,6 +913,11 @@ obj/structure/bars/steel
 /obj/structure/fluff/psycross/post_unbuckle_mob(mob/living/M)
 	..()
 	M.reset_offsets("bed_buckle")
+
+/obj/structure/fluff/psycross/CanAStarPass(ID, to_dir, caller)
+	if(to_dir == dir)
+		return FALSE // don't even bother climbing over it
+	return ..()
 
 /obj/structure/fluff/psycross/CanPass(atom/movable/mover, turf/target)
 	if(get_dir(loc, mover) == dir)
@@ -1201,7 +1233,7 @@ obj/structure/bars/steel
 ///Crafting
 
 /datum/crafting_recipe/roguetown/structure/littlebanners
-	name = "fair banners red-white"
+	name = "fair banners red-white - (4 cloths, fiber; NONE)"
 	result = list(/obj/structure/fluff/littlebanners)
 	reqs = list(/obj/item/natural/cloth = 4, /obj/item/natural/fibers)
 	verbage_simple = "construct"
@@ -1209,23 +1241,23 @@ obj/structure/bars/steel
 	skill_level = 0
 
 /datum/crafting_recipe/roguetown/structure/littlebanners/greenblue
-	name = "fair banners green-blue"
+	name = "fair banners green-blue - (4 cloths, fiber; NONE)"
 	result = list(/obj/structure/fluff/littlebanners/greenblue)
 
 /datum/crafting_recipe/roguetown/structure/littlebanners/greenred
-	name = "fair banners green-red"
+	name = "fair banners green-red - (4 cloths, fiber; NONE)"
 	result = list(/obj/structure/fluff/littlebanners/greenred)
 
 /datum/crafting_recipe/roguetown/structure/littlebanners/bluewhite
-	name = "fair banners blue-white"
+	name = "fair banners blue-white - (4 cloths, fiber; NONE)"
 	result = list(/obj/structure/fluff/littlebanners/bluewhite)
 
 /datum/crafting_recipe/roguetown/structure/littlebanners/greenwhite
-	name = "fair banners green-white"
+	name = "fair banners green-white - (4 cloths, fiber; NONE)"
 	result = list(/obj/structure/fluff/littlebanners/greenwhite)
 
 /datum/crafting_recipe/roguetown/structure/littlebanners/bluered
-	name = "fair banners blue-red"
+	name = "fair banners blue-red - (4 cloths, fiber; NONE)"
 	result = list(/obj/structure/fluff/littlebanners/bluered)
 
 /obj/structure/fluff/canopy
@@ -1266,6 +1298,11 @@ obj/structure/bars/steel
 /obj/structure/fluff/canopy/side/end
 	icon_state = "canopyb-side-end"
 
+/obj/structure/fluff/canopy/booth/CanAStarPass(ID, to_dir, caller)
+	if(to_dir == dir)
+		return FALSE // don't even bother climbing over it
+	return ..()
+
 /obj/structure/fluff/canopy/booth/CanPass(atom/movable/mover, turf/target)
 	if(get_dir(loc, mover) == dir)
 		return 0
@@ -1282,7 +1319,7 @@ obj/structure/bars/steel
 ///Crafting
 
 /datum/crafting_recipe/roguetown/structure/display_booth01
-	name = "display booth"
+	name = "display booth - (2 small logs, 2 cloths; BEGINNER)"
 	result = list(/obj/structure/fluff/canopy, /obj/structure/table/wood/crafted)
 	reqs = list(/obj/item/grown/log/tree/small = 2,
 				/obj/item/natural/cloth = 2)
@@ -1290,7 +1327,7 @@ obj/structure/bars/steel
 	verbage = "constructs"
 
 /datum/crafting_recipe/roguetown/structure/display_booth02
-	name = "display booth green"
+	name = "display booth green - (2 small logs, 2 cloths; BEGINNER)"
 	result = list(/obj/structure/fluff/canopy/green, /obj/structure/table/wood/crafted)
 	reqs = list(/obj/item/grown/log/tree/small = 2,
 				/obj/item/natural/cloth = 2)
@@ -1299,7 +1336,7 @@ obj/structure/bars/steel
 
 
 /datum/crafting_recipe/roguetown/structure/booth
-	name = "market booth"
+	name = "market booth - (small log, 2 cloths; NONE)"
 	result = list(/obj/structure/fluff/canopy/booth)
 	reqs = list(/obj/item/grown/log/tree/small = 1,
 				/obj/item/natural/cloth = 2)
@@ -1308,7 +1345,7 @@ obj/structure/bars/steel
 	skill_level = 0
 
 /datum/crafting_recipe/roguetown/structure/booth02
-	name = "market booth"
+	name = "market booth (alt) - (small log, 2 cloths; NONE)"
 	result = list(/obj/structure/fluff/canopy/booth/booth02)
 	reqs = list(/obj/item/grown/log/tree/small = 1,
 				/obj/item/natural/cloth = 2)
@@ -1317,7 +1354,7 @@ obj/structure/bars/steel
 	skill_level = 0
 
 /datum/crafting_recipe/roguetown/structure/booth_green
-	name = "green market booth"
+	name = "green market booth - (small log, 2 cloths; NONE)"
 	result = list(/obj/structure/fluff/canopy/booth/booth_green)
 	reqs = list(/obj/item/grown/log/tree/small = 1,
 				/obj/item/natural/cloth = 2)
@@ -1326,7 +1363,7 @@ obj/structure/bars/steel
 	skill_level = 0
 
 /datum/crafting_recipe/roguetown/structure/booth_green_02
-	name = "green market booth02"
+	name = "green market booth02 - (small log, 2 cloths; NONE)"
 	result = list(/obj/structure/fluff/canopy/booth/booth_green02)
 	reqs = list(/obj/item/grown/log/tree/small = 1,
 				/obj/item/natural/cloth = 2)
@@ -1345,3 +1382,17 @@ obj/structure/bars/steel
 			new /obj/item/grown/log/tree/small  (get_turf(src))
 			new /obj/item/natural/cloth (get_turf(src))
 			qdel(src)
+
+/obj/structure/fluff/drake_statue //Ash drake status spawn on either side of the necropolis gate in lavaland.
+	name = "drake statue"
+	desc = "Possibly the only time you'll ever see its likeness up close and live to tell the tale."
+	icon = 'icons/effects/64x64.dmi'
+	icon_state = "drake_statue"
+	pixel_x = -16
+	density = TRUE
+	deconstructible = FALSE
+	layer = EDGED_TURF_LAYER
+
+/obj/structure/fluff/drake_statue/falling //A variety of statue in disrepair; parts are broken off and a gemstone is missing
+	desc = ""
+	icon_state = "drake_statue_falling"

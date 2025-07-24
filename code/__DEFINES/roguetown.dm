@@ -32,7 +32,6 @@
 	/datum/species/human/halfelf,\
 	/datum/species/dwarf/mountain,\
 	/datum/species/aasimar,\
-	/datum/species/lupian,\
 	/datum/species/vulpkanin,\
 	/datum/species/moth,\
 	/datum/species/kraukalee,\
@@ -41,6 +40,7 @@
 #define RACES_TOLERATED \
 	/datum/species/lizardfolk,\
 	/datum/species/tabaxi,\
+	/datum/species/lupian,\
 	/datum/species/axian,\
 	/datum/species/anthromorph,\
 	/datum/species/demihuman
@@ -179,8 +179,6 @@
 	/datum/species/goblin/sea,\
 	/datum/species/goblin/moon,\
 )
-
-
 
 #define ALL_CLERIC_PATRONS list(\
 	/datum/patron/divine/astrata,\
@@ -355,10 +353,11 @@ GLOBAL_LIST_EMPTY(job_respawn_delays)
 #define CTAG_BANDIT			"CAT_BANDIT"		// Bandit class - Tied to the bandit antag really
 #define CTAG_ANTAG			"CAT_ANTAG"			// Antag class - results in an antag
 #define CTAG_GOBS			"CAT_GOBS"			// Goblin Guards
+#define CTAG_TRIBALS		"CAT_TRIBALS"		// Tribal classes
 
 //Other
 #define CTAG_REFUGEE		"CAT_REFUGEE"		// Refugee classes
-
+#define CTAG_ADVENTURER		"CAT_ADVENTURER"		// Adventurer classes
 /*
 	Defines for the triumph buy datum categories
 */
@@ -397,3 +396,9 @@ GLOBAL_LIST_EMPTY(job_respawn_delays)
 #define SHELFLIFE_DECENT 75 MINUTES
 #define SHELFLIFE_SHORT 45 MINUTES
 #define SHELFLIFE_TINY 30 MINUTES
+
+
+#define ARMOR_CLASS_NONE 0
+#define ARMOR_CLASS_LIGHT 1
+#define ARMOR_CLASS_MEDIUM 2
+#define ARMOR_CLASS_HEAVY 3

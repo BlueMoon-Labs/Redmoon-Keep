@@ -2,7 +2,7 @@
 	name = "Secular Diagnosis"
 	overlay_state = "diagnose"
 	range = 1
-	associated_skill = /datum/skill/misc/treatment
+	associated_skill = /datum/skill/misc/medicine
 	miracle = FALSE
 	devotion_cost = 0
 
@@ -13,7 +13,7 @@
 	range = 1
 	include_user = TRUE
 	sound = 'sound/gore/flesh_eat_03.ogg'
-	associated_skill = /datum/skill/misc/treatment
+	associated_skill = /datum/skill/misc/medicine
 	antimagic_allowed = TRUE
 	charge_max = 60 SECONDS
 	miracle = FALSE
@@ -26,7 +26,7 @@
 	range = 1
 	include_user = TRUE
 	sound = 'sound/gore/flesh_eat_03.ogg'
-	associated_skill = /datum/skill/misc/treatment
+	associated_skill = /datum/skill/misc/medicine
 	antimagic_allowed = TRUE
 	charge_max = 60 SECONDS
 	miracle = FALSE
@@ -38,7 +38,7 @@
 	overlay_state = "stable"
 	range = 1
 	sound = 'modular/Smoker/sound/inject.ogg'
-	associated_skill = /datum/skill/misc/treatment
+	associated_skill = /datum/skill/misc/medicine
 	antimagic_allowed = TRUE
 	include_user = TRUE
 	charge_max = 5 MINUTES
@@ -52,7 +52,7 @@
 	range = 1
 	include_user = TRUE
 	sound = 'sound/combat/newstuck.ogg'
-	associated_skill = /datum/skill/misc/treatment
+	associated_skill = /datum/skill/misc/medicine
 	antimagic_allowed = TRUE
 	charge_max = 5 MINUTES
 	miracle = FALSE
@@ -65,7 +65,7 @@
 	range = 1
 	include_user = FALSE
 	sound = 'sound/combat/newstuck.ogg'
-	associated_skill = /datum/skill/misc/treatment
+	associated_skill = /datum/skill/misc/medicine
 	antimagic_allowed = TRUE
 	charge_max = 1 MINUTES
 	miracle = FALSE
@@ -80,7 +80,7 @@
 	range = 1
 	include_user = FALSE
 	sound = 'sound/combat/newstuck.ogg'
-	associated_skill = /datum/skill/misc/treatment
+	associated_skill = /datum/skill/misc/medicine
 	antimagic_allowed = TRUE
 	charge_max = 1 MINUTES
 	miracle = FALSE
@@ -175,7 +175,7 @@
 		return FALSE
 
 	// If, for whatever reason, someone manages to capture a vampire with (somehow) rot??? This prevents them from losing their undead biotype.
-	if(target.mind?.has_antag_datum(/datum/antagonist/vampire) || target.mind?.has_antag_datum(/datum/antagonist/vampire/lesser) || target.mind?.has_antag_datum(/datum/antagonist/vampirelord))
+	if(target.mind?.has_antag_datum(/datum/antagonist/vampire) || target.mind?.has_antag_datum(/datum/antagonist/vampire/lesser) || target.mind?.has_antag_datum(/datum/antagonist/vampirelord) || target.mind?.has_antag_datum(/datum/antagonist/vurdalak))
 		to_chat(user, span_warning("It's of an incurable evil, I can't."))
 		revert_cast()
 		return FALSE

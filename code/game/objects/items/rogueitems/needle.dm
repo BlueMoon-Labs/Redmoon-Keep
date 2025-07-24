@@ -13,6 +13,10 @@
 	max_integrity = 20
 	anvilrepair = /datum/skill/craft/blacksmithing
 	tool_behaviour = TOOL_SUTURE
+
+	grid_width = 32
+	grid_height = 32
+
 	/// Amount of uses left
 	var/stringamt = 20
 	var/maxstring = 20
@@ -100,14 +104,14 @@
 				return
 			if((armor_value == 0 && skill_level > 0) || (armor_value > 0 && skill_level > 1)) //If not armor but skill level at least 1 or Armor and skill level at least 2
 				user.visible_message(span_info("[user] repairs [I]!"))
-				I.obj_integrity = min(I.obj_integrity + skill_multiplied, I.max_integrity)
+				I.mend_damage(skill_multiplied, TRUE)
 			else
 				if(prob(20 - user.STALUC)) //Unlucky here!
 					I.take_damage(150, BRUTE, "slash")
 					user.visible_message(span_info("[user] was extremely unlucky and ruined [I] while trying to unskillfuly repair it!"))
 					playsound(src, 'sound/foley/cloth_rip.ogg', 50, TRUE)
 				else if(prob(user.STALUC)) //Lucky here!
-					I.obj_integrity = min(I.obj_integrity + 50, I.max_integrity)
+					I.mend_damage(50, TRUE)
 					playsound(src, 'sound/magic/ahh2.ogg', 50, TRUE)
 					user.visible_message(span_info("A miracle! [user] somehow managed to repair [I] while not having a single clue what he was doing!"))
 				else
@@ -148,7 +152,7 @@
 
 	var/moveup = 10
 	if(doctor.mind)
-		moveup = ((doctor.mind.get_skill_level(/datum/skill/misc/treatment)+1) * 5)
+		moveup = ((doctor.mind.get_skill_level(/datum/skill/misc/medicine)+1) * 5)
 	while(!QDELETED(target_wound) && !QDELETED(src) && \
 		!QDELETED(user) && (target_wound.sew_progress < target_wound.sew_threshold) && \
 		stringamt >= 1)
@@ -159,7 +163,7 @@
 		if(target_wound.sew_progress < target_wound.sew_threshold)
 			continue
 		if(doctor.mind)
-			doctor.mind.add_sleep_experience(/datum/skill/misc/treatment, doctor.STAINT * 2.5)
+			doctor.mind.add_sleep_experience(/datum/skill/misc/medicine, doctor.STAINT * 2.5)
 		use(1)
 		target_wound.sew_wound()
 		if(patient == doctor)

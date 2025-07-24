@@ -26,6 +26,7 @@
 	var/last_pain = 0
 	var/msg_signature = ""
 	var/last_msg_signature = 0
+	var/aphrodisiac = 1
 
 /datum/sex_controller/New(mob/living/carbon/human/owner)
 	user = owner
@@ -229,9 +230,10 @@
 	if(user.patron) // REDMOON ADD START - Эора и Баота позволяют своему юзверю быть очень выносливым
 		if(user.patron.type != /datum/patron/inhumen/baotha || user.patron.type != /datum/patron/divine/eora)
 			if(prob(10))
-				to_chat(user, span_love((user.client.prefs.be_russian ? "Мой бог... Даёт мне сил продолжать! Славься!" : "My god... Grants me power to continue! Praise!")))
-		else // REDMOON ADD END
-			adjust_charge(-CHARGE_FOR_CLIMAX)
+				to_chat(user, span_love((user.client.prefs.be_russian ? "Мой бог... даёт мне сил продолжать! Славься!" : "My god... Grants me power to continue! Praise!")))
+	if(user.has_flaw(/datum/charflaw/addiction/lovefiend))
+		user.sate_addiction()
+	adjust_charge(-CHARGE_FOR_CLIMAX)
 	user.emote("sexmoanhvy", forced = TRUE)
 	user.playsound_local(user, 'sound/misc/mat/end.ogg', 100)
 	last_ejaculation_time = world.time
@@ -286,6 +288,8 @@
 	set_charge(charge + amount)
 
 /datum/sex_controller/proc/handle_charge(dt)
+	if(user.has_flaw(/datum/charflaw/addiction/lovefiend))
+		dt *= 2
 	adjust_charge(dt * CHARGE_RECHARGE_RATE)
 	if(is_spent())
 		if(arousal > 60)
@@ -303,6 +307,10 @@
 
 /datum/sex_controller/proc/update_erect_state()
 	var/obj/item/organ/penis/penis = user.getorganslot(ORGAN_SLOT_PENIS)
+	if(user.mind)
+		var/datum/antagonist/werewolf/W = user.mind.has_antag_datum(/datum/antagonist/werewolf/)
+		if(W && W.transformed == TRUE)
+			user.regenerate_icons()
 	if(penis)
 		penis.update_erect_state()
 
@@ -348,7 +356,7 @@
 		arousal_amt = 0
 		pain_amt = 0
 
-	if(!arousal_frozen) 
+	if(!arousal_frozen)
 		adjust_arousal(arousal_amt)
 
 	damage_from_pain(pain_amt)
@@ -568,9 +576,9 @@
 	dat += "</tr></table>"
 	var/datum/browser/popup
 	if(usr?.client?.prefs?.be_russian)
-		popup = new(user, "sexcon", "<center>Утолить Желание</center>", 490, 550)
+		popup = new(user, "sexcon", "<center>Утолить Желание</center>", 500, 550)
 	else
-		popup = new(user, "sexcon", "<center>Sate Desire</center>", 490, 550)
+		popup = new(user, "sexcon", "<center>Sate Desire</center>", 500, 550)
 	popup.set_content(dat.Join())
 	popup.open()
 	return

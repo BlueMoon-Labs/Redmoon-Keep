@@ -24,6 +24,11 @@
 	faildirt = 3
 	icon_state = "grave"
 
+/obj/structure/closet/dirthole/grave/Initialize()
+	..()
+	if(is_valid_hunting_area(get_area(src)))
+		GLOB.vurdalak_spawn_locations += get_turf(src)
+
 /obj/structure/closet/dirthole/closed
 	desc = "A mound of dirt with something below."
 	stage = 4
@@ -378,7 +383,7 @@ obj/structure/spike_pit/attack_hand(mob/user)
 	
 
 /datum/crafting_recipe/roguetown/spike_pit
-	name = "spike pit"
+	name = "spike pit - (3 stakes; SHOVEL; BEGINNER)"
 	result = list( /obj/structure/spike_pit )
 	tools = list( /obj/item/rogueweapon/shovel = 1 )
 	reqs = list( /obj/item/grown/log/tree/stake = 3)

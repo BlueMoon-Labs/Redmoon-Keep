@@ -36,10 +36,11 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backr = /obj/item/rogueweapon/woodstaff
-	backpack_contents = list(/obj/item/clothing/mask/rogue/pestra, /obj/item/needle/pestra, /obj/item/natural/worms/leech/cheele, /obj/item/reagent_containers/lux)
+	backpack_contents = list(/obj/item/clothing/mask/rogue/pestra, /obj/item/needle/pestra, /obj/item/natural/worms/leech/cheele, /obj/item/reagent_containers/lux, /obj/item/ritualfeather = 1 )
 	if(H.mind)
 		H.mind.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE)	//average wrestling, for wrestling down deadites
-		H.mind.adjust_skillrank(/datum/skill/misc/treatment, 4, TRUE)	//More treatment then acolytes
+		H.mind.adjust_skillrank(/datum/skill/misc/medicine, 4, TRUE)	//More treatment then acolytes
+		H.mind.adjust_skillrank(/datum/skill/misc/alchemy, 3, TRUE)
 		H.mind.adjust_skillrank(/datum/skill/misc/reading, 2, TRUE)
 		H.mind.adjust_skillrank(/datum/skill/magic/holy, 3, TRUE)		// in between templar and acolyte for holy skill
 		H.mind.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)	//below bog guard level of polearm skill
@@ -48,8 +49,25 @@
 		if(H.age == AGE_OLD)
 			H.mind.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
 		H.change_stat("strength", -1)		//too busy healing to get reps.
-		H.change_stat("intelligence", 1)	//physician smarts
-		H.change_stat("endurance", 1)		//divine miracle take their toll
+		H.change_stat("perception", 2)      //doctor's precision
+		H.change_stat("intelligence", 2)	//physician smarts
+		H.change_stat("endurance", 2)		//divine miracle take their toll
+		ADD_TRAIT(H, TRAIT_RITUALIST, TRAIT_GENERIC)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_spells(H)
 	H.verbs += list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray)
+
+/datum/job/roguetown/hospitaller/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+//	..() - REDMOON REMOVAL - fixes_for_characters_memory
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		for(var/datum/mind/MF in get_minds()) // REDMOON ADD - fixes_for_characters_memory - удаление из памяти всех, кто успел запомнить имя без титула
+			H.mind.become_unknown_to(MF)
+		var/prev_real_name = H.real_name
+		var/prev_name = H.name
+		var/title = "Brother"
+		if(H.gender == FEMALE)
+			title = "Sister"
+		H.real_name = "[title] [prev_real_name]"
+		H.name = "[title] [prev_name]"
+	..() // REDMOON ADD - fixes_for_characters_memory - исправление, что персонажи запоминают имена без титулов

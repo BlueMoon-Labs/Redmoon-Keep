@@ -11,10 +11,15 @@
 	move_to_delay = 2
 	vision_range = 5
 	aggro_vision_range = 9
+	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
 
-	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/spider = 1,
-							/obj/item/reagent_containers/food/snacks/rogue/honey = 1,
-							/obj/item/natural/silk = 2)
+	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/honey = 1,
+						/obj/item/natural/silk = 2)
+	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/honey = 2,
+						/obj/item/natural/silk = 4)
+	perfect_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/honey = 3,
+						/obj/item/natural/silk = 6)
+
 
 	health = SPIDER_HEALTH
 	maxHealth = SPIDER_HEALTH

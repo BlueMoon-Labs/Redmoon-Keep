@@ -536,6 +536,7 @@
 /mob/living/carbon
 	var/nausea = 0
 	var/mouth_blocked = FALSE
+	var/body_type = MALE
 
 /mob/living/carbon/proc/add_nausea(amt)
 	nausea = clamp(nausea + amt, 0, 300)
@@ -558,14 +559,15 @@
 				addtimer(CALLBACK(src, PROC_REF(vomit), 50), rand(8 SECONDS, 15 SECONDS))
 	add_nausea(-1)
 
-
-/mob/living/carbon/proc/vomit(lost_nutrition = 50, blood = FALSE, stun = TRUE, distance = 1, message = TRUE, toxic = FALSE, harm = FALSE, force = FALSE)
+// made default lost nutrition 100 (equivalent to one jacksberries) per vomit
+// made gag requirement = to starving
+/mob/living/carbon/proc/vomit(lost_nutrition = 100, blood = FALSE, stun = TRUE, distance = 1, message = TRUE, toxic = FALSE, harm = FALSE, force = FALSE)
 	if(HAS_TRAIT(src, TRAIT_TOXINLOVER) && !force)
 		return TRUE
 
 	mob_timers["puke"] = world.time
 
-	if(nutrition <= 50 && !blood)
+	if(nutrition <= NUTRITION_LEVEL_STARVING && !blood)
 		if(message)
 			emote("gag")
 		if(stun)
@@ -968,6 +970,9 @@
 	if(status_flags & GODMODE)
 		return
 	if(stat != DEAD)
+		if(health <= HEALTH_THRESHOLD_NEARDEATH && HAS_TRAIT(src, TRAIT_DEATHBARGAIN))
+			src.apply_status_effect(/datum/status_effect/buff/undermaidenbargainheal)
+			return
 		if(health <= HEALTH_THRESHOLD_DEAD && !HAS_TRAIT(src, TRAIT_NODEATH))
 			emote("deathgurgle")
 			death()

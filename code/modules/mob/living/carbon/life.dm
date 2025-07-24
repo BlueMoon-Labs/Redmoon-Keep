@@ -404,6 +404,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 			add_stress(/datum/stressevent/drunk)
 		else
 			remove_stress(/datum/stressevent/drunk)
+			
 		if(drunkenness >= 8.5) // Roughly 2 cups
 			if(has_flaw(/datum/charflaw/addiction/alcoholic))
 				sate_addiction()
@@ -727,5 +728,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 				recovery_amt = max_energy * 0.005 // 7.5 минут на полный отдых за сон на земле
 			else
 				recovery_amt = max_energy * 0.0035 // REDMOON ADD END - 10 минут на полный отдых за лежание на земле без сна, чтобы был смысл искать кровати
+			if(HAS_TRAIT(src, TRAIT_GROUNDSLEEPER))
+				recovery_amt = max_energy * 0.01 // 3 минуты на полный отдых за сон на земле
 
 		energy_add(recovery_amt)

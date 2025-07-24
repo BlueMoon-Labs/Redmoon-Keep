@@ -7,8 +7,11 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
+	var/despawn_on_idle = TRUE
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/proc/despawncheck()
+	if (!despawn_on_idle)
+		return
 	if(nearbyhumanpresent(5))	//check for humans in range
 		return	//return if humans in range
 	if(AIStatus == AI_IDLE)
@@ -283,7 +286,8 @@
 		targetted.IgniteMob()
 		targetted.visible_message(span_danger("[src] sets [target] on fire!"))
 		src.flame_cd = world.time
-	return target.attack_animal(src)
+	if(!QDELETED(target))
+		return target.attack_animal(src)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher
 	icon = 'icons/mob/summonable/32x32.dmi'
@@ -367,7 +371,7 @@
 	new /obj/item/natural/hellhoundfang(deathspot)
 	new /obj/item/natural/infernalash(deathspot)
 	new /obj/item/natural/infernalash(deathspot)
-	new /obj/item/natural/melded/t1
+	new /obj/item/natural/melded/t1(deathspot)
 	spill_embedded_objects()
 	update_icon()
 	qdel(src)
@@ -442,7 +446,7 @@
 	new /obj/item/natural/hellhoundfang(deathspot)
 	new /obj/item/natural/infernalash(deathspot)
 	new /obj/item/natural/infernalash(deathspot)
-	new /obj/item/natural/melded/t2
+	new /obj/item/natural/melded/t2(deathspot)
 	spill_embedded_objects()
 	update_icon()
 	qdel(src)

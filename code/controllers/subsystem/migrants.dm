@@ -193,7 +193,6 @@ SUBSYSTEM_DEF(migrants)
 /datum/controller/subsystem/migrants/proc/spawn_migrant(datum/migrant_wave/wave, datum/migrant_assignment/assignment, spawn_on_location, migrant_wave_id)
 	var/rank = "Migrant"
 	var/mob/dead/new_player/newplayer = assignment.client.mob
-	var/ckey = assignment.client.ckey
 
 	SSjob.AssignRole(newplayer, rank, TRUE)
 
@@ -222,11 +221,16 @@ SUBSYSTEM_DEF(migrants)
 
 	if(humanc)
 		var/fakekey = character.ckey
-		if(ckey in GLOB.anonymize)
+		if(character.ckey in GLOB.anonymize)
 			fakekey = get_fake_key(character.ckey)
-		GLOB.character_list[character.mobid] = "[fakekey] was [character.real_name] ([rank])<BR>"
+		GLOB.character_list[character.mobid] = "[fakekey] was [character.real_name] ([rank] - [role.name])<BR>"
 		GLOB.character_ckey_list[character.real_name] = character.ckey
-		log_character("[character.ckey] ([fakekey]) - [character.real_name] - [rank]")
+		if(!role.hidden_role)
+			if(role.obfuscated_role)
+				GLOB.actors_list[character.mobid] = "[character.real_name] as Refugee<BR>"
+			else
+				GLOB.actors_list[character.mobid] = "[character.real_name] as [role.name]<BR>"
+		log_character("[character.ckey] ([fakekey]) - [character.real_name] - [rank] ([role.name])")
 	if(GLOB.respawncounts[character.ckey])
 		var/AN = GLOB.respawncounts[character.ckey]
 		AN++

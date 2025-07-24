@@ -105,7 +105,7 @@ var/global/list/roguegamemodes = list("Rebellion", "Vampires and Werewolves", "N
 					if(lord_dead)
 						lord_dead = FALSE
 					break
-	if(lord_dead || !lord_found)
+	if((lord_dead || !lord_found) && SSjob.GetJob("Duke")?.current_positions > 0)
 		if(!missing_lord_time)
 			missing_lord_time = world.time
 		if(world.time > missing_lord_time + 10 MINUTES)
@@ -131,7 +131,8 @@ var/global/list/roguegamemodes = list("Rebellion", "Vampires and Werewolves", "N
 		return TRUE
 	if(SSticker.manualmodes)
 		forcedmodes |= SSticker.manualmodes
-
+	if(num_players() < 20)
+		return TRUE // Убираем рол антагонистов, если низкий онлайн
 	if(forcedmodes.len)
 		message_admins("Manual gamemodes selected.")
 		for(var/G in forcedmodes)
@@ -162,7 +163,7 @@ var/global/list/roguegamemodes = list("Rebellion", "Vampires and Werewolves", "N
 					log_game("Major Antagonist: None")
 		return TRUE
 
-	if(num_players() >= 64)
+	if(num_players() >= 50)
 		var/major_roll_highpop = pick(1,2,3,4)
 		switch(major_roll_highpop)
 			if(1)
@@ -178,7 +179,7 @@ var/global/list/roguegamemodes = list("Rebellion", "Vampires and Werewolves", "N
 			if(4)
 				pick_lich()
 				log_game("Major Antagonist: Lich")
-	else if(num_players() >= 52)
+	else if(num_players() >= 40)
 		var/major_roll_midpop = pick(1,2,3)
 		switch(major_roll_midpop)
 			if(1)
@@ -207,6 +208,11 @@ var/global/list/roguegamemodes = list("Rebellion", "Vampires and Werewolves", "N
 	if(prob(100))
 		pick_bandits()
 		log_game("Minor Antagonist: Bandit")
+
+	if(num_players() >= 30)
+		if(prob(100))
+			pick_vurdalaks()
+			log_game("Minor Antagonist: Vurdalak")
 
 	if(prob(45))
 		pick_aspirants()
@@ -461,6 +467,7 @@ var/global/list/roguegamemodes = list("Rebellion", "Vampires and Werewolves", "N
 	"Knight",
 	"Mortician",
 	"Mercenary",
+	"Bandit",
 	"Goblin Chief",
 	"Goblin Cook",
 	"Goblin Guard",
@@ -561,7 +568,6 @@ var/global/list/roguegamemodes = list("Rebellion", "Vampires and Werewolves", "N
 	"Warden",
 	"Knight",
 	"Mortician",
-	"Mercenary",
 	"Bandit",
 	"Goblin Chief",
 	"Goblin Cook",
@@ -690,6 +696,14 @@ var/global/list/roguegamemodes = list("Rebellion", "Vampires and Werewolves", "N
 		var/datum/antagonist/new_antag = new /datum/antagonist/prebel/head()
 		rebelguy.add_antag_datum(new_antag)
 		GLOB.pre_setup_antags -= rebelguy
+
+///////////////// VURDALAK
+	for(var/datum/mind/vurdalak in pre_vurdalaks)
+		var/datum/antagonist/new_antag = new /datum/antagonist/vurdalak()
+		//addtimer(CALLBACK(werewolf, TYPE_PROC_REF(/datum/mind, add_antag_datum), new_antag), rand(10,100))
+		vurdalak.add_antag_datum(new_antag)
+		GLOB.pre_setup_antags -= vurdalak
+		vurdalaks += vurdalak
 
 	..()
 	//We're not actually ready until all traitors are assigned.

@@ -16,13 +16,6 @@
 			item_in_source.moveToNullspace()
 		SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, item_in_source, null, TRUE, TRUE, FALSE)
 
-/obj/item
-	// ~Grid INVENTORY VARIABLES
-	/// Width we occupy on the hud - Keep null to generate based on w_class
-	var/grid_width
-	/// Height we occupy on the hud - Keep null to generate based on w_class
-	var/grid_height
-
 /obj/item/proc/inventory_flip(mob/user, force = FALSE)
 	if(!force && (user && ((!user.Adjacent(src) && !user.DirectAccess(src)) || !isliving(user))))
 		return
@@ -53,6 +46,16 @@
 			item_in_source.moveToNullspace()
 		SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, item_in_source, null, TRUE, TRUE, FALSE)
 
+/obj/item/storage/on_enter_storage(datum/component/storage/concrete/S)
+	. = ..()
+	for(var/atom/movable/item in contents)
+		item.on_enter_storage(S)
+
+/obj/item/storage/on_exit_storage(datum/component/storage/concrete/S)
+	. = ..()
+	for(var/atom/movable/item in contents)
+		item.on_exit_storage(S)
+
 /datum/component/storage
 	screen_max_columns = 3
 	screen_max_rows = 8
@@ -67,10 +70,10 @@
 	var/static/list/mutable_appearance/underlay_appearances_by_size = list()
 	var/list/grid_coordinates_to_item
 	var/list/item_to_grid_coordinates
+	var/list/first_coordinates_item = list()
 	var/maximum_depth = 1
 	var/storage_flags = NONE
 
-	var/list/first_coordinates_item = list()
 
 /datum/component/storage/proc/get_grid_box_size()
 	return world.icon_size
@@ -121,21 +124,14 @@
 			for(var/index in numerical_display_contents)
 				var/datum/numbered_display/numbered_display = numerical_display_contents[index]
 				var/obj/item/stored_item = numbered_display.sample_object
-				var/enchanted = FALSE
-				if(stored_item.has_enchantment(/datum/enchantment/dimensional_shrink) || (stored_item.item_flags & SHRINK_ENCHANT))
-					enchanted = TRUE
 				var/used_gridwidth = stored_item.grid_width
-				if(enchanted)
-					used_gridwidth = max(32, used_gridwidth - 32)
 				var/used_gridheight = stored_item.grid_height
-				if(enchanted)
-					used_gridheight = max(32, used_gridheight - 32)
 
 				stored_item.mouse_opacity = MOUSE_OPACITY_OPAQUE
-				bound_underlay = get_bound_underlay(used_gridwidth, used_gridheight, enchanted)
+				bound_underlay = get_bound_underlay(used_gridwidth, used_gridheight)
 				if(!bound_underlay)
-					bound_underlay = generate_bound_underlay(used_gridwidth, used_gridheight, enchanted)
-					underlay_appearances_by_size["[used_gridwidth]x[used_gridheight]_[enchanted]"] = bound_underlay
+					bound_underlay = generate_bound_underlay(used_gridwidth, used_gridheight)
+					underlay_appearances_by_size["[used_gridwidth]x[used_gridheight]"] = bound_underlay
 				stored_item.underlays += bound_underlay
 				screen_loc = LAZYACCESSASSOC(master.item_to_grid_coordinates, stored_item, 1)
 				screen_loc = master.grid_coordinates_to_screen_loc(screen_loc)
@@ -156,19 +152,12 @@
 				if(QDELETED(stored_item))
 					continue
 				stored_item.mouse_opacity = MOUSE_OPACITY_OPAQUE
-				var/enchanted = FALSE
-				if(stored_item.has_enchantment(/datum/enchantment/dimensional_shrink))
-					enchanted = TRUE
 				var/used_gridwidth = stored_item.grid_width
-				if(enchanted)
-					used_gridwidth = max(32, used_gridwidth - 32)
 				var/used_gridheight = stored_item.grid_height
-				if(enchanted)
-					used_gridheight = max(32, used_gridheight - 32)
-				bound_underlay = get_bound_underlay(used_gridwidth, used_gridheight, enchanted)
+				bound_underlay = get_bound_underlay(used_gridwidth, used_gridheight)
 				if(!bound_underlay)
-					bound_underlay = generate_bound_underlay(used_gridwidth, used_gridheight, enchanted)
-					underlay_appearances_by_size["[used_gridwidth]x[used_gridheight]_[enchanted]"] = bound_underlay
+					bound_underlay = generate_bound_underlay(used_gridwidth, used_gridheight)
+					underlay_appearances_by_size["[used_gridwidth]x[used_gridheight]"] = bound_underlay
 				stored_item.underlays += bound_underlay
 				screen_loc = LAZYACCESSASSOC(master.item_to_grid_coordinates, stored_item, 1)
 				screen_loc = master.grid_coordinates_to_screen_loc(screen_loc)
@@ -315,6 +304,10 @@
 		if(!stop_messages)
 			to_chat(user, span_warning("\The [storing] is stuck to your hand, you can't put it in \the [host]!"))
 		return FALSE
+	if(storing.anchored)
+		if(!stop_messages)
+			to_chat(user, span_warning("\The [storing] can't be moved!"))
+		return FALSE
 	var/datum/component/storage/concrete/master = master()
 	if(!istype(master))
 		return FALSE
@@ -375,12 +368,10 @@
 		if(istype(attacking_item, /obj/item/needle))
 			var/obj/item/needle/sewer = attacking_item
 			var/obj/item/storage/this_item = parent
-			if(sewer.can_repair && this_item.sewrepair && this_item.max_integrity && !this_item.obj_broken && this_item.obj_integrity < this_item.max_integrity && user.mind.get_skill_level(/datum/skill/misc/sewing) >= 1 && this_item.ontable() && !being_repaired)
-				being_repaired = TRUE
+			if(sewer.can_repair && this_item.sewrepair && this_item.max_integrity && !this_item.obj_broken && this_item.obj_integrity < this_item.max_integrity && this_item.ontable())
 				return FALSE
 		if(user.used_intent.type == /datum/intent/snip) //This makes it so we can salvage
 			return FALSE
-	being_repaired = FALSE
 
 	. = TRUE //no afterattack
 	if(!can_be_inserted(attacking_item, FALSE, user, params = params, storage_click = storage_click))
@@ -567,7 +558,7 @@
  *
  * I. FUCKING. HATE. ICONS.
  */
-/datum/component/storage/proc/generate_bound_underlay(grid_width = world.icon_size, grid_height = world.icon_size, enchanted = FALSE)
+/datum/component/storage/proc/generate_bound_underlay(grid_width = world.icon_size, grid_height = world.icon_size)
 	var/mutable_appearance/final_appearance = mutable_appearance()
 	final_appearance.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA
 	var/icon/final_icon = icon('icons/hud/storage.dmi', "blank")
@@ -587,19 +578,13 @@
 	var/multiplier = 0
 	for(var/scaled_x in scale_x_states)
 		multiplier = !multiplier
-		if(enchanted)
-			scaled_icon = icon('icons/hud/storage.dmi', "[scaled_x]_fancy")
-		else
-			scaled_icon = icon('icons/hud/storage.dmi', scaled_x)
+		scaled_icon = icon('icons/hud/storage.dmi', scaled_x)
 		scaled_icon.Scale(grid_width, world.icon_size)
 		final_icon.Blend(scaled_icon, ICON_OVERLAY, 1, 1 + (height_offset * multiplier))
 	multiplier = 0
 	for(var/scaled_y in scale_y_states)
 		multiplier = !multiplier
-		if(enchanted)
-			scaled_icon = icon('icons/hud/storage.dmi', "[scaled_y]_fancy")
-		else
-			scaled_icon = icon('icons/hud/storage.dmi', scaled_y)
+		scaled_icon = icon('icons/hud/storage.dmi', scaled_y)
 		scaled_icon.Scale(world.icon_size, grid_height)
 		final_icon.Blend(scaled_icon, ICON_OVERLAY, 1 + (width_offset * multiplier), 1)
 	var/corner_pos_x = 1 + (grid_width - world.icon_size)
@@ -619,15 +604,8 @@
 
 /datum/component/storage/proc/grid_add_item(obj/item/storing, coordinates)
 
-	var/enchanted = FALSE
-	if(storing.has_enchantment(/datum/enchantment/dimensional_shrink))
-		enchanted = TRUE
 	var/used_gridwidth = storing.grid_width
-	if(enchanted)
-		used_gridwidth = max(32, used_gridwidth - 32)
 	var/used_gridheight = storing.grid_height
-	if(enchanted)
-		used_gridheight = max(32, used_gridheight - 32)
 
 	var/coordinate_x = text2num(copytext(coordinates, 1, findtext(coordinates, ",")))
 	var/coordinate_y = text2num(copytext(coordinates, findtext(coordinates, ",") + 1))
@@ -645,11 +623,10 @@
 			final_y = coordinate_y+current_y
 			calculated_coordinates = "[final_x],[final_y]"
 			testing("handle_item_insertion SUCCESS calculated_coordinates: ([calculated_coordinates])")
-			LAZYADDASSOC(grid_coordinates_to_item, calculated_coordinates, storing)
+			LAZYADDASSOCLIST(grid_coordinates_to_item, calculated_coordinates, storing)
 			LAZYINITLIST(item_to_grid_coordinates)
 			LAZYINITLIST(item_to_grid_coordinates[storing])
 			LAZYADD(item_to_grid_coordinates[storing], calculated_coordinates)
-	storing.item_flags |= SHRINK_ENCHANT
 	return TRUE
 
 /datum/component/storage/proc/grid_remove_item(obj/item/removed)
@@ -659,7 +636,6 @@
 			LAZYREMOVE(grid_coordinates_to_item, location)
 		LAZYREMOVE(item_to_grid_coordinates, removed)
 		removed.underlays = null
-		removed.item_flags &= ~SHRINK_ENCHANT
 		return TRUE
 	return FALSE
 
@@ -676,16 +652,8 @@
 		var/list/modifiers = params2list(params)
 		var/coordinates = LAZYACCESS(modifiers, "screen-loc")
 		var/grid_box_ratio = (world.icon_size/grid_box_size)
-
-		var/enchanted = FALSE
-		if(storing.has_enchantment(/datum/enchantment/dimensional_shrink))
-			enchanted = TRUE
 		var/used_gridwidth = storing.grid_width
-		if(enchanted)
-			used_gridwidth = max(32, used_gridwidth - 32)
 		var/used_gridheight = storing.grid_height
-		if(enchanted)
-			used_gridheight = max(32, used_gridheight - 32)
 
 		//if it's not a storage click, find the first cell that happens to be valid
 		if(!storage_click)
@@ -745,6 +713,9 @@
 	storing.on_enter_storage(master)
 	storing.item_flags |= IN_STORAGE
 	storing.mouse_opacity = MOUSE_OPACITY_OPAQUE //So you can click on the area around the item to equip it, instead of having to pixel hunt
+	if(ismovable(parent))
+		if(ismob(parent:loc))
+			parent:loc:encumbrance_to_speed()
 	if(user)
 		if(user.client && (user.active_storage != src))
 			user.client.screen -= storing
@@ -773,16 +744,8 @@
 					final_y = current_y
 					final_x = current_x
 					final_coordinates = "[final_x],[final_y]"
-					var/enchanted = FALSE
-					if(storing.has_enchantment(/datum/enchantment/dimensional_shrink))
-						enchanted = TRUE
 					var/used_gridwidth = storing.grid_width
-					if(enchanted)
-						used_gridwidth = max(32, used_gridwidth - 32)
 					var/used_gridheight = storing.grid_height
-					if(enchanted)
-						used_gridheight = max(32, used_gridheight - 32)
-
 					if(validate_grid_coordinates(final_coordinates, used_gridwidth, used_gridheight, storing))
 						coordinates = final_coordinates
 						grid_location_found = TRUE
@@ -826,7 +789,8 @@
 	else
 		//Being destroyed, just move to nullspace now (so it's not in contents for the icon update)
 		removed.moveToNullspace()
-	removed.update_icon()
+	removed.update_appearance()
+	SEND_SIGNAL(parent, COMSIG_STORAGE_REMOVED, removed)
 	update_icon()
 	refresh_mob_views()
 	return TRUE
@@ -933,7 +897,7 @@
 		return
 	usr.client.screen -= hovering
 	var/datum/component/storage/storage_master = master
-	if(!istype(storage_master) || !(usr in storage_master.is_using) || !isliving(usr) || usr.incapacitated())
+	if(!istype(storage_master) || !(usr in storage_master.is_using) || !isliving(usr) || usr.incapacitated(ignore_grab = TRUE))
 		return
 	var/obj/item/held_item = usr.get_active_held_item()
 	if(!held_item)
@@ -951,15 +915,8 @@
 	else
 		hovering.color = COLOR_RED_LIGHT
 	hovering.transform = matrix()
-	var/enchanted = FALSE
-	if(held_item.has_enchantment(/datum/enchantment/dimensional_shrink))
-		enchanted = TRUE
 	var/used_gridwidth = held_item.grid_width
-	if(enchanted)
-		used_gridwidth = max(32, used_gridwidth - 32)
 	var/used_gridheight = held_item.grid_height
-	if(enchanted)
-		used_gridheight = max(32, used_gridheight - 32)
 	var/scale_x = used_gridwidth/world.icon_size
 	var/scale_y =used_gridheight/world.icon_size
 	hovering.transform = hovering.transform.Scale(scale_x, scale_y)
@@ -975,7 +932,7 @@
 		return
 	usr.client.screen -= hovering
 	var/datum/component/storage/storage_master = master
-	if(!istype(storage_master) || !(usr in storage_master.is_using) || !isliving(usr) || usr.incapacitated())
+	if(!istype(storage_master) || !(usr in storage_master.is_using) || !isliving(usr) || usr.incapacitated(ignore_grab = TRUE))
 		return
 	var/obj/item/held_item = usr.get_active_held_item()
 	if(!held_item)
@@ -993,15 +950,8 @@
 	else
 		hovering.color = COLOR_RED_LIGHT
 	hovering.transform = matrix()
-	var/enchanted = FALSE
-	if(held_item.has_enchantment(/datum/enchantment/dimensional_shrink))
-		enchanted = TRUE
 	var/used_gridwidth = held_item.grid_width
-	if(enchanted)
-		used_gridwidth = max(32, used_gridwidth - 32)
 	var/used_gridheight = held_item.grid_height
-	if(enchanted)
-		used_gridheight = max(32, used_gridheight - 32)
 
 	var/scale_x = used_gridwidth/world.icon_size
 	var/scale_y = used_gridheight/world.icon_size

@@ -8,3 +8,19 @@
 	Это может быть земля Герцога, но именно вы дергаете за ниточки в этом городе. \
 	Всё во имя исполнения вашего долга перед Герцогом."
 	cmode_music = 'sound/music/cmode/nobility/combat_noble.ogg'
+	min_pq = 0
+
+/datum/job/roguetown/marshal/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
+	if(ishuman(L))
+		var/mob/living/carbon/human/H = L
+		if(istype(H.cloak, /obj/item/clothing/cloak))
+			var/obj/item/clothing/cloak/S = H.cloak
+			var/index = findtext(H.real_name, " ")
+			if(index)
+				index = copytext(H.real_name, 1,index)
+			if(!index)
+				index = H.real_name
+			index = "Marshall [index]"
+			S.name += " ([index])"
+			S.visual_name = index // REDMOON ADD - tabard_fix
+	..()

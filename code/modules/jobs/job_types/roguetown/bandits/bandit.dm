@@ -8,6 +8,7 @@
 	antag_job = TRUE
 	allowed_races = RACES_VERY_SHUNNED_UP	//Begone foul seelies. Your age of banditry is gone
 	tutorial = "Long ago you did a crime worthy of your bounty being hung on the wall outside of the local inn. You now live with your fellow freemen in the bog, and generally get up to no good."
+	obfuscated_job = TRUE
 
 	outfit = null
 	outfit_female = null
@@ -53,8 +54,6 @@
 		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(apply_special_trait), H, /datum/special_trait/hunted, FALSE), 60 SECONDS)
 	if(!SSrole_class_handler.bandits_in_round)
 		SSrole_class_handler.bandits_in_round = TRUE
-	addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "BANDIT"), 5 SECONDS)
-
 
 /*BANDIT DESIGN GOALS:
 

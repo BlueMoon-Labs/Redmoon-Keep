@@ -90,7 +90,8 @@ GLOBAL_VAR_INIT(maniac_highlander, 0) // THERE CAN ONLY BE ONE!
 			owner.adjust_skillrank_up_to(/datum/skill/combat/knives, 6, TRUE)
 			owner.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 5, TRUE)
 			owner.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 5, TRUE)
-			owner.adjust_skillrank_up_to(/datum/skill/misc/treatment, 3, TRUE)
+			owner.adjust_skillrank_up_to(/datum/skill/misc/medicine, 4, TRUE)
+			owner.adjust_skillrank_up_to(/datum/skill/misc/alchemy, 4, TRUE)
 			var/obj/item/organ/heart/heart = dreamer.getorganslot(ORGAN_SLOT_HEART)
 			dreamer.change_stat("strength", 16 - dreamer.ROUNDSTART_STASTR, "maniac_role_str") // REDMOON ADD START - after_death_stats_fix - изменение статов роли по новой системе распределения
 			dreamer.change_stat("constitution", 16 - dreamer.ROUNDSTART_STACON, "maniac_role_con")

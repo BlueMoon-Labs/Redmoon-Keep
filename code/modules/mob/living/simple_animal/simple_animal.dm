@@ -67,6 +67,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/minbodytemp = 250
 	var/maxbodytemp = 350
 
+	var/resistance_flags = 0
+
 	///Healable by medical stacks? Defaults to yes.
 	var/healable = 1
 
@@ -160,6 +162,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 	var/mob/owner = null
 
+	var/datum/ai_controller/saved_ai_controller = null
+
 	///I don't want to confuse this with client registered_z.
 	var/my_z
 	///What kind of footstep this mob should have. Null if it shouldn't have any.
@@ -177,6 +181,9 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 	var/remains_type
 	var/binded = FALSE
+
+	var/botched_butcher_results
+	var/perfect_butcher_results
 
 	var/obj/item/udder/udder = null
 	var/obj/item/gudder/gudder = null
@@ -201,7 +208,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 //	if(dextrous)
 //		AddComponent(/datum/component/personal_crafting)
 
-	
+
 /mob/living/simple_animal/Destroy()
 	GLOB.simple_animals[AIStatus] -= src
 	if (SSnpcpool.state == SS_PAUSED && LAZYLEN(SSnpcpool.currentrun))
@@ -231,6 +238,20 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			playsound(loc,'sound/misc/eat.ogg', rand(30,60), TRUE)
 			qdel(O)
 			food = min(food + 30, 100)
+			//Heals a bit of health after eating.
+			var/healing = 7
+			if(src.blood_volume < BLOOD_VOLUME_NORMAL)
+				src.blood_volume = min(src.blood_volume+10, BLOOD_VOLUME_NORMAL)
+			if(length(src.get_wounds()))
+				src.heal_wounds(healing)
+				src.update_damage_overlays()
+			src.adjustBruteLoss(-healing, 0)
+			src.adjustFireLoss(-healing, 0)
+			src.adjustOxyLoss(-healing, 0)
+			src.adjustToxLoss(-healing, 0)
+			src.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing)
+			src.adjustCloneLoss(-healing, 0)
+
 			if(tame)
 				return
 			var/realchance = tame_chance
@@ -400,27 +421,45 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(ssaddle)
 		ssaddle.forceMove(get_turf(src))
 		ssaddle = null
-	if(butcher_results || guaranteed_butcher_results)
-		var/list/butcher = list()
+	var/list/butcher = list()
+	var/butchery_skill_level = user.mind.get_skill_level(/datum/skill/craft/hunting)
+	var/botch_chance = 0
+	if(length(botched_butcher_results) && butchery_skill_level < SKILL_LEVEL_JOURNEYMAN)
+		botch_chance = 70 - (20 * butchery_skill_level) // 70% at unskilled, 20% lower for each level above it, 0% at journeyman or higher
+	var/perfect_chance = 0
+	if(length(perfect_butcher_results))
+		switch(butchery_skill_level)
+			if(SKILL_LEVEL_NONE to SKILL_LEVEL_APPRENTICE)
+				perfect_chance = 0
+			if(SKILL_LEVEL_JOURNEYMAN)
+				perfect_chance = 10
+			if(SKILL_LEVEL_EXPERT)
+				perfect_chance = 50
+			if(SKILL_LEVEL_MASTER to INFINITY)
+				perfect_chance = 100
+	butcher = butcher_results
+	if(prob(botch_chance))
+		butcher = botched_butcher_results
+		to_chat(user, "<span class='smallred'>I BOTCHED THE BUTCHERY! ([botch_chance]%!)</span>")
+	else if(prob(perfect_chance))
+		butcher = perfect_butcher_results
+		to_chat(user,"<span class='smallgreen'>My butchering was perfect! ([perfect_chance]%!)</span>")
+	if(guaranteed_butcher_results)
+		butcher += guaranteed_butcher_results
 
-		if(butcher_results)
-			butcher += butcher_results
-		if(guaranteed_butcher_results)
-			butcher += guaranteed_butcher_results
-
-		var/rotstuff = FALSE
-		var/datum/component/rot/simple/CR = GetComponent(/datum/component/rot/simple)
-		if(CR)
-			if(CR.amount >= 10 MINUTES)
-				rotstuff = TRUE
-		var/atom/Tsec = drop_location()
-		for(var/path in butcher)
-			for(var/i in 1 to butcher[path])
-				var/obj/item/I = new path(Tsec)
-				I.add_mob_blood(src)
-				if(rotstuff && istype(I,/obj/item/reagent_containers/food/snacks))
-					var/obj/item/reagent_containers/food/snacks/F = I
-					F.become_rotten()
+	var/rotstuff = FALSE
+	var/datum/component/rot/simple/CR = GetComponent(/datum/component/rot/simple)
+	if(CR)
+		if(CR.amount >= 10 MINUTES)
+			rotstuff = TRUE
+	var/atom/Tsec = drop_location()
+	for(var/path in butcher)
+		for(var/i in 1 to butcher[path])
+			var/obj/item/I = new path(Tsec)
+			I.add_mob_blood(src)
+			if(rotstuff && istype(I,/obj/item/reagent_containers/food/snacks))
+				var/obj/item/reagent_containers/food/snacks/F = I
+				F.become_rotten()
 	gib()
 
 /mob/living/simple_animal/spawn_dust(just_ash = FALSE)
@@ -704,6 +743,12 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			M.visible_message("<span class='danger'>[M] falls off [src]!</span>")
 		else
 			return
+
+	// Restore AI when unmounted
+		if(!ai_controller && saved_ai_controller)
+			ai_controller = saved_ai_controller
+			saved_ai_controller = null
+
 	..()
 	M.mind.adjust_experience(/datum/skill/misc/riding, M.STAINT, FALSE)
 	update_icon()
@@ -734,6 +779,12 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		M.mind.adjust_experience(/datum/skill/misc/riding, M.STAINT, FALSE)
 		if(ssaddle)
 			playsound(src, 'sound/foley/saddlemount.ogg', 100, TRUE)
+
+		// Save and disable AI when mounted
+		if(ai_controller)
+			saved_ai_controller = ai_controller
+			ai_controller = null
+
 	..()
 	update_icon()
 

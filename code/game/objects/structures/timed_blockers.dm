@@ -9,7 +9,7 @@
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	var/walltimer // tracks this wall's specific timer
 
-#define FOG_DISSIPATE_TIME_MAX 30 MINUTES
+#define FOG_DISSIPATE_TIME_MAX 60 MINUTES
 GLOBAL_LIST_EMPTY(fogwall_warns) // to avoid spamming the bandit's chat
 
 /obj/structure/fog_wall/Initialize()

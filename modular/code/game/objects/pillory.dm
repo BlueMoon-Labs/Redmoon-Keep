@@ -1,4 +1,4 @@
-#define PILLORY_HEAD_OFFSET      2 // How much we need to move the player to center their head
+#define PILLORY_HEAD_OFFSET 2 // How much we need to move the player to center their head
 
 /obj/structure/pillory
 	name = "Pillory"
@@ -13,8 +13,8 @@
 	density = TRUE
 	layer = ABOVE_ALL_MOB_LAYER
 	plane = GAME_PLANE_UPPER
-	var/latched = FALSE
 	locked = FALSE
+	var/latched = FALSE
 	var/base_icon = "pillory_single"
 	var/list/accepted_id = list()
 	var/keylock = TRUE
@@ -33,9 +33,13 @@
 /obj/structure/pillory/bounty/town_square
 	accepted_id = list("keep_dungeon", "keep_barracks", "town_dungeon", "town_barracks", "bog_dungeon", "bog_barracks", "church")
 
+
 /obj/structure/pillory/bounty/keep_dungeon
 	accepted_id = list("keep_dungeon")
 
+/obj/structure/pillory/reinforced/keep_dungeon
+	accepted_id = list("keep_dungeon")
+	
 /obj/structure/pillory/reinforced/town_dungeon
 	accepted_id = list("town_dungeon")
 
@@ -211,15 +215,15 @@
 
 	var/mob/living/carbon/human/H = M
 
-	if (H.dna)
-		if (H.dna.species)
+	if(H.dna)
+		if(H.dna.species)
 			var/datum/species/S = H.dna.species
 
-			if( istype(S))
+			if(istype(S))
 				//H.cut_overlays()
 				H.update_body_parts_head_only()
 				switch(H.dna.species.name)
-					if ("Dwarf", "Dwarf", "Kobold", "Goblin", "Verminvolk")
+					if("Dwarf", "Dwarf", "Kobold", "Goblin", "Verminvolk")
 						H.set_mob_offsets("bed_buckle", _x = 0, _y = PILLORY_HEAD_OFFSET)
 				icon_state = "[base_icon]-over"
 				update_icon()
@@ -238,8 +242,6 @@
 /obj/structure/pillory/post_unbuckle_mob(mob/living/M)
 	//M.regenerate_icons()
 	M.reset_offsets("bed_buckle")
-	update_icon()
-	icon_state = "[base_icon]"
 	..()
 
 /obj/structure/pillory/unbuckle_mob(mob/living/user)
@@ -301,7 +303,7 @@
 	max_violation_bonus -= max(violation_bonus, 0)
 	if(max_violation_bonus <= 0)
 		return
-	pay_bounty(violation_bonus, victim, TRUE)
+	pay_bounty(violation_bonus, victim, violation = TRUE)
 
 /obj/structure/pillory/bounty/proc/check_bounty(mob/living/carbon/human/victim)
 	var/datum/bounty/found_bounty
@@ -331,7 +333,7 @@
 	bounty_timer = addtimer(CALLBACK(src, PROC_REF(bounty_redeem), victim), bounty_redemption_time, TIMER_STOPPABLE)
 
 /obj/structure/pillory/bounty/proc/bounty_redeem(mob/living/carbon/human/victim)
-	pay_bounty(bounty_step_reward, victim)
+	pay_bounty(bounty_step_reward, victim, active_bounty)
 
 /obj/structure/pillory/bounty/proc/pay_bounty(amount = 0, mob/living/carbon/human/victim, violation = FALSE)
 	if(amount <= 0 || !active_bounty) return 0

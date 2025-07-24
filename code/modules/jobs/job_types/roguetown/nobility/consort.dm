@@ -10,7 +10,7 @@
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_TOLERATED_UP
 	tutorial = "Picked out of your political value rather than likely any form of love, you have become the Ruler's most trusted confidant and likely friend throughout your marriage. Your loyalty and, perhaps, love; will be tested this day. For the daggers that threaten your beloved are as equally pointed at your own throat."
-
+	can_leave_round = FALSE
 	spells = list(SPELL_CONVERT_ROLE_SERVANT)
 	outfit = /datum/outfit/job/roguetown/consort
 
@@ -89,7 +89,7 @@
 			H.mind.adjust_skillrank(/datum/skill/misc/athletics, 4, TRUE)
 			H.mind.adjust_skillrank(/datum/skill/misc/riding, 3, TRUE)
 			H.mind.adjust_skillrank(/datum/skill/misc/reading, 4, TRUE)
-			H.mind.adjust_skillrank(/datum/skill/misc/treatment, 2, TRUE)
+			H.mind.adjust_skillrank(/datum/skill/misc/medicine, 2, TRUE)
 			H.change_stat("intelligence", 3)
 			H.change_stat("endurance", 3)
 			H.change_stat("speed", 2)
@@ -100,7 +100,8 @@
 		ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_NUTCRACKER, TRAIT_GENERIC)
 		ADD_TRAIT(H, TRAIT_GOODLOVER, TRAIT_GENERIC)
-		
+		ADD_TRAIT(H, TRAIT_EARGRAB, TRAIT_GENERIC)
+
 	else
 		belt = /obj/item/storage/belt/rogue/leather
 		beltr = /obj/item/gun/ballistic/firearm/arquebus_pistol
@@ -108,12 +109,12 @@
 		r_hand = /obj/item/storage/keyring/royal
 		neck = /obj/item/storage/belt/rogue/pouch/coins/rich
 		backpack_contents = list(/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1, /obj/item/powderflask = 1)
-		id = /obj/item/clothing/ring/active/nomag	
+		id = /obj/item/clothing/ring/active/nomag
 		pants = /obj/item/clothing/under/roguetown/tights/black
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/duke
 		shoes = /obj/item/clothing/shoes/roguetown/armor
-		
+
 		if(H.mind)
 			H.mind.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 			H.mind.adjust_skillrank(/datum/skill/combat/maces, 2, TRUE)

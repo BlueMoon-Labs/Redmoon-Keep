@@ -1,10 +1,3 @@
-/datum/crafting_recipe/roguetown/leather/gwstrap
-	name = "Greatweapon Strap"
-	result = /obj/item/gwstrap
-	reqs = list(/obj/item/natural/hide/cured = 2,
-				/obj/item/rope = 1)
-	sellprice = 30
-
 /datum/crafting_recipe/roguetown/leather/papakha
 	name = "papakha hat"
 	result = /obj/item/clothing/head/roguetown/papakha/crafted

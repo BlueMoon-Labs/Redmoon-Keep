@@ -281,6 +281,10 @@
 			return FALSE
 		if(!lying_attack_check(L))
 			return FALSE
+		// snowflake check for blocking mouthgrabs on biting deadites
+		if(L.zone_selected == BODY_ZONE_PRECISE_MOUTH && istype(mouth, /obj/item/grabbing/bite))
+			to_chat(L, span_warning("You can't grab [src]'s mouth while [p_theyre()] biting something!"))
+			return FALSE
 	return TRUE
 
 /mob/living/carbon/proc/kick_attack_check(mob/living/L)
@@ -501,14 +505,9 @@
 			reset_pull_offsets(pulling)
 
 		if(forced) //if false, called by the grab item itself, no reason to drop it again
-			if(istype(get_active_held_item(), /obj/item/grabbing))
-				var/obj/item/grabbing/I = get_active_held_item()
-				if(I.grabbed == pulling)
-					dropItemToGround(I, silent = FALSE)
-			if(istype(get_inactive_held_item(), /obj/item/grabbing))
-				var/obj/item/grabbing/I = get_inactive_held_item()
-				if(I.grabbed == pulling)
-					dropItemToGround(I, silent = FALSE)
+			for(var/obj/item/grabbing/grab in held_items)
+				if(grab.grabbed == pulling)
+					dropItemToGround(grab, silent = FALSE)
 
 	. = ..()
 
@@ -881,6 +880,9 @@
 	if(!(mobility_flags & MOBILITY_STAND) && !buckled && prob(getBruteLoss()*200/maxHealth))
 		makeTrail(newloc, T, old_direction)
 
+	if(. && isturf(newloc))
+		check_track_creation(newloc)
+
 /mob/living/setDir(newdir)
 	var/olddir = dir
 	..()
@@ -1020,6 +1022,11 @@
 	..()
 	update_charging_movespeed()
 
+/mob/living/proc/get_held_embed_grabs()
+	for(var/obj/item/grabbing/grab in held_items)
+		if(grab.grabbed == pulling && isitem(grab.sublimb_grabbed))
+			LAZYADD(., grab)
+
 /mob/proc/resist_grab(moving_resist)
 	return 1 //returning 0 means we successfully broke free
 
@@ -1057,7 +1064,7 @@
 	resist_chance = clamp((((4 + (((STASTR - L.STASTR)/2) + wrestling_diff)) * 10 + rand(-5, 10)) * combat_modifier), 5, 95)
 
 	if(moving_resist && client) //we resisted by trying to move
-		client.move_delay = world.time + 20
+		client.move_delay = world.time + 2 SECONDS
 	if(prob(resist_chance))
 		stamina_add(rand(5,15))
 		visible_message(span_warning("[src] breaks free of [pulledby]'s grip!"), \
@@ -1065,7 +1072,12 @@
 		to_chat(pulledby, span_danger("[src] breaks free of my grip!"))
 		log_combat(pulledby, src, "broke grab")
 		pulledby.changeNext_move(CLICK_CD_GRABBING)
-		pulledby.stop_pulling()
+		if(!L.badluck(2))
+			// return any embedded items
+			for(var/obj/item/grabbing/grab in L.get_held_embed_grabs())
+				grab.removeembeddeditem(pulledby) // ouch!
+		if(pulledby) // if it was due to an embed, we've already stopped pulling
+			pulledby.stop_pulling() // the default is forced = TRUE
 
 		var/wrestling_cooldown_reduction = 0
 		if(pulledby?.mind?.get_skill_level(/datum/skill/combat/wrestling))
@@ -1076,11 +1088,14 @@
 	else
 		stamina_add(rand(5,15))
 		var/shitte = ""
-//		if(client?.prefs.showrolls)
-//			shitte = " ([resist_chance]%)"
+		if(client?.prefs.showrolls)
+			shitte = " ([resist_chance]%)"
 		visible_message(span_warning("[src] struggles to break free from [pulledby]'s grip!"), \
 						span_warning("I struggle against [pulledby]'s grip![shitte]"), null, null, pulledby)
 		to_chat(pulledby, span_warning("[src] struggles against my grip!"))
+		// any embedded weapons held by our puller should get twisted
+		for(var/obj/item/grabbing/grab in L.get_held_embed_grabs())
+			grab.twistitemlimb() // userless because it's automatic
 
 		return TRUE
 
@@ -1094,6 +1109,16 @@
 				if(G.limb_grabbed == head)
 					if(G.grabbee == pulledby)
 						if(G.sublimb_grabbed == BODY_ZONE_PRECISE_NOSE)
+							visible_message(span_warning("[src] struggles to break free from [pulledby]'s grip!"), \
+											span_warning("I struggle against [pulledby]'s grip!"), null, null, pulledby)
+							to_chat(pulledby, span_warning("[src] struggles against my grip!"))
+							return FALSE
+		if(HAS_TRAIT(H, TRAIT_EARGRAB))
+			var/obj/item/bodypart/head = get_bodypart(BODY_ZONE_HEAD)
+			for(var/obj/item/grabbing/G in grabbedby)
+				if(G.limb_grabbed == head)
+					if(G.grabbee == pulledby)
+						if(G.sublimb_grabbed == BODY_ZONE_PRECISE_EARS)
 							visible_message(span_warning("[src] struggles to break free from [pulledby]'s grip!"), \
 											span_warning("I struggle against [pulledby]'s grip!"), null, null, pulledby)
 							to_chat(pulledby, span_warning("[src] struggles against my grip!"))
@@ -1479,6 +1504,10 @@
 		var/datum/species/seelie/seelie = H.dna.species
 		if(!seelie.has_wings(src))
 			canstand_involuntary = FALSE
+	if(canstand_involuntary)
+		mobility_flags |= MOBILITY_CANSTAND
+	else
+		mobility_flags &= ~MOBILITY_CANSTAND
 	var/canstand = canstand_involuntary && !resting
 
 	var/should_be_lying = !canstand
@@ -1738,44 +1767,77 @@
 		return
 	if(!can_look_up())
 		return
-	changeNext_move(CLICK_CD_EXHAUSTED)
+	changeNext_move(HAS_TRAIT(src, TRAIT_SLEUTH) ? CLICK_CD_SLEUTH : CLICK_CD_TRACKING)
 	if(m_intent != MOVE_INTENT_SNEAK)
 		visible_message(span_info("[src] begins looking around."))
-	var/looktime = 50 - (STAPER * 2)
-	if(do_after(src, looktime, target = src))
+	var/looktime = 50 - (STAPER * 2) - (mind?.get_skill_level(/datum/skill/misc/tracking) * 5)
+	looktime = clamp(looktime, 7, 50)
+	if(HAS_TRAIT(src, TRAIT_SLEUTH) ? move_after(src, looktime, target = src) : do_after(src, looktime, target = src))
 		for(var/mob/living/M in view(7,src))
+			var/marked = FALSE
 			if(M == src)
 				continue
-			//if(see_invisible < M.invisibility)
-				//continue
-			if(M.mob_timers[MT_INVISIBILITY] > world.time) // Check if the mob is affected by the invisibility spell
+			if(see_invisible < M.invisibility)
 				continue
-			var/probby = 3 * STAPER
-			if(M.mind)
-				probby -= (M.mind.get_skill_level(/datum/skill/misc/sneaking) * 10)
+			var/probby = (2 * STAPER) + (mind?.get_skill_level(/datum/skill/misc/tracking)) * 5
+			if(M.mob_timers[MT_INVISIBILITY] > world.time) // Check if the mob is affected by the invisibility spell
+				if(mind?.get_skill_level(/datum/skill/misc/tracking) <= SKILL_LEVEL_EXPERT)	//Master or Legendary from this point
+					continue
+			if(M.mind)	//We find the biggest value and use that, to account for mages / Nocites / sneaky people all at once
+				var/target_sneak = M.mind?.get_skill_level(/datum/skill/misc/sneaking)
+				var/target_holy = M.mind?.get_skill_level(/datum/skill/magic/holy)
+				var/target_arcyne = M.mind?.get_skill_level(/datum/skill/magic/arcane)
+				var/chosen_skill = max(target_sneak, target_holy, target_arcyne)
+				probby -= chosen_skill * 5
+				if(M.STAPER > 10)
+					probby -= (M.STAPER) / 2
 			probby = (max(probby, 5))
 			if(prob(probby))
-				found_ping(get_turf(M), client, "hidden")
-				if(M.m_intent == MOVE_INTENT_SNEAK)
+				marked = TRUE
+				if(M.m_intent == MOVE_INTENT_SNEAK || M.mob_timers[MT_INVISIBILITY] > world.time)
 					emote("huh")
 					to_chat(M, span_danger("[src] sees me! I'm found!"))
+					M.mob_timers[MT_INVISIBILITY] = world.time
 					M.mob_timers[MT_FOUNDSNEAK] = world.time
+					M.update_sneak_invis(reset = TRUE)
 			else
-				if(M.m_intent == MOVE_INTENT_SNEAK)
+				if(M.m_intent == MOVE_INTENT_SNEAK || M.mob_timers[MT_INVISIBILITY] > world.time)
 					if(M.client?.prefs.showrolls)
 						to_chat(M, span_warning("[src] didn't find me... [probby]%"))
 					else
 						to_chat(M, span_warning("[src] didn't find me."))
 				else
-					found_ping(get_turf(M), client, "hidden")
+					marked = TRUE
+			if(marked)
+				if(ishuman(src))
+					var/mob/living/carbon/human/H = src
+					if(H.current_mark == M && HAS_TRAIT(H, TRAIT_SLEUTH))
+						found_ping(get_turf(M), client, "trap")
+					else
+						found_ping(get_turf(M), client, "hidden")
 
 		for(var/obj/O in view(7,src))
 			if(istype(O, /obj/item/restraints/legcuffs/beartrap))
 				var/obj/item/restraints/legcuffs/beartrap/M = O
 				if(isturf(M.loc) && M.armed)
 					found_ping(get_turf(M), client, "trap")
+				// if(istype(O, /obj/structure/trap,))
+				// 	var/obj/structure/trap/M = O
+				// 	if(isturf(M.loc) && M.armed)
+				// 		found_ping(get_turf(M), client, "trap")
+				// if(istype(O, /obj/structure/closet/crate/chest/trapped,))
+				// 	var/obj/structure/trap/M = O
+				// 	if(isturf(M.loc) && M.armed)
+				// 		found_ping(get_turf(M), client, "trap")
 			if(istype(O, /obj/structure/flora/roguegrass/maneater/real))
 				found_ping(get_turf(O), client, "trap")
+		for(var/obj/effect/track/potential_track in orange(5, src)) //Can't use view because they're invisible by default.
+			if(!can_see(src, potential_track, 10))
+				continue
+			if(!potential_track.check_reveal(src))
+				continue
+			found_ping(get_turf(potential_track), client, "hidden")
+			potential_track.handle_revealing(src)
 
 /proc/found_ping(atom/A, client/C, state)
 	if(!A || !C || !state)
@@ -1908,3 +1970,17 @@
 	update_cone_show()
 //	UnregisterSignal(src, COMSIG_MOVABLE_PRE_MOVE)
 
+/mob/living/proc/get_carry_capacity()
+	return max(45, STAEND * 12)
+
+///this is returned as decimal value between 0 and 1
+/mob/living/proc/get_encumbrance()
+	return 0
+
+/mob/living/proc/get_total_weight()
+	return 0
+
+/mob/living/proc/encumbrance_to_dodge()
+	return 1
+
+/mob/living/proc/encumbrance_to_speed()

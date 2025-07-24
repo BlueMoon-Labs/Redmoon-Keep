@@ -21,6 +21,8 @@
 	gripped_intents = list(/datum/intent/hit)
 	possible_item_intents = list(/datum/intent/hit)
 	w_class = WEIGHT_CLASS_HUGE
+	grid_width = 64
+	grid_height = 32
 	var/lumber = /obj/item/grown/log/tree/small //These are solely for lumberjack calculations
 	var/lumber_amount = 2
 	metalizer_result = /obj/item/rogueore/iron
@@ -89,6 +91,9 @@
 	lumber_amount = 0
 	metalizer_result = /obj/item/rogueore/copper
 	biglog = FALSE
+	grid_height = 64
+	grid_width = 64
+
 
 /obj/item/grown/log/tree/small/attackby(obj/item/I, mob/living/user, params)
 	if(item_flags & IN_STORAGE || !sawable)
@@ -120,6 +125,8 @@
 	w_class = WEIGHT_CLASS_SMALL
 	metalizer_result = /obj/item/rogueore/gold
 	sawable = FALSE
+	grid_height = 32
+	grid_width = 32
 
 //................	Unstrung bow	............... //
 /obj/item/grown/log/tree/bowpartial
@@ -250,6 +257,61 @@
 	lumber_amount = 0
 	metalizer_result = /obj/item/ammo_casing/caseless/rogue/arrow/iron
 	sawable = FALSE
+
+
+/obj/item/grown/log/tree/stake/Initialize()
+	if (!embedding)
+		embedding = getEmbeddingBehavior(
+			embed_chance = 25,                        // Guaranteed to embed
+			embedded_fall_chance = 0,                  // Never falls out
+			embedded_pain_chance = 15,                // hurts every so often to prevent spamage
+			embedded_pain_multiplier = 20,            // Customize pain as needed
+			embedded_fall_pain_multiplier = 0.0,       // No fallout pain (since it never falls)
+			embedded_impact_pain_multiplier = 2.0,
+			embedded_unsafe_removal_pain_multiplier = 5.0, // Extremely painful to remove
+			embedded_unsafe_removal_time = 300,         // Takes time to pull out
+			embedded_ignore_throwspeed_threshold = TRUE,
+			embedded_bloodloss = 1.0,                  // Moderate blood loss
+			retract_limbs = FALSE,
+			clamp_limbs = FALSE
+		)
+	. = ..()
+
+/obj/item/grown/log/tree/stake/afterattack(atom/target, mob/user, proximity)
+	if(!proximity)
+		return
+	if(!ishuman(target))
+		return
+	var/mob/living/carbon/human/M = target
+
+	if(!istype(M))
+		return
+
+	if(M.checkarmor(BODY_ZONE_CHEST, BCLASS_STAB))
+		to_chat(user, "The stake can't pierce through [M]'s armor!")
+		return FALSE
+	if(!M.resting)
+		to_chat(user, "[M] can't be staked while standing!")
+		return
+
+	to_chat(user, "You begin driving the stake into [M]'s chest...")
+	user.visible_message(span_warning("[user] begins staking [M]!"))
+	if(do_after(user, 30, M))
+		to_chat(user, "You drive the stake into [M]!")
+		embed_in_target(M, user)
+
+	else
+		to_chat(user, "You were interrupted!")
+
+/obj/item/grown/log/tree/stake/proc/embed_in_target(mob/living/carbon/human/M, mob/user)
+	if(!(src in M.simple_embedded_objects))
+		var/obj/item/bodypart/bodypart = M.get_bodypart(BODY_ZONE_CHEST)
+		bodypart.add_embedded_object(src, silent = FALSE, crit_message = FALSE)
+
+	if(M.mind && M.mind.has_antag_datum(/datum/antagonist/vampirelord))
+		to_chat(M, span_danger("Pain erupts in your chest as the stake pierces your undead heart!"))
+		var/datum/antagonist/vampirelord/lord = M.mind.has_antag_datum(/datum/antagonist/vampirelord)
+		lord.stake()
 
 //................	Wooden planks	............... //
 /obj/item/natural/wood/plank

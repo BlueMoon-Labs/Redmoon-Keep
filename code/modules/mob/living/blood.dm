@@ -56,9 +56,9 @@
 				remove_status_effect(/datum/status_effect/debuff/bleeding)
 				apply_status_effect(/datum/status_effect/debuff/bleedingworst)
 		if(blood_volume <= BLOOD_VOLUME_BAD)
-			adjustOxyLoss(1)
+			adjustOxyLoss(0.4) // REDMOON EDIT - повышение выживаемости - WAS: 1
 			if(blood_volume <= BLOOD_VOLUME_SURVIVE)
-				adjustOxyLoss(2)
+				adjustOxyLoss(0.4) // REDMOON EDIT - повышение выживаемости - WAS: 2
 	else
 		remove_status_effect(/datum/status_effect/debuff/bleeding)
 		remove_status_effect(/datum/status_effect/debuff/bleedingworse)
@@ -169,11 +169,15 @@
 
 //Makes a blood drop, leaking amt units of blood from the mob
 /mob/living/proc/bleed(amt)
+	if(amt < 1.5) // Чтобы кровь не пачкала пол при маленьких и перевязанных ранах
+		return FALSE
 	if(HAS_TRAIT(src, TRAIT_NO_BLOOD))
 		return FALSE
 	if(!iscarbon(src) && !HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
 		return FALSE
 	if(blood_volume <= 0)
+		return FALSE
+	if(blood_volume < 100) // Давление крови слишком низкое. Повышаем выживаемость
 		return FALSE
 	
 	blood_volume = max(blood_volume - amt, 0)

@@ -12,6 +12,7 @@
 	ensure a better life for themselfs."
 	total_positions = 2
 	spawn_positions = 2
+	min_pq = 0
 
 /datum/outfit/job/roguetown/bandit/proc/hunted(mob/living/carbon/human/character, silent)
 	var/reason = ""

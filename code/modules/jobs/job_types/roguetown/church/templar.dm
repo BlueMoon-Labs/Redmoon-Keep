@@ -33,6 +33,18 @@
 		H.real_name = "[title] [prev_real_name]"
 		H.name = "[title] [prev_name]"
 		addtimer(CALLBACK(src, PROC_REF(templar_helmet_choice), H), 50)
+		// REDMOON ADD START - tabard_fix
+		if(istype(H.cloak, /obj/item/clothing/cloak))
+			var/obj/item/clothing/cloak/S = H.cloak
+			var/index = findtext(prev_real_name, " ")
+			if(index)
+				index = copytext(prev_real_name, 1,index)
+			if(!index)
+				index = H.real_name
+			index = "[index]"
+			S.name += " ([index])"
+			S.visual_name = index
+		// REDMOON ADD END
 	..() // REDMOON ADD - fixes_for_characters_memory - исправление, что персонажи запоминают имена без титулов
 
 
@@ -95,11 +107,11 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	switch(H.patron.name)
 		if("Necra")
-			backpack_contents = list(/obj/item/key/graveyard, /obj/item/key/church)
+			backpack_contents = list(/obj/item/key/graveyard = 1, /obj/item/key/church = 1, /obj/item/ritualfeather = 1)
 		if("Xylix")
-			backpack_contents = list(/obj/item/key/church, /obj/item/squeeze_me)
+			backpack_contents = list(/obj/item/key/church = 1, /obj/item/squeeze_me = 1, /obj/item/ritualfeather = 1)
 		else
-			backpack_contents = list(/obj/item/key/church = 1)
+			backpack_contents = list(/obj/item/key/church = 1, /obj/item/ritualfeather = 1)
 	backr = /obj/item/rogueweapon/shield/tower/metal
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
@@ -122,7 +134,7 @@
 		H.mind.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
 		H.mind.adjust_skillrank(/datum/skill/misc/riding, 2, TRUE)
 		H.mind.adjust_skillrank(/datum/skill/magic/holy, 2, TRUE)
-		H.mind.adjust_skillrank(/datum/skill/misc/treatment, 1, TRUE)
+		H.mind.adjust_skillrank(/datum/skill/misc/medicine, 1, TRUE)
 		H.mind.adjust_skillrank(/datum/skill/misc/sewing, 2, TRUE)
 		switch(H.patron.name)
 			if("Malum")
@@ -138,7 +150,7 @@
 		H.change_stat("endurance", 2)
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_SOFTHEARTED, TRAIT_GENERIC)
-//	ADD_TRAIT(H, TRAIT_BOGVULNERABLE, TRAIT_GENERIC)	//applies debuff of -2end -2 spd when in the bog
+	ADD_TRAIT(H, TRAIT_RITUALIST, TRAIT_GENERIC)
 	H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_spells_templar(H)
