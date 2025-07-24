@@ -856,6 +856,33 @@
 			I.afterchange()
 	update_icon()
 
+/obj/item/rogueweapon/sword/stormbringer
+	force = 40
+	force_wielded = 60
+	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/sword/cut, /datum/intent/sword/thrust, /datum/intent/sword/strike, /datum/intent/sword/chop)
+	icon_state = "stormbringer"
+	icon = 'modular_redmoon/icons/weapons/64.dmi'
+	item_state = "stormbringer"
+	lefthand_file = 'icons/mob/inhands/weapons/roguebig_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/weapons/roguebig_righthand.dmi'
+	name = "stormbringer"
+	desc = "This blade strikes with cold and death, holding it you will feel the power capable of subjugating the whole world.."
+	parrysound = "bladedmedium"
+	swingsound = BLADEWOOSH_LARGE
+	pickup_sound = 'sound/foley/equip/swordlarge2.ogg'
+	bigboy = 1
+	wlength = WLENGTH_LONG
+	gripsprite = TRUE
+	pixel_y = -16
+	pixel_x = -16
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+	associated_skill = /datum/skill/combat/swords
+	throwforce = 15
+	thrown_bclass = BCLASS_CUT
+	accuracy_bonus = 5	//large swords are unwieldy
+
 // BRONZE SWORDS
 // Design goal: Bronze on par with Iron integrity wise, with low defense. However, it has high penfactor.
 
