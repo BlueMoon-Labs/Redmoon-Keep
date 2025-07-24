@@ -409,7 +409,6 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 				S.verb_exclaim = initial(S.verb_exclaim)
 				S.verb_yell = initial(S.verb_yell)
 		remove_status_effect(/datum/status_effect/thaumaturgy)
-
 	var/list/listening = get_hearers_in_view(message_range+eavesdrop_range, source)
 	var/list/the_dead = list()
 //	var/list/yellareas	//CIT CHANGE - adds the ability for yelling to penetrate walls and echo throughout areas

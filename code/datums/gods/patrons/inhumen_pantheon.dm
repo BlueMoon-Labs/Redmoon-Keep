@@ -1,6 +1,7 @@
 /datum/patron/inhumen
 	name = null
 	associated_faith = /datum/faith/inhumen
+	t0 = /obj/effect/proc_holder/spell/targeted/touch/orison
 	undead_hater = FALSE
 	confess_lines = list()
 
@@ -28,7 +29,7 @@
 		"THE BLACK SUN DEMANDS BLOOD!",
 	)
 
-/datum/patron/inhumen/matthios 
+/datum/patron/inhumen/matthios
 	name = "Matthios"
 	domain = "God of Absolute Freedom, Camaraderie, Robbery"
 	desc = "Matthios taught His followers that only through robbery and rebellion can one rise above their lot in life, and that the Divine Order of Astrata must be torn down and society rebuilt so that people may attain divinity."
