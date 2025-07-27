@@ -121,8 +121,8 @@
 			return strings("hissing_replacement.json", "syllable")
 		if("Growling accent")
 			return strings("growling_replacement.json", "syllable")
-		if("Islander accent")
-			return strings("caribbean_replacement.json", "syllable")
+		if("Old-World Drakian accent")
+			return strings("hissing_replacement_full.json", "syllable")
 
 #define REGEX_FULLWORD 1
 #define REGEX_STARTWORD 2
